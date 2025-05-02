@@ -1,0 +1,109 @@
+<div class="p-py-1 p-grid p-jc-center p-ai-center p-p-3">
+    <div class="p-col-12 p-md-9 p-lg-6">
+        <p-card>
+            <form [formGroup]="infoForm" novalidate>
+                <div class="p-mb-5" *ngIf="showStatus" style="float: right;">
+                    <app-custom-badge [label]="getProcessStateLabel(processSelected.status)" [status]="getProcessStateValue(processSelected.status)"></app-custom-badge>
+                </div>
+                <div class="p-formgroup-inline p-mb-5">
+                    <div *ngFor="let type of types" class="p-field-checkbox">
+                        <p-radioButton [inputId]="'type' + type.code" name="type" [value]="type.code"
+                            [(ngModel)]="typeSelected" [ngModelOptions]="{ standalone: true }"
+                            (onClick)="infoForm.get('type')?.setValue(this.typeSelected)"
+                            [disabled]="infoForm.disabled || type.disabled">
+                        </p-radioButton>
+                        <label [for]="'type' + type.code">{{ type.label }} <i *ngIf="type.disabled"  class="pi pi-info-circle p-pr-2" pTooltip="Mejore su plan para habilitar esta opción"></i></label>
+                    </div>
+                    <div *ngIf="infoForm.get('type')?.invalid &&
+                    (infoForm.get('type')?.dirty ||
+                    infoForm.get('type')?.touched)">
+                        <div *ngIf="infoForm.get('type')?.errors?.required">
+                            <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="firstname1">Nombre del proceso: *</label>
+                        <input id="firstname1" type="text" pInputText formControlName="name">
+                        <div *ngIf="infoForm.get('name')?.invalid &&
+                        (infoForm.get('name')?.dirty ||
+                        infoForm.get('name')?.touched)">
+                            <div *ngIf="infoForm.get('name')?.errors?.required">
+                                <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                            </div>
+                            <div *ngIf="infoForm.get('name')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col">
+                        <label for="validFrom">Inicio: *</label>
+                        <p-calendar formControlName="validFrom" [minDate]="minDateStart" [touchUI]="true"
+                            [readonlyInput]="true" inputId="validFrom" appendTo="body" [showTime]="true"
+                            selectionMode="single" [dateFormat]="formatCalendarFormat"
+                            (onSelect)="onStartDateChange($event)">
+                        </p-calendar>
+                        <div *ngIf="infoForm.get('validFrom')?.invalid &&
+                        (infoForm.get('validFrom')?.dirty ||
+                        infoForm.get('validFrom')?.touched)">
+                            <div *ngIf="infoForm.get('validFrom')?.errors?.required">
+                                <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                            </div>
+                            <div *ngIf="infoForm.get('validFrom')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-field p-col">
+                        <label for="validUntil">Fin: *</label>
+                        <p-calendar formControlName="validUntil" [minDate]="minDateEnd" [touchUI]="true"
+                            [readonlyInput]="true" inputId="validUntil" appendTo="body" [showTime]="true"
+                            selectionMode="single" [dateFormat]="formatCalendarFormat">
+                        </p-calendar>
+                        <div *ngIf="infoForm.get('validUntil')?.invalid &&
+                        (infoForm.get('validUntil')?.dirty ||
+                        infoForm.get('validUntil')?.touched)">
+                            <div *ngIf="infoForm.get('validUntil')?.errors?.required">
+                                <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12">
+                        <label for="description">Descripción:</label>
+                        <textarea id="description" type="text" rows="4" pInputTextarea [autoResize]="true"
+                            formControlName="description"></textarea>
+                        <div *ngIf="infoForm.get('description')?.invalid &&
+                        (infoForm.get('description')?.dirty ||
+                        infoForm.get('description')?.touched)">
+                            <div *ngIf="infoForm.get('description')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-field p-d-flex p-jc-end">
+                    <button pButton pRipple [label]="'t.edit' | translate" icon="pi pi-pencil" class="p-button-text"
+                        (click)="onEditItem()" *ngIf="infoForm.disabled"></button>
+                    <button pButton pRipple [label]="'primeng.cancel' | translate" icon="pi pi-times"
+                        class="p-button-text" (click)="onCancelEdit()" *ngIf="!infoForm.disabled"></button>
+                    <button pButton pRipple [label]="'t.save' | translate" icon="pi pi-check" class="p-button-text"
+                        (click)="save()" *ngIf="!infoForm.disabled"></button>
+                </div>
+            </form>
+        </p-card>
+    </div>
+    <!-- <div class="p-col-12 p-md-12 p-lg-12 p-grid p-jc-end">
+        <button pButton pRipple label="Siguiente" icon="pi pi-chevron-right" class="p-button-outlined p-button-help p-mr-2" iconPos="right" [routerLink]="[ '/account/process/item/evaluations']"></button>
+    </div> -->
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>

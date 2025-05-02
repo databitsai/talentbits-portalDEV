@@ -1,0 +1,12 @@
+:host ::ng-deep .table-001 {
+    .custom-link {
+        color: var(--theme-color-1);
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .no-link {
+        color: var(--grey-medium);
+    }
+}

@@ -1,0 +1,121 @@
+<div class="card p-p-4 with-table-responsive p-mb-6">
+    <p-table #dt [value]="items" [rows]="5" [paginator]="true" [globalFilterFields]="['name']" [rowHover]="true"
+        dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+        [showCurrentPageReport]="true" styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-ai-center p-jc-between">
+                <h3 class="p-m-0">Mis procesos</h3>
+                <span class="p-input-icon-left p-my-3 p-my-lg-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="
+                    dt.filterGlobal($any($event.target).value, 'contains')
+                  " placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">
+                    Proceso <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name">
+                    Tipo <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name">
+                    Invitado por <p-sortIcon field="company"></p-sortIcon>
+                </th>
+                <th pSortableColumn="validFrom">
+                    Inicio <p-sortIcon field="validFrom"></p-sortIcon>
+                </th>
+                <th pSortableColumn="validUntil">
+                    Fin <p-sortIcon field="validUntil"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                    Estado <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status" class="p-text-center">
+                    Evaluaciones
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>
+                    <span class="p-column-title">Nombre:</span>
+                    {{ item.name }}
+                </td>
+                <td>
+                    <span class="p-column-title">Tipo:</span>
+                    {{ getProcessTypeLabel(item.type) }}
+                </td>
+                <td>
+                    <span class="p-column-title">Cuenta:</span>
+                    <span class="link" (click)="showModalDialog(item.account)">{{ item.account.company.name }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Inicio:</span>
+                    <div>{{ item.validFrom | date: 'yyyy/MM/dd' }}</div>
+                    <div> {{ item.validFrom | date: 'H:mm:ss' }}</div>
+                </td>
+                <td>
+                    <span class="p-column-title">Fin:</span>
+                    <div>{{ item.validUntil | date: 'yyyy/MM/dd' }}</div>
+                    <div> {{ item.validUntil | date: 'H:mm:ss' }}</div>
+                </td>
+                <td>
+                    <span class="p-column-title">Estado:</span>
+                    <app-custom-badge [label]="getProcessStateLabel(item.status)" [status]="getProcessStateValue(item.status)"></app-custom-badge>
+                </td>
+                <td>
+                    <div class="p-text-center">
+                        <span class="p-column-title">Evaluaciones:</span>
+                        {{item.countFinishedEvaluations}} de {{item.evaluations}}
+                    </div>
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-caret-right" class="p-button-rounded p-button-success p-mr-2" (click)="openProcess(item)" pTooltip="Ir a evaluaciones"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total existen {{ items ? items.length : 0 }} procesos
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-dialog [(visible)]="displayModal" [modal]="true" [breakpoints]="[{'960px': '75vw'}]"  [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" styleClass="company-dialog">
+    <ng-template pTemplate="header">
+        <h3>{{companySelected.name || 'ND'}}</h3>
+    </ng-template>
+    <div class="p-m-0">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Correo electrónico:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">
+                <a href="mailto:{{companySelected?.email}}">{{companySelected?.email}}</a>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Teléfono:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{companySelected?.phone}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Sitio web:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">
+                <a href="{{companySelected?.website}}" target="_blank">{{companySelected?.website}}</a>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

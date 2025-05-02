@@ -1,0 +1,46 @@
+<div class="full-body sidenav-responsive-container">
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+            fixedTopGap="0" (openedChange)="openedSideNav($event)" [opened]="isSidenavOpen">
+            <div class="sidenav-width">
+                <!-- SIDENAV TOGGLE -->
+                <div class="close-sidenav">
+                    <button pButton type="button" icon="pi pi-angle-left" class="p-button-rounded p-button-text"
+                        (click)="snav.toggle()"></button>
+                </div>
+                <!-- CONTENT -->
+                <div class="menu-header">
+                    <img alt="talentbits" src="assets/images/logo_databits_blue.svg">
+                </div>
+                <p-divider [style]="{'margin': '5px 0'}"></p-divider>
+                <p-scrollPanel [style]="{width: '100%', height: 'calc(99vh - 140px)'}">
+                    <app-menu-corporative></app-menu-corporative>
+                    <app-user-menu></app-user-menu>
+                    <app-menu-general></app-menu-general>
+                    <app-admin-menu></app-admin-menu>
+                </p-scrollPanel>   
+                <div class="copyright">
+                    <p class="p-m-0">© {{year}} Databits.</p>
+                    <p class="p-m-0">Todos los derechos reservados</p>
+                </div>         
+            </div>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <!-- SIDENAV TOGGLE -->
+            <button *ngIf="!isSidenavOpen" class="open-sidenav p-button-raised p-button-rounded" pButton type="button"
+                icon="pi pi-bars" iconPos="left" (click)="snav.toggle()"></button>
+
+            <!-- CONTENT -->
+            <div class="w-100">
+               <app-menu-options-top></app-menu-options-top>
+                <app-breadcrumb [display]="true"></app-breadcrumb>
+            </div>
+            <p-scrollPanel [style]="{width: '97%', height: 'calc(100vh - 100px)', padding: '0px', margin: '0 auto'}">
+                <div>
+                    <router-outlet></router-outlet>
+                </div>
+            </p-scrollPanel>
+            
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -1,0 +1,89 @@
+<div class="card-process">
+    <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+    <p-panel header="Vacante"  [toggleable]="false">
+        <ng-template pTemplate="icons">
+            <button pButton pRipple type="button" icon="pi pi-pencil" [routerLink]="['/account/vaccant/detail']"
+            class="p-button-rounded p-button-secondary" ></button>
+            
+        </ng-template>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Nombre de la vacante:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ vaccantSelected.title }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Años de experiencia:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ vaccantSelected.yearsExperience }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Tipo de jornada:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getWorkingDay(vaccantSelected.workingDayType ) }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Salario mensual:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ vaccantSelected.salary }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Modalidad:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getTypeSelected(vaccantSelected.mobilityType) }}</div>
+        </div>
+        <br><br>
+
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Inicio:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ vaccantSelected.validFrom | date: 'yyyy/MM/dd H:mm:ss' }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Fin:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ vaccantSelected.validUntil | date: 'yyyy/MM/dd H:mm:ss' }}</div>
+        </div>
+
+        <br><br>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Nombre de la empresa:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ company.name }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Sector/Industria:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getIndustrySector(company.sector) }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Sitio web:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{company.website}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Ubicación (Ciudad):</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getCountry(company.country) }}</div>
+        </div>
+        
+
+        <br><br>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Vacante abierta al publico:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getIsPublic(vaccantSelected.isPublic) }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Vacante descatada:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getIsVaccantOutstanding(vaccantSelected.isOutstanding) }}</div>
+        </div>
+    </p-panel>
+
+    <br>
+    <div class="p-grid p-fluid">
+        <div class="p-col-12 p-md-3">
+        </div>
+        <div class="p-col-12 p-md-3">
+            <button pButton pRipple label="Editar" icon="pi pi-arrow-left" class="p-button-warning p-mr-2" [routerLink]="['/account/vaccant/detail']"></button>
+        </div>
+        <div class="p-col-12 p-md-3">
+            <button pButton pRipple label="Guardar" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="saveItem()" ></button>
+        </div>
+        <div class="p-col-12 p-md-3">
+        </div>
+    </div>
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="save" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>

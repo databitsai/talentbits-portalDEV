@@ -1,0 +1,182 @@
+<div id="account-list">
+
+    <p-dataView #dv [layout]="'list'" [value]="items" [paginator]="true" [rows]="9" filterBy="account,owner,ownerEmail"
+        [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+        <ng-template pTemplate="header">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+                <div class="p-d-flex p-flex-column p-flex-md-row p-jc-start">
+                    <button pButton label="Nuevo" icon="pi pi-plus" class="p-button-success p-my-1 p-mx-0 p-mx-sm-1"
+                    [routerLink]="['/admin/', rolePath, 'create']" [disabled]="configurations.editor"></button>
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Ordenar por fecha"
+                    (onChange)="onSortChange($event)" styleClass="p-my-1 p-mx-0 p-mx-lg-2"></p-dropdown>
+                    <span class="p-input-icon-left p-my-1 p-mx-0 p-mx-lg-2 w-auto">
+                        <i class="pi pi-search"></i>
+                        <input type="search" pInputText placeholder="Buscar" (input)="dv.filter($any($event.target).value)" class="w-100">
+                    </span>
+                </div>
+                <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+        </ng-template>
+        <ng-template let-product pTemplate="gridItem">
+            <div class="p-p-1 p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                <p-card>
+                    <ng-template pTemplate="header">
+                        <div class="dv-grid-item-top p-m-3">
+                            <div>
+                                <i class="pi pi-tag dv-category-icon"></i>
+                                <span class="item-category muli-bold">{{product.type}}</span>
+                            </div>
+                            <span [class]="'product-badge status-' + product.enabled">{{product.enabled}}</span>
+                        </div>
+                    </ng-template>
+                    <div class="dv-grid-item-content">
+                        <div class="dv-item-name muli-bold p-text-center">{{product.account}}</div>
+                        <div class="dv-owner-wrapper p-d-flex p-flex-column p-jc-center p-ai-center">
+                            <div class="dv-item-description">{{product.owner}}</div>
+                            <div class="dv-item-subtitle">{{product.ownerEmail}}</div>
+                            <div class="dv-item-subtitle">{{getSubroleLabelByValue(product.subrole)}}</div>
+                            <div class="dv-item-subtitle p-mt-3">Creado: {{product.createdAt | date: 'yyyy/MM/dd'}}
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template pTemplate="footer">
+                        <ng-container *ngIf="isCorporativePath">
+                            <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-primary p-mr-2"
+                            (click)="openPage('/account/config', product)" [disabled]="configurations.editor" pTooltip="Seleccionar"></button>
+                        </ng-container>
+                        <ng-container *ngIf="isAdministratorPath">
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                            (click)="openEditItem(product)" [disabled]="configurations.editor" pTooltip="Editar"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="deleteItem(product)"  pTooltip="Eliminar"></button>
+                        </ng-container>
+                    </ng-template>
+                </p-card>
+            </div>
+        </ng-template>
+        <ng-template let-product pTemplate="listItem">
+            <div class="p-grid w-100">
+                <div class="p-col-12 p-md-6 p-lg-3 p-d-flex p-flex-column p-jc-center p-ai-start p-p-3">
+                    <span class="muli-bold">{{product.account}}</span>
+                    <div class="dv-item-subtitle">Cuenta</div>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-3 p-d-flex p-flex-column p-jc-center p-ai-start p-p-3">
+                    <div class="dv-item-description">{{product.owner}}</div>
+                    <div class="dv-item-subtitle">{{product.ownerEmail}}</div>
+                    <div class="dv-item-subtitle">{{getSubroleLabelByValue(product.subrole)}}</div>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-3 p-d-flex p-flex-column p-jc-center p-ai-start p-p-3">
+                    <div class="dv-item-description">{{product.createdAt | date: 'yyyy/MM/dd'}}</div>
+                    <div class="dv-item-subtitle">Creado</div>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-2 p-d-flex p-flex-row p-jc-center p-ai-end p-p-3">
+                    <ng-container *ngIf="isCorporativePath">
+                        <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-primary p-mr-2"
+                        (click)="openPage('/account/config', product)" pTooltip="Seleccionar"></button>
+                    </ng-container>
+                    <ng-container *ngIf="isAdministratorPath">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                        (click)="openEditItem(product)" [disabled]="configurations.editor" pTooltip="Editar"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteItem(product)" [disabled]="configurations.editor" pTooltip="Eliminar"></button>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>
+    
+</div>
+<!-- FORM EDIT -->
+<p-dialog [(visible)]="showDialogEdit" [style]="{ width: '550px' }" header="Detalle de membresía" [modal]="true"
+    styleClass="" (onHide)="onHideCreate($event)" [draggable]="false">
+    <ng-template pTemplate="content">
+        <!-- USER -->
+        <p-tabView [style]="{padding: '5px'}">
+            <p-tabPanel header="Usuario">
+                <form [formGroup]="userForm" novalidate>
+                    <div class="p-fluid p-field">
+                        <label for="firstName">{{'t.firstname' | translate}}:*</label>
+                        <input type="firstName" pInputText id="firstName" formControlName="firstName" required
+                            placeholder="{{'t.firstname' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('firstName')?.invalid && (userForm.get('firstName')?.dirty || userForm.get('firstName')?.touched)">
+                            <div *ngIf="userForm.get('firstName')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('firstName')?.errors?.pattern">
+                                <small class="p-error">{{'t.validateName' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('firstName')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="lastName">{{'t.lastname' | translate}}:*</label>
+                        <input type="lastName" pInputText id="lastName" formControlName="lastName" required
+                            placeholder="{{'t.lastname' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('lastName')?.invalid && (userForm.get('lastName')?.dirty || userForm.get('lastName')?.touched)">
+                            <div *ngIf="userForm.get('lastName')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('lastName')?.errors?.pattern">
+                                <small class="p-error">{{'t.validateName' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('lastName')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="dni">{{'t.dni' | translate}}:*</label>
+                        <input type="dni" pInputText id="dni" formControlName="dni" required
+                            placeholder="{{'t.dni' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('dni')?.invalid && (userForm.get('dni')?.dirty || userForm.get('dni')?.touched)">
+                            <div *ngIf="userForm.get('dni')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('dni')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-field p-d-flex p-jc-end">
+                        <button pButton pRipple [label]="'t.saveUser' | translate" icon="pi pi-check"
+                            class="p-button-text" (click)="editUser()"></button>
+                    </div>
+                </form>
+            </p-tabPanel>
+            <!-- MEMBERSHIP -->
+            <p-tabPanel header="Membresía">
+                <form [formGroup]="accessForm" novalidate>
+                    <label>Rol:*</label>
+                    <div *ngFor="let role of subroles" class="p-fluid p-field-checkbox">
+                        <p-radioButton [inputId]="'role' + role.code" name="role" [value]="role.value"
+                            [(ngModel)]="subroleSelectedValue" [ngModelOptions]="{ standalone: true }"
+                            (onClick)="accessForm.get('role')?.setValue(this.subroleSelectedValue)"></p-radioButton>
+                        <label [for]="'role' + role.code">{{ role.label }}</label>
+                    </div>
+                    <div
+                        *ngIf="accessForm.get('role')?.invalid && (accessForm.get('role')?.dirty || accessForm.get('role')?.touched)">
+                        <div *ngIf="accessForm.get('role')?.errors?.required">
+                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                        </div>
+                    </div>
+                    <div class="p-field p-d-flex p-jc-end">
+                        <button pButton pRipple [label]="'t.saveMembership' | translate" icon="pi pi-check"
+                            class="p-button-text" (click)="editMembership()"></button>
+                    </div>
+                </form>
+            </p-tabPanel>
+        </p-tabView>
+    </ng-template>
+</p-dialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>
+<p-confirmDialog [style]="{width: '450px'}" [acceptLabel]="'Sí'"></p-confirmDialog>

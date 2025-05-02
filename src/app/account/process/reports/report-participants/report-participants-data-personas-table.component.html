@@ -1,0 +1,65 @@
+<div class="report-card p-d-flex p-flex-column h-100 p-jc-center p-ai-center">
+    <div class="p-grid w-100 p-jc-center p-ai-stretch h-100">
+        <div class="p-col-12 p-text-center p-py-4">
+            <h3 class="muli-bold p-m-0 title1">Análisis Data Personas</h3>
+        </div>
+        <div class="p-grid w-100 p-jc-end p-ai-stretch p-px-3">
+            <div id="legend-ffgt" class="legend p-col-12 p-md-6 p-lg-6">
+                <div class="p-d-flex p-flex-column p-flex-md-row p-ai-center p-my-1 p-jc-end">
+                    <ng-container *ngFor="let item of archetypes; let i=index">
+                        <p-chip styleClass="p-mr-2 chip-legend {{item.value}}" [pTooltip]="item.metadata.description">
+                            <div class="w-100 p-text-center" style="color: white;">
+                                {{item.label}}
+                            </div>
+                        </p-chip>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid w-100 p-jc-end p-ai-stretch">
+            <div class="p-col-12" style="overflow-x: auto;">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 table-data-personas" matSort matSortActive="name" matSortDirection="asc">
+            
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Participante </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name | pipeFormatNames}} </td>
+                    </ng-container>
+
+            
+                    <ng-container matColumnDef="dataChampion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Data Champion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dataChampion}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="dataKnight">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Data Knight </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dataKnight}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="dataDreamer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Data Dreamer </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dataDreamer}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="dataDoubter">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Data Doubter </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dataDoubter}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="result">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Resultado </th>
+                        <td mat-cell *matCellDef="let element" [ngClass]="'card-' + element.result">
+                            <div class="w-100 p-text-center muli-bold" style="color: white;">
+                                {{getArchetypeLabelByValue(element.result)}}
+                            </div>
+                        </td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 30]" aria-label="Select page of users"></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

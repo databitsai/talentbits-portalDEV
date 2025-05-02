@@ -1,0 +1,252 @@
+<p-card styleClass="h-100">
+    <ng-container *ngIf="!showFormEdit">
+        <div class="p-grid p-mb-3">
+            <div class="p-col-10">
+                <h2 class="p-m-0 muli-bold">Mi empresa</h2>
+            </div>
+            <div class="p-col-2">
+                <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                    (click)="onShowFormEdit()" style="float: right;" pTooltip="Editar"></button>
+            </div>
+        </div>
+        <p-divider></p-divider>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Nombre comercial:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6 noselect">
+                {{company.name}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Razón social:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6 noselect">
+                {{company.businessName}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                R.U.C:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{company.ruc}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Correo electrónico:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{company.email}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Teléfono:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{company.phone}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Sector:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{getSectorLabel()}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Sitio web:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{company.website}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                País:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{getCountryLabel()}}
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="showFormEdit">
+        <div class="p-grid p-mb-3">
+            <div class="p-col-10">
+                <h2 class="p-m-0 muli-bold">Cuenta</h2>
+            </div>
+        </div>
+        <form [formGroup]="companyForm" novalidate>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="name" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Nombre comrcial:</label>
+                    <div class="p-col-12 p-md-6">
+                        <input id="name" type="text" pInputText formControlName="name"
+                            placeholder="{{'t.companyName' | translate}}">
+                        <div
+                            *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty || companyForm.get('name')?.touched)">
+                            <div *ngIf="companyForm.get('name')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="companyForm.get('name')?.errors?.maxlength">
+                                <small class="p-error">{{
+                                    "t.validateMaxLength" | translate
+                                    }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="businessName" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Razón social:</label>
+                    <div class="p-col-12 p-md-6">
+                        <input id="businessName" type="text" pInputText formControlName="businessName"
+                            placeholder="{{'t.companyBusinessName' | translate}}">
+                        <div
+                            *ngIf="companyForm.get('businessName')?.invalid && (companyForm.get('businessName')?.dirty || companyForm.get('businessName')?.touched)">
+                            <div *ngIf="companyForm.get('businessName')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="companyForm.get('businessName')?.errors?.maxlength">
+                                <small class="p-error">{{"t.validateMaxLength" | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="ruc" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">R.U.C:</label>
+                    <div class="p-col-12 p-md-6">
+                        <input id="ruc" type="text" pInputText formControlName="ruc"
+                            placeholder="{{'t.companyRuc' | translate}}">
+                        <div
+                            *ngIf="companyForm.get('ruc')?.invalid && (companyForm.get('ruc')?.dirty || companyForm.get('ruc')?.touched)">
+                            <div *ngIf="companyForm.get('ruc')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="companyForm.get('ruc')?.errors?.maxlength">
+                                <small class="p-error">{{"t.validateMaxLength" | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="email" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Correo
+                        electrónico:</label>
+                    <div class="p-col-12 p-md-6">
+                        <input id="email" type="text" pInputText formControlName="email"
+                            placeholder="{{'t.emailPersonal' | translate}}">
+                        <div
+                            *ngIf="companyForm.get('email')?.invalid && (companyForm.get('email')?.dirty || companyForm.get('email')?.touched)">
+                            <div *ngIf="companyForm.get('email')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="companyForm.get('email')?.errors?.maxlength">
+                                <small class="p-error">{{
+                                    "t.validateMaxLength" | translate
+                                    }}</small>
+                            </div>
+                            <div *ngIf="companyForm.get('email')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="phone" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Teléfono:</label>
+                    <div class="p-col-12 p-md-6">
+                        <input id="phone" type="text" pInputText formControlName="phone"
+                            placeholder="{{'t.phoneCompany' | translate}}">
+                        <div
+                            *ngIf="companyForm.get('phone')?.invalid && (companyForm.get('phone')?.dirty || companyForm.get('phone')?.touched)">
+                            <div *ngIf="companyForm.get('phone')?.errors?.pattern">
+                                <small class="p-error">{{'t.validatePhone' | translate}}</small>
+                            </div>
+                            <div *ngIf="companyForm.get('phone')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="sector" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Sector:</label>
+                    <div class="p-col-12 p-md-6">
+                        <p-dropdown inputId="sector" [options]="industrySectors"
+                            placeholder="{{'primeng.choose' | translate}}" formControlName="sector"
+                            optionValue="value">
+                            <ng-template let-option pTemplate="item">
+                                <span [class]="'item-badge status-' + option.value">{{option.label}}</span>
+                            </ng-template>
+                        </p-dropdown>
+                        <div
+                            *ngIf="companyForm.get('sector')?.invalid && (companyForm.get('sector')?.dirty || companyForm.get('sector')?.touched)">
+                            <div *ngIf="companyForm.get('sector')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="website" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Sitio web:</label>
+                    <div class="p-col-12 p-md-6">
+                        <input id="website" type="text" pInputText formControlName="website"
+                            placeholder="{{'t.website' | translate}}">
+                        <div
+                            *ngIf="companyForm.get('website')?.invalid && (companyForm.get('website')?.dirty || companyForm.get('website')?.touched)">
+                            <div *ngIf="companyForm.get('website')?.errors?.pattern">
+                                <small class="p-error">{{'t.validateMaxUrl' | translate}}</small>
+                            </div>
+                            <div *ngIf="companyForm.get('website')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="country" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">País:</label>
+                    <div class="p-col-12 p-md-6">
+                        <p-dropdown inputId="country" [options]="countries"
+                            placeholder="{{'primeng.choose' | translate}}" formControlName="country"
+                            optionValue="code">
+                            <ng-template let-option pTemplate="item">
+                                <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                            </ng-template>
+                        </p-dropdown>
+                        <div
+                            *ngIf="companyForm.get('country')?.invalid && (companyForm.get('country')?.dirty || companyForm.get('country')?.touched)">
+                            <div *ngIf="companyForm.get('country')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid p-mb-3">
+                <div class="p-col-12">
+                    <button pButton type="button" label="Guardar" class="p-button-success p-mx-1"
+                        (click)="saveAccount()"></button>
+                    <button pButton type="button" label="Cancelar" class="p-button-secondary p-mx-1"
+                        (click)="onCancelFormEdit()"></button>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</p-card>
+

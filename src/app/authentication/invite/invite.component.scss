@@ -1,0 +1,25 @@
+.form-content {
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.90);
+}
+.left {
+    background: 
+    /* top, transparent red */ 
+    linear-gradient(
+        rgba(2, 119, 155, 0.75),
+      rgba(2, 119, 155, 0.75)
+      
+    ),
+    /* bottom, image */
+    url(https://www.talentbits.ai/assets/img/backgrounds/imagen_principal_square.jpg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    .title, .description {
+        color: var(--white);
+    }
+}
+.logo {
+    max-width: 268.5px;
+}

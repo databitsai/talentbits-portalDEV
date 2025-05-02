@@ -1,0 +1,96 @@
+<div class="report-card p-d-flex p-flex-column h-100 p-jc-center p-ai-center">
+    <div class="p-grid w-100 p-jc-center p-ai-stretch h-100">
+        <div class="p-col-12 p-text-center p-py-4">
+            <h3 class="muli-bold p-m-0 title1">Puntajes por evaluación</h3>
+        </div>
+        <div class="p-grid w-100 p-jc-end p-ai-stretch p-px-3">
+            <div id="legend-ffgt" class="legend p-col-12 p-md-6 p-lg-6">
+                <div class="p-d-flex p-flex-column p-flex-md-row p-ai-center p-my-1 p-jc-end">
+                    <p-chip styleClass="p-mr-2 chip-legend success" pTooltip="mayor a 0.85">
+                        <div class="w-100 p-text-center">
+                            Senior
+                        </div>
+                    </p-chip>
+                    <p-chip styleClass="p-mr-2 chip-legend info" pTooltip="0.65 a 0.85">
+                        <div class="w-100 p-text-center">
+                            Mid-Senior
+                        </div>
+                    </p-chip>
+                    <p-chip styleClass="p-mr-2 chip-legend warning" pTooltip="0.45 a 0.64">
+                        <div class="w-100 p-text-center">
+                            Junior
+                        </div>
+                    </p-chip>
+                    <p-chip styleClass="p-mr-2 chip-legend danger"  pTooltip="menor a 0.45">
+                        <div class="w-100 p-text-center">
+                            No alcanza a junior
+                        </div>
+                    </p-chip>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-px-5">
+            <p-scrollPanel #scroll  [style]="scrollTableSize" styleClass="custombar1">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 table-participants" matSort
+                    matSortActive="avgScore" matSortDirection="desc">
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div style="width: 100px;">
+                                {{row.name}}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Percent finished Column -->
+                    <ng-container matColumnDef="finishedPercent" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluaciones Completadas % </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="w-100 p-text-center" style="min-width: 120px;">
+                                {{row.finishedPercent | percent:'1.1-2'}}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- AVG score Column -->
+                    <ng-container matColumnDef="avgScore" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div style="width: 75px;">
+                                Puntaje Prom 
+                            </div> 
+                        </th>
+                        <td mat-cell *matCellDef="let row" [ngClass]="generateCellClass(row.avgScore)">
+                            <div class="w-100 p-text-center">
+                                {{row.avgScore | number:'1.1-2'}} 
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container [matColumnDef]="column" *ngFor="let column of evaluationsColumns">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{column}}
+                        </th>
+                        <td mat-cell *matCellDef="let element" [ngClass]="generateCellClass(element[column])">
+                            <div class="p-text-center" style="min-width: 100px;">
+                                {{element[column]}}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </p-scrollPanel>
+        </div>
+
+
+    </div>
+    <div class="p-grid w-100 p-jc-end p-ai-stretch h-100">
+        
+        <div class="p-col-12 p-md-6 p-lg-6">
+            <mat-paginator [pageSizeOptions]="pageSizes" aria-label="Select page of users" (page)="onChangePaginator($event)"></mat-paginator>
+        </div>
+    </div>
+</div>

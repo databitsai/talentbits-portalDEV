@@ -1,0 +1,193 @@
+<div class="p-grid p-mt-4 p-mx-0 p-jc-center">
+    <div class="p-col-12 p-md-11 p-lg-10" [ngSwitch]="state">
+        <ng-container *ngSwitchCase="'sending'">
+            <div class="p-text-left p-my-2">
+                <p></p>
+                <p-message severity="info" text="Debe registrarse para seguir en el proceso. Nos comprometemos a proteger y mantener de manera confidencial cualquier información personal que proporciones" [style]="{width: '100%'}"></p-message>
+            </div>
+            <mat-horizontal-stepper [linear]="true" #stepper class="mat-typography">
+                <!-- USER STEP-->
+                <mat-step [stepControl]="userForm">
+                    <ng-template matStepLabel>{{'t.user' | translate}}</ng-template>
+                    <div class="p-grid p-mt-1 p-mx-0 p-jc-center">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <!-- <p-divider align="center">{{'t.user' | translate}}</p-divider> -->
+                            <form [formGroup]="userForm">
+                                <div class="p-fluid p-field">
+                                    <label for="firstName">{{'t.firstname' | translate}}:*</label>
+                                    <input type="firstName" pInputText id="firstName" formControlName="firstName" required
+                                        placeholder="{{'t.firstname' | translate}}" />
+                                    <div
+                                        *ngIf="userForm.get('firstName')?.invalid && (userForm.get('firstName')?.dirty || userForm.get('firstName')?.touched)">
+                                        <div *ngIf="userForm.get('firstName')?.errors?.required">
+                                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="userForm.get('firstName')?.errors?.pattern">
+                                            <small class="p-error">{{'t.validateName' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="userForm.get('firstName')?.errors?.maxlength">
+                                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-fluid p-field">
+                                    <label for="lastName">{{'t.lastname' | translate}}:*</label>
+                                    <input type="lastName" pInputText id="lastName" formControlName="lastName" required
+                                        placeholder="{{'t.lastname' | translate}}" />
+                                    <div
+                                        *ngIf="userForm.get('lastName')?.invalid && (userForm.get('lastName')?.dirty || userForm.get('lastName')?.touched)">
+                                        <div *ngIf="userForm.get('lastName')?.errors?.required">
+                                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="userForm.get('lastName')?.errors?.pattern">
+                                            <small class="p-error">{{'t.validateName' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="userForm.get('lastName')?.errors?.maxlength">
+                                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-fluid p-field">
+                                    <label for="dni">{{'t.dni' | translate}}:*</label>
+                                    <input type="dni" pInputText id="dni" formControlName="dni" required
+                                        placeholder="{{'t.dni' | translate}}" />
+                                    <div
+                                        *ngIf="userForm.get('dni')?.invalid && (userForm.get('dni')?.dirty || userForm.get('dni')?.touched)">
+                                        <div *ngIf="userForm.get('dni')?.errors?.required">
+                                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="userForm.get('dni')?.errors?.maxlength">
+                                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-fluid p-field">
+                                    <label for="phone">{{'t.phone' | translate}}:</label>
+                                    <input type="text" pInputText id="phone" formControlName="phone"
+                                        placeholder="{{'t.phone' | translate}}" />
+                                    <div
+                                        *ngIf="userForm.get('phone')?.invalid && (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)">
+                                        <div *ngIf="userForm.get('phone')?.errors?.pattern">
+                                            <small class="p-error">{{'t.validatePhone' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="userForm.get('phone')?.errors?.maxlength">
+                                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-grid p-jc-end">
+                                    <button pButton pRipple [label]="'t.next' | translate" icon="pi pi-arrow-right"
+                                        class="p-col p-button-outlined p-col-6" style="max-width: 150px;" matStepperNext  iconPos="right"
+                                        (click)="validateAllFormFields(userForm)"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </mat-step>
+                <!-- ACCESS STEP-->
+                <mat-step [stepControl]="accessForm">
+                    <ng-template matStepLabel>{{'t.access' | translate}}</ng-template>
+                    <div class="p-grid p-mt-1 p-mx-0 p-jc-center">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <!-- <p-divider align="center">{{'t.access' | translate}}</p-divider> -->
+                            <form [formGroup]="accessForm">
+                                <div class="p-fluid p-field">
+                                    <label for="username">{{'t.emailPersonal' | translate}}:*</label>
+                                    <input type="text" pInputText id="username" formControlName="username" required
+                                        placeholder="{{'t.emailPersonal' | translate}}" />
+                                    <div
+                                        *ngIf="accessForm.get('username')?.invalid && (accessForm.get('username')?.dirty || accessForm.get('username')?.touched)">
+                                        <div *ngIf="accessForm.get('username')?.errors?.required">
+                                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="accessForm.get('username')?.errors?.pattern">
+                                            <small class="p-error">{{'t.errorEmail' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="accessForm.get('username')?.errors?.maxlength">
+                                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-fluid p-field">
+                                    <label for="password">{{'t.password2' | translate}}:*</label>
+                                    <p-password formControlName="password" [toggleMask]="true" [feedback]="true"
+                                        [weakLabel]="'t.weak' | translate" [mediumLabel]="'t.medium' | translate"
+                                        [strongLabel]="'t.strong' | translate" [mediumRegex]="patternPassword"
+                                        placeholder="{{'t.password' | translate}} *">
+                                    </p-password>
+                                    <div *ngIf="accessForm.get('password')?.invalid && (accessForm.get('password')?.dirty || accessForm.get('password')?.touched)">
+                                        <div *ngIf="accessForm.get('password')?.errors?.required">
+                                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="accessForm.get('password')?.errors?.pattern">
+                                            <small id="password-help" class="p-error">{{'t.errorPassword' | translate}}</small>
+                                        </div>
+                                        <div *ngIf="accessForm.get('password')?.errors?.minlength">
+                                            <small class="p-error">{{'t.validateMinLength7' | translate}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+                                        <li>{{'t.onelowercase' | translate}}</li>
+                                        <li>{{'t.oneuppercase' | translate}}</li>
+                                        <li>{{'t.onenumber' | translate}}</li>
+                                        <li>{{'t.minchars' | translate:{'min':'7'} }}</li>
+                                        <li>Caracteres especiales permitidos: #?!@$%^&*</li>
+                                    </ul>
+                                </div>
+                                <div class="p-grid p-jc-between">
+                                   <button pButton pRipple [label]="'t.back' | translate" icon="pi pi-arrow-left"
+                                        class="p-button-outlined p-col-6 p-p-2" style="max-width: 150px;" matStepperPrevious></button>
+                                     <!-- <button pButton pRipple [label]="'t.next' | translate" icon="pi pi-arrow-right"
+                                        class="p-button-text p-col-6" matStepperNext
+                                        (click)="validateAllFormFields(accessForm)"></button> -->
+                                        <button pButton pRipple [label]="'Crear cuenta'" icon="pi pi-check" iconPos="right"
+                                        class="p-button p-col-6 p-p-2" style="max-width: 150px;" (click)="onSubmit()"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </mat-step>
+                <!-- <mat-step>
+                    <ng-template matStepLabel>{{'t.save' | translate}}</ng-template>
+                    <div class="p-grid p-mt-1 p-mx-0 p-jc-center">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <p-divider align="center">{{'t.save' | translate}}</p-divider>
+                            <p>{{'t.accountcreateready' | translate}}</p>
+                            <p-card>
+                                <div class="p-grid">
+                                    <div class="p-col-12 p-md-12 p-lg-12 muli-bold">{{'t.owner' | translate}}:</div>
+                                    <div class="p-col-12 p-md-12 p-lg-12">{{userForm.get('firstName')?.value}}
+                                        {{userForm.get('lastName')?.value}}</div>
+                                </div>
+                                <div class="p-grid">
+                                    <div class="p-col-12 p-md-12 p-lg-12 muli-bold">{{'t.user' | translate}}:</div>
+                                    <div class="p-col-12 p-md-12 p-lg-12">{{accessForm.get('username')?.value}}</div>
+                                </div>
+                            </p-card>
+                            <div class="p-grid p-jc-between p-mt-3">
+                                <button pButton pRipple [label]="'t.back' | translate" icon="pi pi-arrow-left"
+                                    class="p-button-text p-col-6" matStepperPrevious></button>
+                                <button pButton pRipple [label]="'t.save' | translate" icon="pi pi-check"
+                                    class="p-button-text p-col-6" (click)="onSubmit()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-step> -->
+            </mat-horizontal-stepper>
+        </ng-container>
+        <div *ngSwitchCase="'ready'" class="pending">
+            <div>
+                <p>La invitación ha sido verificada.</p>
+            </div>
+            <p-message severity="success" text="El usuario {{item.email}} ha sido registrado"
+                [style]="{width: '100%'}"></p-message>
+            <button pButton type="button" label="Ingresar a mi cuenta" class="p-button w-100 p-mt-3" [routerLink]="['/user/process/main']"></button>
+        </div>
+        <div *ngSwitchCase="'finished'" class="pending">
+            <p-message severity="info" text="El usuario {{item.email}} ya ha finalizado el proceso" [style]="{width: '100%'}"></p-message>  
+            <button pButton type="button" label="Ingresar a mi cuenta" class="p-button w-100 p-my-2" [routerLink]="['/user/process/main']"></button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+.report-card {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    background: white;
+
+    span {
+        font-size: 24px;
+    }
+
+    .time {
+        font-size: 8pt;
+    }
+
+    .title1 {
+        color: var(--theme-color-1);
+    }
+}
+
+::ng-deep .report-filter-input {
+    max-width: 250px;
+    width: 250px;
+    margin: 0 5px;
+}
+
+table {
+    width: 100%;
+
+    ::ng-deep .mat-sort-header-container {
+        justify-content: center;
+    }
+}
+
+.table-participants {
+    width: 100% !important;
+
+    .mat-table-sticky-border-elem-right {
+        border-left: 1px solid #e0e0e0;
+    }
+
+    .mat-table-sticky-border-elem-left {
+        border-right: 1px solid #e0e0e0;
+    }
+
+    th.mat-column-name,
+    td.mat-column-name {
+        padding-left: 8px;
+        width: 200px!important;
+    }
+    th.mat-column-finishedPercent,
+    td.mat-column-finishedPercent {
+        padding-left: 8px;
+        width: 200px;
+        text-align: center;
+    }
+    .range-1 {
+        background: var(--grey-x-light);
+    }
+    .range-2 {
+        background: var(--theme-color-7-op1);
+    }
+    .range-3 {
+        background: var(--theme-color-5-op1);
+    }
+    .range-4 {
+        background: var(--theme-color-1-op1);
+        // color: white!important;
+    }
+    .mat-cell {
+        color: rgba(0,0,0,.54);
+    }
+}
+.legend {
+    ::ng-deep .chip-legend {
+        margin-top: 1rem;
+        min-width: 100px;
+        text-align: center;
+        font-size: 9pt;
+    }
+    ::ng-deep .success {
+        background: var(--theme-color-1-op1);
+    }
+    ::ng-deep .info {
+        background: var(--theme-color-5-op1);
+    }
+    ::ng-deep .warning {
+        background: var(--sev-light-warning);
+    }
+    ::ng-deep .danger {
+        background: var(--grey-x-light);
+    }
+    ::ng-deep .dataChampion {
+        background: var(--dt-dataChampion-1);
+    }
+    ::ng-deep .dataKnight {
+        background: var(--dt-dataKnight-1);
+    }
+    ::ng-deep .dataDreamer {
+        background: var(--dt-dataDreamer-1);
+    }
+    ::ng-deep .dataDoubter {
+        background: var(--dt-dataDoubter-1);
+    }
+}
+.table-types  {
+    th.mat-column-name ::ng-deep .mat-sort-header-container {
+        justify-content: start;
+    }
+    .mat-column-correct {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-incorrect {
+        text-align: center;
+    }
+    .mat-column-unknown {
+        text-align: center;
+    }
+    .mat-column-empty {
+        text-align: center;
+    }
+    .mat-column-score {
+        text-align: center;
+    }
+    .mat-cell {
+        color: rgba(0,0,0,.54);
+    }
+    .chart-wrapper {
+        width: 250px;
+    }
+}
+.table-data-personas {
+    th.mat-column-name ::ng-deep .mat-sort-header-container {
+        justify-content: start;
+    }
+    .mat-column-dataChampion {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-dataKnight {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-dataDreamer {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-dataDoubter {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-cell {
+        color: rgba(0,0,0,.54);
+    }
+    .card-dataChampion {
+        background: var(--dt-dataChampion-1);
+    }
+    .card-dataKnight {
+        background: var(--dt-dataKnight-1);
+    }
+    .card-dataDreamer {
+        background: var(--dt-dataDreamer-1);
+    }
+    .card-dataDoubter {
+        background: var(--dt-dataDoubter-1);
+    }
+}
+
+.p-scrollpanel {
+    ::ng-deep &.custombar1 {
+
+        .p-scrollpanel-bar {
+            background-color: var(--theme-color-1);
+        }
+        .p-scrollpanel-content {
+            padding: 0 5px 18px 0;
+        }
+    }
+}

@@ -1,0 +1,34 @@
+<ng-container [ngSwitch]="state">
+    <div *ngSwitchCase="'sending'" class="pending">
+        <div>
+            <p class="p-my-0">La invitación ha sido verificada.</p>
+        </div>
+        <!-- <p-message severity="success" [text]="message" [style]="{width: '100%'}"></p-message> -->
+        <p-message severity="info" text="El usuario {{item.email}} ya se encuentra registrado" [style]="{width: '100%', marginTop: '1rem'}"></p-message>  
+        <!-- <div>
+            <p>Una vez aceptada la invitación, ingrese por favor a su cuenta y podrá ver el proceso al que ha sido invitado en la sección "Mis Procesos".</p>
+        </div> -->
+        <button pButton type="button" label="Aceptar invitación" class="p-button w-100 p-mt-3" (click)="onSubmit()"></button>
+    </div>
+    <div *ngSwitchCase="'ready'" class="pending">
+        <div>
+            <p class="p-my-0">La invitación ha sido verificada.</p>
+        </div>
+        <!-- <p-message severity="success" [text]="message" [style]="{width: '100%'}"></p-message> -->
+        <p-message severity="info" text="El usuario {{item.email}} ya se encuentra registrado" [style]="{width: '100%', marginTop: '1rem'}"></p-message>  
+        <!-- <div>
+            <p>Una vez aceptada la invitación, ingrese por favor a su cuenta y podrá ver el proceso al que ha sido invitado en la sección "Mis Procesos".</p>
+        </div> -->
+        <button pButton type="button" label="Ingresar a mi cuenta" class="p-button w-100 p-mt-3" [routerLink]="['/user/process/main']"></button>
+    </div>
+    <div *ngSwitchCase="'finished'" class="pending">
+        <p-message severity="info" text="El usuario {{item.email}} ya ha finalizado el proceso" [style]="{width: '100%'}"></p-message>  
+        <button pButton type="button" label="Ingresar a mi cuenta" class="p-button w-100 p-my-2" [routerLink]="['/user/process/main']"></button>
+    </div>
+    <p *ngSwitchDefault>
+        Status register {{item.email}}: {{state}}
+    </p>
+</ng-container>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

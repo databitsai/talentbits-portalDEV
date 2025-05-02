@@ -1,0 +1,24 @@
+.custom-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: .3px;
+    &.status-success {
+        color: var(--white);
+        background: var(--theme-color-4);
+    }
+    &.status-info {
+        color: var(--white);
+        background: var(--theme-color-5);
+    }
+    &.status-danger {
+        color: var(--white);
+        background: var(--theme-color-1);
+    }
+    &.status-default {
+        color: var(--white);
+        background: gray;
+    }
+}

@@ -1,0 +1,62 @@
+<div>
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <ng-container *ngIf="!vaccantSelected">
+                <div class="p-grid p-jc-start p-ai-center">
+                    <div class="p-col-12 p-d-flex p-ai-center">
+                        <span class="p-mr-2">No existe una vacante asignada para este proceso</span> <button pButton pRipple type="button" label="Asignar vacante a proceso" class="p-button-sm p-button-outlined" (click)="openSelectVaccant()"></button>
+                    </div>
+                </div>
+            </ng-container>
+           
+            <ng-container *ngIf="vaccantSelected">
+                <div class="p-d-flex p-flex-column p-flex-md-row">
+                    <div class="p-mr-2">
+                        <div><h3 class="muli-bold p-m-0">{{vaccantSelected.title}}</h3></div>
+                        <div>Vacante asignada</div>
+                    </div>
+                    <div class="p-mx-0 p-mx-lg-3 p-d-flex p-ai-center">
+                        <button pButton pRipple type="button" label="Cambiar vacante" class="p-button-sm p-button-outlined" (click)="openSelectVaccant()"></button>
+                    </div>
+                    <div class="p-d-flex p-ai-center">
+                        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-sm p-button-rounded p-button-warning p-button-outlined" pTooltip="Quitar vacante de este proceso" (click)="onDeleteProcess()"></button>
+                    </div>
+                </div>
+            </ng-container>
+
+        </ng-template>
+
+    </p-toolbar>
+    <div class="p-grid nested-grid p-mt-4">
+        <ng-container *ngFor="let item of items">
+            <div class="p-col-12 p-md-12 p-lg-6">
+                <p-card styleClass="h-100 selectionable">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-3 p-lg-2 p-d-flex p-ai-center p-jc-center">
+                            <span class="material-icons-outlined md-48 md-color-th-1 selectionable" (click)="item.do()">{{item.icon || 'quiz'}}</span>
+                        </div>
+                        <div class="p-col-12 p-md-9 p-lg-10 p-p-3">
+                            <div class="p-text-center muli-bold">
+                                <h3>{{item.title}}</h3>
+                            </div>
+                            <div class="p-text-center">{{item.content}}</div>
+                            <div class="p-text-center p-mt-3">
+                                <button pButton pRipple type="button" [label]="item.action" class="p-button-text" (click)="item.do()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<p-dialog [(visible)]="openListVaccantDialog" header="Vacantes disponibles" [modal]="true" [style]="{width: '85vw', minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <app-process-vaccant-list [idProcess]="processSelected.id" (onSelectVacantEvent)="onSelectVaccant($event)"></app-process-vaccant-list>
+    </ng-template>
+</p-dialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+
+<p-confirmDialog [style]="{width: '450px'}" [acceptLabel]="'Sí'"></p-confirmDialog>

@@ -1,0 +1,70 @@
+<div class="process-evalutions p-p-3">
+    <p-card class="p-m-3">
+        <div class="p-grid p-p-3">
+            <div class="p-col-12 p-mb-3 p-p-2">
+                <h3 class="muli-bold">Seleccione el perfil y escoja las evaluaciones:</h3>
+            </div>
+            <div class="p-col-12 p-md-5 p-lg-5">
+                <p-carousel [value]="products" [numVisible]="1" [numScroll]="1" [circular]="false" [responsiveOptions]="responsiveOptions" (onPage)="onProfileChange($event)">
+                    <ng-template let-product pTemplate="item">
+                        <div class="product-item">
+                            <div class="product-item-content">
+                                <div class="p-mb-3">
+                                    <img src="{{product.image}}" [alt]="product.name" class="product-image" />
+                                </div>
+                                <div>
+                                    <h4 class="p-mb-1">{{product.profile}}</h4>
+                                    <span class="p-p-3">{{product.type === 1 ? '' :  'Perfil'}}</span>
+                                    <p-scrollPanel [style]="{width: '100%', height: '145px'}" styleClass="scroll-description">
+                                        {{product.description}}
+                                    </p-scrollPanel>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </div>
+            <div class="p-col-12 p-md-7 p-lg-7">
+                <div class="p-d-flex p-flex-wrap">
+                    <div class="p-mr-2 p-mb-2" *ngFor="let item of evaluations">
+                        <div  style="position: relative;">
+                            <ng-container *ngIf="item.selected">
+                                <p-chip [label]="item.evaluation" (click)="onChipClick(item)" pTooltip="Clic para deseleccionar"
+                                [styleClass]="item.color + ' ' + (item.status === 'highlight' ? item.status : '')">
+                                </p-chip>
+                                <div class="custom-chip-badge checked p-d-flex p-jc-center p-ai-center" (click)="onChipClick(item)" pTooltip="Clic para deseleccionar">
+                                    <i class="pi pi-check" style="font-size: 0.83rem"></i>
+                                </div>
+                                <!-- <div class="custom-chip-reload checked p-d-flex p-jc-center p-ai-center" (click)="onShowReloadQuestions()" pTooltip="Ver/Cambiar preguntas">
+                                    <i class="pi pi-cog" style="font-size: 0.83rem"></i>
+                                </div> -->
+                            </ng-container>
+                            <ng-container *ngIf="!item.selected">
+                                <p-chip [label]="item.evaluation"  (click)="onChipClick(item)" pTooltip="Clic para seleccionar"
+                                [styleClass]="item.color + ' ' + (item.status === 'highlight' ? item.status : '')">
+                                </p-chip>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid p-p-1 p-jc-end">
+            <!-- <button pButton pRipple label="Anterior" icon="pi pi-chevron-left" class="p-button-outlined p-button-help p-mr-2" [routerLink]="[ '/account/process/item/detail']"></button> -->
+            <button pButton pRipple label="Siguiente" icon="pi pi-chevron-right" class="p-button-outlined p-button-help p-mr-2" iconPos="right" [routerLink]="[ '/account/process/item/requests']"></button>
+        </div>
+    </p-card>    
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+
+<p-dialog header="Detalle de preguntas" [(visible)]="showReloadEvaluations" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    <p class="p-m-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="showReloadEvaluations=false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template>
+</p-dialog>

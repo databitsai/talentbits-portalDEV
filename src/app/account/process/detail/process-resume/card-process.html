@@ -1,0 +1,34 @@
+<div class="card-process">
+    <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+    <p-panel header="Proceso"  [toggleable]="false">
+        <ng-template pTemplate="icons">
+            <button pButton pRipple type="button" icon="pi pi-cog" class="p-button-rounded p-button-secondary" (click)="openPage('/account/process/item/detail')"></button>
+        </ng-template>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Proceso:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{item.name}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Tipo:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{getTypeLabel(item.type)}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Fecha de inicio:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{item.validFrom | date: 'yyyy/MM/dd H:mm'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Fecha de fin:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{item.validUntil | date: 'yyyy/MM/dd H:mm'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Descripción:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{item.description}}</div>
+        </div>
+        <div class="p-grid" *ngIf="!loading">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Estado:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">
+                <app-custom-badge [label]="getProcessStateLabel(item.status)" [status]="getProcessStateValue(item.status)"></app-custom-badge>
+            </div>
+        </div>
+    </p-panel>
+</div>

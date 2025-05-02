@@ -1,0 +1,119 @@
+<p-card styleClass="h-100">
+    <ng-container *ngIf="!showFormPayment">
+        <div class="p-grid p-mb-3">
+            <div class="p-col-10">
+                <h2 class="p-m-0 muli-bold">Pago</h2>
+            </div>
+            <div class="p-col-2">
+                <button *ngIf="isAdmin" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                (click)="onShowFormPayment()" style="float: right;" pTooltip="Editar"></button>
+            </div>
+        </div>
+        <p-divider></p-divider>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                {{"t.paymenttype" | translate}}:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{getPaymentPlanTypeLabel()}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                {{'t.priceMonth' | translate}}:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{plan.priceMonth | currency}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                {{'t.priceYear' | translate}}:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{plan.priceYear | currency}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                ¿{{'t.ispaymentrecurrent' | translate}}?
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                <span *ngIf="plan.isPaymentRecurrent">{{'primeng.accept' | translate}}</span>
+                <span *ngIf="!plan.isPaymentRecurrent">{{'primeng.reject' | translate}}</span>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="showFormPayment">
+        <form [formGroup]="paymentForm" novalidate>
+            <div class="p-grid p-mb-3">
+                <div class="p-col-10">
+                    <h2 class="p-m-0 muli-bold">Pago</h2>
+                </div>
+                <div class="p-col-2">
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-col-12">
+                            <label class="p-mb-2 muli-bold">{{"t.paymenttype" | translate}}:</label>
+                            <div *ngFor="let type of paymentTypes" class="p-field-checkbox">
+                                <p-radioButton [inputId]="'paymentType' + type.code" name="paymentType"
+                                    [value]="type.code" [(ngModel)]="paymentTypeSelectedValue"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    (onClick)="paymentForm.get('paymentType')?.setValue(this.paymentTypeSelectedValue)">
+                                </p-radioButton>
+                                <label [for]="'paymentType' + type.code">{{ type.label }}</label>
+                            </div>
+                        </div>
+                        <div class="p-field p-col-12">
+                            <p-checkbox name="isPaymentRecurrent" formControlName="isPaymentRecurrent"
+                                [label]="'t.ispaymentrecurrent' | translate" [binary]="true"
+                                [style]="{position: 'relative'}">
+                            </p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-col-12">
+                            <label for="priceMonth" class="muli-bold">{{'t.priceMonth' | translate}}:</label>
+                            <p-inputNumber inputId="priceMonth" formControlName="priceMonth"
+                                mode="currency" currency="USD" locale="en-US" [showButtons]="true"
+                                [min]="0" [max]="99999">
+                            </p-inputNumber>
+                            <div *ngIf="paymentForm.get('priceMonth')?.invalid &&
+                                (paymentForm.get('priceMonth')?.dirty ||
+                                paymentForm.get('priceMonth')?.touched)">
+                                <div *ngIf="paymentForm.get('priceMonth')?.errors?.required">
+                                    <small class="p-error">{{"t.validateRequiredField" |
+                                        translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-field p-col-12">
+                            <label for="priceYear" class="muli-bold">{{'t.priceYear' | translate}}:</label>
+                            <p-inputNumber inputId="priceYear" formControlName="priceYear"
+                                mode="currency" currency="USD" locale="en-US" [showButtons]="true"
+                                [min]="0" [max]="99999">
+                            </p-inputNumber>
+                            <div *ngIf="paymentForm.get('priceYear')?.invalid &&
+                                (paymentForm.get('priceYear')?.dirty ||
+                                paymentForm.get('priceYear')?.touched)">
+                                <div *ngIf="paymentForm.get('priceYear')?.errors?.required">
+                                    <small class="p-error">{{"t.validateRequiredField" |
+                                        translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+    <ng-template pTemplate="footer">
+        <button  pButton *ngIf="showFormPayment" label="Guardar" icon="pi pi-check" class="p-button-success p-mx-1" (click)="savePayment()"></button>
+        <button  pButton *ngIf="showFormPayment" label="Cancelar" icon="pi pi-times" class="p-button-secondary" [style]="{'margin-left': '.5em'}" (click)="onCancelFormPayment()"></button>
+    </ng-template>
+</p-card>

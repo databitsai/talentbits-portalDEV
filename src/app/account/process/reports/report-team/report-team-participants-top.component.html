@@ -1,0 +1,29 @@
+<div class="report-card p-d-flex p-flex-column h-100 p-jc-center p-ai-center">
+    <div class="p-grid w-100 p-jc-center p-ai-stretch h-100">
+        <div class="p-col-12 p-text-center p-py-4">
+            <h3 class="muli-bold p-m-0 title1">Top Participantes</h3>
+        </div>
+        <div class="p-col-12 p-text-center">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 table-types" matSort matSortActive="value" matSortDirection="desc">
+                <ng-container matColumnDef="index">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let element; let i = index;">{{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Participante </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Puntaje </th>
+                    <td mat-cell *matCellDef="let element"> {{element.value | percent:'0.0-2'}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[3, 5, 10]" aria-label="Select page of users"></mat-paginator>
+        </div>
+    </div>
+</div>

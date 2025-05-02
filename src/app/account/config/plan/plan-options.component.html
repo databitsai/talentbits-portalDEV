@@ -1,0 +1,109 @@
+<p-card styleClass="h-100">
+    <ng-container *ngIf="!showFormOptions">
+        <div class="p-grid p-mb-3">
+            <div class="p-col-10">
+                <h2 class="p-m-0 muli-bold">Opciones</h2>
+            </div>
+            <div class="p-col-2">
+                <button *ngIf="isAdmin" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                (click)="onShowFormOptions()" style="float: right;" pTooltip="Editar"></button>
+            </div>
+        </div>
+        <p-divider></p-divider>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Publicar vacantes:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                <span *ngIf="plan.isPostVacancyActive">{{'primeng.accept' | translate}}</span>
+                <span *ngIf="!plan.isPostVacancyActive">{{'primeng.reject' | translate}}</span>
+            </div>
+        </div>
+        <div class="p-grid p-mb-3" *ngIf="plan.isPostVacancyActive">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Vacantes destacadas:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                <span *ngIf="plan.isHighlightVacancyActive">{{'primeng.accept' | translate}}</span>
+                <span *ngIf="!plan.isHighlightVacancyActive">{{'primeng.reject' | translate}}</span>
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Benchmarking:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                <span *ngIf="plan.isBenchmarkingActive">{{'primeng.accept' | translate}}</span>
+                <span *ngIf="!plan.isBenchmarkingActive">{{'primeng.reject' | translate}}</span>
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                Soporte por llamada:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                <span *ngIf="plan.isSupportCallActive">{{'primeng.accept' | translate}}</span>
+                <span *ngIf="!plan.isSupportCallActive">{{'primeng.reject' | translate}}</span>
+            </div>
+        </div>
+        <br>
+        <p-divider align="center" align="left">
+            <b class="label">Acciones</b>
+        </p-divider>
+        <div class="p-p-3 p-grid p-jc-center p-ai-center">
+            <div class="p-col-12 p-md-12 p-lg-12">
+                <button [disabled]="!isOwner" pButton pRipple type="button" label="Eliminar cuenta" class="p-button-danger p-button-text"
+                (click)="deleteItem()"></button>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="showFormOptions">
+        <div class="p-grid p-mb-3">
+            <div class="p-col-10">
+                <h2 class="p-m-0 muli-bold">Opciones</h2>
+            </div>
+            <div class="p-col-2">
+            </div>
+        </div>
+        <form [formGroup]="optionsForm" novalidate>
+            <div class="p-field p-col-12">
+                <p-checkbox name="isPostVacancyActive" formControlName="isPostVacancyActive"
+                    [label]="'t.publishvacants' | translate" [binary]="true"
+                    [style]="{position: 'relative'}">
+                </p-checkbox>
+            </div>
+            <div class="p-field p-col-12" *ngIf="optionsForm.get('isPostVacancyActive')?.value">
+                <p-checkbox name="isHighlightVacancyActive" formControlName="isHighlightVacancyActive"
+                    [label]="'t.highlightvacancy' | translate" [binary]="true"
+                    [style]="{position: 'relative'}">
+                </p-checkbox>
+            </div>
+            <div class="p-field p-col-12">
+                <p-checkbox name="isBenchmarkingActive" formControlName="isBenchmarkingActive"
+                    [label]="'t.benchmarking' | translate" [binary]="true"
+                    [style]="{position: 'relative'}">
+                </p-checkbox>
+            </div>
+            <div class="p-field p-col-12">
+                <p-checkbox name="isSupportCallActive" formControlName="isSupportCallActive"
+                    [label]="'t.supportcall' | translate" [binary]="true"
+                    [style]="{position: 'relative'}">
+                </p-checkbox>
+            </div>
+        </form>
+    </ng-container>
+    <ng-template pTemplate="footer">
+        <button  pButton *ngIf="showFormOptions" label="Guardar" icon="pi pi-check" class="p-button-success p-mx-1" (click)="saveOptions()"></button>
+        <button  pButton *ngIf="showFormOptions" label="Cancelar" icon="pi pi-times" class="p-button-secondary" [style]="{'margin-left': '.5em'}" (click)="onCancelFormOptions()"></button>
+    </ng-template>
+</p-card>
+<p-confirmDialog #cd [style]="{width: '450px'}">
+    <ng-template pTemplate="footer">
+        <div class="p-pb-3">
+            <h5 class="p-m-0 p-text-left">Se requiere que ingrese el nombre comercial de la cuenta para continuar:</h5>
+            <input class="w-100" type="text" pInputText [(ngModel)]="checkTitle">
+        </div>
+        <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="Sí" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>

@@ -1,0 +1,30 @@
+<div class="p-grid p-d-flex p-flex-column p-jc-center p-ai-center h-100">
+    <div class="right {{wrapperClassGrid}} p-px-3 p p-px-sm-4">
+        <div class="form-content p-p-1 p-p-sm-4 p-shadow-12">
+            <div class="form-header p-d-flex p-flex-column p-jc-center p-ai-center p-mb-4">
+                <!-- <div class="p-text-center">
+                    <h3>{{'t.welcometo' | translate}}</h3>
+                </div> -->
+                <img class="logo p-pb-0 p-pt-5" src="assets/images/logo_databits_blue.svg"
+                    alt="talentbits">
+                <!-- <p class="p-text-center">
+                    {{'t.description1' | translate}}
+                </p> -->
+            </div>
+            <div  class="p-mb-4" *ngIf="!loading">
+                <ng-container [ngSwitch]="action">
+                    <app-invite-message *ngSwitchCase="'error'" [message]="message"></app-invite-message>
+                    <app-invite-register *ngSwitchCase="'register'" [message]="message" [item]="item"></app-invite-register>
+                    <app-invite-add *ngSwitchCase="'add'" [message]="message" [item]="item"></app-invite-add>
+                    <app-invite-new *ngSwitchCase="'new'" [item]="item"></app-invite-new>
+                    <p *ngSwitchDefault>
+                        {{item.action}}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

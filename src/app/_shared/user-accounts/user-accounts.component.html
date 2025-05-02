@@ -1,0 +1,87 @@
+<div id="account-list" class="p-mb-6">
+
+    <p-dataView #dv [layout]="'list'" [value]="items" [paginator]="true" [rows]="9" filterBy="account,owner,ownerEmail"
+        [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+        <ng-template pTemplate="header">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+                <div class="p-d-flex p-flex-column p-flex-md-row p-jc-start">
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Ordenar por fecha"
+                    (onChange)="onSortChange($event)" styleClass="p-my-1 p-mx-0 p-mx-lg-2"></p-dropdown>
+                    <span class="p-input-icon-left p-my-1 p-mx-0 p-mx-lg-2 w-auto">
+                        <i class="pi pi-search"></i>
+                        <input type="search" pInputText placeholder="Buscar" (input)="dv.filter($any($event.target).value)" class="w-100">
+                    </span>
+                </div>
+                <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+        </ng-template>
+        <ng-template let-product pTemplate="listItem">
+            <div class="p-grid w-100">
+                <div class="p-col-12 p-md-6 p-lg-3 p-d-flex p-flex-column p-jc-center p-ai-start p-p-3">
+                    <span class="muli-bold">{{product.account}}</span>
+                    <div class="dv-item-description">{{getTypeAccount(product.type)}}</div>
+                    <div class="dv-item-subtitle">Cuenta</div>
+                    <div class="dv-item-subtitle">
+                        <ng-container *ngIf="!product.active">
+                            <p-tag styleClass="p-mr-2" value="Inactiva"></p-tag>
+                        </ng-container>
+                        <ng-container *ngIf="product.active">
+                            <p-tag styleClass="p-mr-2" severity="success" value="Activa"></p-tag>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-3 p-d-flex p-flex-column p-jc-center p-ai-start p-p-3">
+                    <div class="dv-item-description">{{getAccessLabel(product.access)}}</div>
+                    <div class="dv-item-description">{{getSubroleLabel(product.role)}}</div>
+                    <div class="dv-item-subtitle">Rol</div>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-3 p-d-flex p-flex-column p-jc-center p-ai-start p-p-3">
+                    <div class="dv-item-description">{{product.createdAt | date: 'yyyy/MM/dd'}}</div>
+                    <div class="dv-item-subtitle">Creado</div>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-2 p-d-flex p-flex-column p-jc-center p-ai-end p-p-3">
+                    <p-button icon="pi pi-check" label="Seleccionar" [disabled]="!allItemsActive && product.active" (click)="active(product)"></p-button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template let-product pTemplate="gridItem">
+            <div class="p-p-1 p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4 dv-grid-item">
+                <p-card>
+                    <ng-template pTemplate="header">
+                        <div class="dv-grid-item-top p-m-3">
+                            <div>
+                                <i class="pi pi-user dv-category-icon"></i>
+                                <span class="item-category muli-bold">{{getTypeAccount(product.type)}}</span>
+                            </div>
+                            <div>
+                                <ng-container *ngIf="!product.active">
+                                    <p-tag styleClass="p-mr-2" value="Inactiva"></p-tag>
+                                </ng-container>
+                                <ng-container *ngIf="product.active">
+                                    <p-tag styleClass="p-mr-2" value="Inactiva"></p-tag><p-tag styleClass="p-mr-2" severity="success" value="Activa"></p-tag>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <div class="dv-grid-item-content">
+                        <div class="dv-item-name muli-bold p-text-center">{{product.account}}</div>
+                        <div class="dv-owner-wrapper p-d-flex p-flex-column p-jc-center p-ai-center">
+                            <div class="dv-item-description">{{getAccessLabel(product.access)}}</div>
+                            <div class="dv-item-subtitle">{{getSubroleLabel(product.role)}}</div>
+                            <div class="dv-item-subtitle">Rol</div>
+                            <div class="dv-item-subtitle p-mt-3">Creado: {{product.createdAt | date: 'yyyy/MM/dd'}}
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template pTemplate="footer">
+                        <p-button icon="pi pi-check" [disabled]="!allItemsActive && product.active" (click)="active(product)"></p-button>
+                    </ng-template>
+                </p-card>
+            </div>
+        </ng-template>
+    </p-dataView>
+    <p-confirmDialog [style]="{width: '450px'}" [acceptLabel]="'Sí'"></p-confirmDialog>
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

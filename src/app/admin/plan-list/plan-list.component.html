@@ -1,0 +1,195 @@
+<div class="sidenav-responsive-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56" (openedChange)="openedSideNav($event)" [opened]="isSidenavOpen">
+      <div class="sidenav-240">
+        <div class="close-sidenav">
+          <button *ngIf="isSidenavOpen" class="p-button-raised p-button-rounded" pButton type="button"
+            icon="pi pi-angle-left" iconPos="left" (click)="snav.toggle()"></button>
+        </div>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <button *ngIf="!isSidenavOpen" class="open-sidenav p-button-raised p-button-rounded" pButton type="button"
+        icon="pi pi-filter" iconPos="left" (click)="snav.toggle()"></button>
+      <div class="card p-p-4">
+        <p-toolbar styleClass="p-mb-4">
+          <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
+              (click)="openNew()"></button>
+            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+              (click)="deleteSelectedItems()" [disabled]="!selectedItems || !selectedItems.length"></button>
+          </ng-template>
+        </p-toolbar>
+        <p-table #dt [value]="items" [rows]="5" [paginator]="true" [globalFilterFields]="['description']"
+          [(selection)]="selectedItems" [rowHover]="true" dataKey="id"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+          [showCurrentPageReport]="true">
+          <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+              <h5 class="p-m-0">Planes</h5>
+              <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="
+                    dt.filterGlobal($any($event.target).value, 'contains')
+                  " placeholder="Buscar..." />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="name">
+                Plan <p-sortIcon field="name"></p-sortIcon>
+              </th>
+              <th pSortableColumn="licences">
+                Licencias <p-sortIcon field="licences"></p-sortIcon>
+              </th>
+              <th pSortableColumn="paymentType">
+                Pago <p-sortIcon field="paymentType"></p-sortIcon>
+              </th>
+              <th pSortableColumn="price">
+                Precio <p-sortIcon field="price"></p-sortIcon>
+              </th>
+              <th pSortableColumn="isPostVacancyActive">
+                Publicar <p-sortIcon field="isPostVacancyActive"></p-sortIcon>
+              </th>
+              <th pSortableColumn="isBenchmarkingActive">
+                Benchmarking
+                <p-sortIcon field="isBenchmarkingActive"></p-sortIcon>
+              </th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="item"></p-tableCheckbox>
+              </td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.licences }}</td>
+              <td>{{ item.paymentType }}</td>
+              <td>{{ item.price }}</td>
+              <td>{{ item.isPostVacancyActive }}</td>
+              <td>{{ item.isBenchmarkingActive }}</td>
+
+              <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                  (click)="editItem(item)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="deleteItem(item)"></button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+              En total existen {{ items ? items.length : 0 }} planes
+            </div>
+          </ng-template>
+        </p-table>
+      </div>
+      <p-dialog [(visible)]="itemDialog" [style]="{ width: '450px' }" header="Detalle del plan" [modal]="true"
+        styleClass="p-fluid" (onHide)="onHideCreate($event)" [draggable]="false">
+        <ng-template pTemplate="content">
+          <form [formGroup]="planForm" novalidate>
+            <p-divider align="center">Plan</p-divider>
+            <div class="p-field">
+              <label for="name">Nombre *</label>
+              <input inputId="name" type="text" pInputText id="name" formControlName="name" required />
+              <div *ngIf="
+                  planForm.get('name')?.invalid &&
+                  (planForm.get('name')?.dirty || planForm.get('name')?.touched)
+                ">
+                <div *ngIf="planForm.get('name')?.errors?.required">
+                  <small class="p-error">{{
+                    "t.validateRequiredField" | translate
+                    }}</small>
+                </div>
+                <div *ngIf="planForm.get('name')?.errors?.maxlength">
+                  <small class="p-error">{{
+                    "t.validateMaxLength" | translate
+                    }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="p-field">
+              <label for="licences">No. Licencias</label>
+              <p-inputNumber inputId="licences" formControlName="licences" [showButtons]="true" [min]="1" [max]="100">
+              </p-inputNumber>
+              <div *ngIf="
+                  planForm.get('licences')?.invalid &&
+                  (planForm.get('licences')?.dirty ||
+                    planForm.get('licences')?.touched)
+                ">
+                <div *ngIf="planForm.get('licences')?.errors?.required">
+                  <small class="p-error">{{
+                    "t.validateRequiredField" | translate
+                    }}</small>
+                </div>
+              </div>
+            </div>
+            <p-divider align="center">Pagos</p-divider>
+            <h5>Tipo de pago</h5>
+            <div *ngFor="let type of paymentTypes" class="p-field-checkbox">
+              <p-radioButton [inputId]="'paymentType' + type.id" name="paymentType" [value]="type.id"
+                [(ngModel)]="paymentTypeSelectedValue" [ngModelOptions]="{ standalone: true }"
+                (onClick)="planForm.get('paymentType')?.setValue(this.paymentTypeSelectedValue)"></p-radioButton>
+              <label [for]="'paymentType' + type.id">{{ type.label }}</label>
+            </div>
+            <div class="p-field">
+              <label for="price">Precio</label>
+              <p-inputNumber inputId="price" formControlName="price" mode="currency" currency="USD" locale="en-US"
+                [showButtons]="true" [min]="0" [max]="99999"></p-inputNumber>
+              <div *ngIf="
+                  planForm.get('price')?.invalid &&
+                  (planForm.get('price')?.dirty ||
+                    planForm.get('price')?.touched)
+                ">
+                <div *ngIf="planForm.get('price')?.errors?.required">
+                  <small class="p-error">{{
+                    "t.validateRequiredField" | translate
+                    }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="p-field">
+              <p-checkbox name="isPaymentRecurrent" formControlName="isPaymentRecurrent" label="Es pago recurrente"
+                [binary]="true"></p-checkbox>
+              <div *ngIf="
+                  planForm.get('isPaymentRecurrent')?.invalid &&
+                  (planForm.get('isPaymentRecurrent')?.dirty ||
+                    planForm.get('isPaymentRecurrent')?.touched)
+                "></div>
+            </div>
+            <p-divider align="center">Otras opciones</p-divider>
+            <div class="p-field">
+              <p-checkbox name="isPostVacancyActive" formControlName="isPostVacancyActive" label="Publicar vacantes"
+                [binary]="true" (onChange)="onChangePostVacancy()"></p-checkbox>
+            </div>
+            <div class="p-field" *ngIf="planForm.get('isPostVacancyActive')?.value">
+              <p-checkbox name="isHighlightVacancyActive" formControlName="isHighlightVacancyActive"
+                label="Destacar vacantes" [binary]="true"></p-checkbox>
+            </div>
+            <div class="p-field">
+              <p-checkbox name="isBenchmarkingActive" formControlName="isBenchmarkingActive" label="Benchmarking"
+                [binary]="true"></p-checkbox>
+            </div>
+            <div class="p-field">
+              <p-checkbox name="isTemplate" formControlName="isTemplate" label="Configurar como plantilla"
+                [binary]="true"></p-checkbox>
+            </div>
+          </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialog()"></button>
+          <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
+        </ng-template>
+      </p-dialog>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

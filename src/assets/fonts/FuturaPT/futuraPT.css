@@ -1,0 +1,198 @@
+@font-face {
+        font-family: 'FuturaPTBold';
+        src: url('FuturaPT/FuturaPTBold.eot');
+        src: url('FuturaPT/FuturaPTBold.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTBold.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTBold.woff') format('woff'),
+             url('FuturaPT/FuturaPTBold.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTBold.svg#FuturaPTBold') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTBoldOblique';
+        src: url('FuturaPT/FuturaPTBoldOblique.eot');
+        src: url('FuturaPT/FuturaPTBoldOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTBoldOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTBoldOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTBoldOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTBoldOblique.svg#FuturaPTBoldOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTBook';
+        src: url('FuturaPT/FuturaPTBook.eot');
+        src: url('FuturaPT/FuturaPTBook.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTBook.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTBook.woff') format('woff'),
+             url('FuturaPT/FuturaPTBook.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTBook.svg#FuturaPTBook') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTBookOblique';
+        src: url('FuturaPT/FuturaPTBookOblique.eot');
+        src: url('FuturaPT/FuturaPTBookOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTBookOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTBookOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTBookOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTBookOblique.svg#FuturaPTBookOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondBold';
+        src: url('FuturaPT/FuturaPTCondBold.eot');
+        src: url('FuturaPT/FuturaPTCondBold.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondBold.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondBold.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondBold.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondBold.svg#FuturaPTCondBold') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondBoldOblique';
+        src: url('FuturaPT/FuturaPTCondBoldOblique.eot');
+        src: url('FuturaPT/FuturaPTCondBoldOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondBoldOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondBoldOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondBoldOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondBoldOblique.svg#FuturaPTCondBoldOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondBook';
+        src: url('FuturaPT/FuturaPTCondBook.eot');
+        src: url('FuturaPT/FuturaPTCondBook.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondBook.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondBook.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondBook.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondBook.svg#FuturaPTCondBook') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondBookOblique';
+        src: url('FuturaPT/FuturaPTCondBookOblique.eot');
+        src: url('FuturaPT/FuturaPTCondBookOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondBookOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondBookOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondBookOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondBookOblique.svg#FuturaPTCondBookOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondExtraBold';
+        src: url('FuturaPT/FuturaPTCondExtraBold.eot');
+        src: url('FuturaPT/FuturaPTCondExtraBold.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondExtraBold.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondExtraBold.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondExtraBold.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondExtraBold.svg#FuturaPTCondExtraBold') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondExtraBoldOblique';
+        src: url('FuturaPT/FuturaPTCondExtraBoldOblique.eot');
+        src: url('FuturaPT/FuturaPTCondExtraBoldOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondExtraBoldOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondExtraBoldOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondExtraBoldOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondExtraBoldOblique.svg#FuturaPTCondExtraBoldOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondMedium';
+        src: url('FuturaPT/FuturaPTCondMedium.eot');
+        src: url('FuturaPT/FuturaPTCondMedium.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondMedium.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondMedium.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondMedium.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondMedium.svg#FuturaPTCondMedium') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTCondMediumOblique';
+        src: url('FuturaPT/FuturaPTCondMediumOblique.eot');
+        src: url('FuturaPT/FuturaPTCondMediumOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTCondMediumOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTCondMediumOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTCondMediumOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTCondMediumOblique.svg#FuturaPTCondMediumOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTDemi';
+        src: url('FuturaPT/FuturaPTDemi.eot');
+        src: url('FuturaPT/FuturaPTDemi.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTDemi.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTDemi.woff') format('woff'),
+             url('FuturaPT/FuturaPTDemi.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTDemi.svg#FuturaPTDemi') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTDemiOblique';
+        src: url('FuturaPT/FuturaPTDemiOblique.eot');
+        src: url('FuturaPT/FuturaPTDemiOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTDemiOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTDemiOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTDemiOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTDemiOblique.svg#FuturaPTDemiOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTExtraBold';
+        src: url('FuturaPT/FuturaPTExtraBold.eot');
+        src: url('FuturaPT/FuturaPTExtraBold.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTExtraBold.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTExtraBold.woff') format('woff'),
+             url('FuturaPT/FuturaPTExtraBold.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTExtraBold.svg#FuturaPTExtraBold') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTExtraBoldOblique';
+        src: url('FuturaPT/FuturaPTExtraBoldOblique.eot');
+        src: url('FuturaPT/FuturaPTExtraBoldOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTExtraBoldOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTExtraBoldOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTExtraBoldOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTExtraBoldOblique.svg#FuturaPTExtraBoldOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTHeavy';
+        src: url('FuturaPT/FuturaPTHeavy.eot');
+        src: url('FuturaPT/FuturaPTHeavy.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTHeavy.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTHeavy.woff') format('woff'),
+             url('FuturaPT/FuturaPTHeavy.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTHeavy.svg#FuturaPTHeavy') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTHeavyOblique';
+        src: url('FuturaPT/FuturaPTHeavyOblique.eot');
+        src: url('FuturaPT/FuturaPTHeavyOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTHeavyOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTHeavyOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTHeavyOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTHeavyOblique.svg#FuturaPTHeavyOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTLight';
+        src: url('FuturaPT/FuturaPTLight.eot');
+        src: url('FuturaPT/FuturaPTLight.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTLight.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTLight.woff') format('woff'),
+             url('FuturaPT/FuturaPTLight.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTLight.svg#FuturaPTLight') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTLightOblique';
+        src: url('FuturaPT/FuturaPTLightOblique.eot');
+        src: url('FuturaPT/FuturaPTLightOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTLightOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTLightOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTLightOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTLightOblique.svg#FuturaPTLightOblique') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTMedium';
+        src: url('FuturaPT/FuturaPTMedium.eot');
+        src: url('FuturaPT/FuturaPTMedium.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTMedium.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTMedium.woff') format('woff'),
+             url('FuturaPT/FuturaPTMedium.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTMedium.svg#FuturaPTMedium') format('svg');
+    }
+@font-face {
+        font-family: 'FuturaPTMediumOblique';
+        src: url('FuturaPT/FuturaPTMediumOblique.eot');
+        src: url('FuturaPT/FuturaPTMediumOblique.eot') format('embedded-opentype'),
+             url('FuturaPT/FuturaPTMediumOblique.woff2') format('woff2'),
+             url('FuturaPT/FuturaPTMediumOblique.woff') format('woff'),
+             url('FuturaPT/FuturaPTMediumOblique.ttf') format('truetype'),
+             url('FuturaPT/FuturaPTMediumOblique.svg#FuturaPTMediumOblique') format('svg');
+    }

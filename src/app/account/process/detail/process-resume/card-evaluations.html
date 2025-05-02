@@ -1,0 +1,27 @@
+<div class="card-evaluations">
+    <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+    <p-panel header="Evaluaciones"  [toggleable]="false">
+        <ng-template pTemplate="icons">
+            <button pButton pRipple type="button" icon="pi pi-cog" class="p-button-rounded p-button-secondary" (click)="openPage('/account/process/item/evaluations')"></button>
+        </ng-template>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Evaluaciones seleccionadas:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{evaluations.length}}</div>
+        </div>
+        <div class="p-grid p-p-3">
+            <div class="p-col-12 p-md-7 p-lg-7">
+                <div class="p-d-flex p-flex-wrap">
+                    <div class="p-mr-2 p-mb-2" *ngFor="let item of evaluations">
+                        <div>
+                            <ng-container>
+                                <p-chip [label]="item.evaluation"
+                                [styleClass]="item.color + ' ' + (item.status === 'highlight' ? item.status : '')">
+                                </p-chip>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+</div>

@@ -1,0 +1,85 @@
+.product-item {
+    .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .2rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-image {
+        width: 20%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+}
+:host ::ng-deep .p-chip {
+   opacity: 0.3;
+   cursor: pointer;
+   &:hover {
+       opacity: 1;
+   }
+}
+:host ::ng-deep .p-chip.highlight {
+    opacity: 1!important;
+}
+:host ::ng-deep .p-chip.color-type1 {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+:host ::ng-deep .p-chip.color-type2 {
+    background: var(--theme-color-3);
+    color: var(--primary-color-text);
+}
+:host ::ng-deep .p-chip.color-type3 {
+    background: var(--theme-color-2);
+    color: var(--primary-color-text);
+}
+.process-evalutions {
+    ::ng-deep .p-badge.p-badge-success {
+        background-color: var(--theme-color-4)!important;
+        color: #ffffff;
+        border: 0px solid white;
+        text-shadow: 0 0 0 red;
+    }
+    .custom-chip-badge {
+        text-align: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%,-50%);
+        transform-origin: 100% 0;
+        margin: 0;
+        height: 21px;
+        width: 21px;
+        border-radius: 50%;
+        cursor: pointer;
+        &.checked {
+            background-color: var(--theme-color-4)!important;
+            color: var(--white);
+            border: 1px solid var(--white);
+        }
+    }
+    .custom-chip-reload {
+        text-align: center;
+        position: absolute;
+        top: 0;
+        right: 22px;
+        transform: translate(50%,-50%);
+        transform-origin: 100% 0;
+        margin: 0;
+        height: 17px;
+        width: 17px;
+        border-radius: 50%;
+        cursor: pointer;
+        &.checked {
+            background-color: var(--grey-dark)!important;
+            color: var(--white);
+            border: 1px solid var(--white);
+        }
+    }
+}
+@media screen and (max-width: 450px) {
+    ::ng-deep .scroll-description {
+        display: none;
+    }
+}

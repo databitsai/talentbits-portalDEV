@@ -1,0 +1,25 @@
+<div class="p-py-1 p-grid p-jc-center p-ai-center p-p-3">
+    <div class="p-col-12 p-md-10 p-lg-9">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="Enviar invitaciones" icon="pi pi-send" class="p-button-help p-mr-2" (click)="onSubmit()"></button>
+            </ng-template>
+        </p-toolbar>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-9">
+        <card-process [item]="processSelected"></card-process>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-9">
+        <card-evaluations [item]="processSelected"></card-evaluations>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-9">
+        <card-requests [item]="processSelected"></card-requests>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-9">
+        <card-vaccant [item]="processSelected"></card-vaccant>
+    </div>
+</div>
+<p-confirmDialog [style]="{ width: '450px' }" [acceptLabel]="'Sí'" styleClass="send-dialog"></p-confirmDialog>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.sending' | translate}}...</p>
+</ngx-spinner>

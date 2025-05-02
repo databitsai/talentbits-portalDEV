@@ -1,0 +1,364 @@
+:host ::ng-deep .p-chip.custom-time-chip {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+.btn{
+    border-radius: 0;
+}
+
+.section-question {
+    .pager-title {
+        padding-left: 10px;
+        color: var(--theme-color-1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .pager-order {
+        color: white;
+        width: 30px;
+        height: 30px;
+        background: var(--theme-color-4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
+    ::ng-deep .p-chip.custom-chip {
+        background: var(--primary-color);
+        color: var(--primary-color-text);
+    }
+    ::ng-deep .question-checkbox {
+        .p-checkbox-box.p-highlight {
+            border-color: var(--theme-color-7);
+            background: var(--theme-color-4);
+        }
+    }
+}
+.results-cards {
+    .pager-title {
+        color: var(--theme-color-1);
+    }
+}
+
+.option{
+    background-color:var(--theme-color-2);
+    color: white;
+    font-size:20px;
+    padding:10px;
+    margin:3px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+}
+    #quiz .options input[type=checkbox] {
+        height:22px;
+        width:22px;
+    }
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.card-review {
+   cursor: pointer;
+}
+.result-question{
+    background-color:#eee;
+    margin:4px;
+    padding:6px;
+}
+.bg-info {
+    background: var(--theme-color-3);
+    color: var(--primary-color);
+}
+.bg-warning {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+.alert-success {
+    background: var(--theme-color-3);
+}
+.alert-danger {
+    background: var(--pink-400);
+    color: var(--white);
+}
+.result {
+    height: 100%;
+    .title1 {
+        color: var(--primary-color);
+    }
+    .title2 {
+        color: var(--theme-color-4);
+    }
+}
+.logo-animation {
+    @keyframes trophy {
+        0% {
+            transform: translateY(500px);
+            opacity: 0;
+        }
+        35% {
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0px);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes fly--up {
+        0% {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        80% {
+            transform: translateY(-10vw);
+        }
+        100% {
+            transform: translateY(-7vw);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fly--down {
+        0% {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        80% {
+            transform: translateY(10vw);
+        }
+        100% {
+            transform: translateY(7vw);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fly--left {
+        0% {
+            transform: translateX(10px);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        80% {
+            transform: translateX(-10vw);
+        }
+        100% {
+            transform: translateX(-7vw);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fly--right {
+        0% {
+            transform: translateX(-10px);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        80% {
+            transform: translateX(10vw);
+        }
+        100% {
+            transform: translateX(7vw);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fly--up--left {
+        0% {
+            transform: rotate(135deg) translate(0vw,0vw);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(135deg) translate(-3vw,10vw);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fly--up--right {
+        0% {
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(45deg) translate(-3vw,-10vw);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fly--down--left {
+        0% {
+            transform: rotate(45deg) translate(0vw,0vw);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(45deg) translate(-3vw,10vw);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fly--down--right {
+        0% {
+            transform: rotate(135deg) translate(0vw,0vw);
+            opacity: 0;
+        }
+        60% {
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(135deg) translate(0vw,-10vw);
+            opacity: 0;
+        }
+    }
+    
+    
+    
+    .container {
+        width: 100%;
+        outline: solid 1px transparent;
+        padding: 2.5rem 0;
+    }
+    
+    .trophy {
+        z-index: 1;
+        background-color: #fff;
+        height: 100%;
+        width: 100%;
+        border-radius: 100%;
+        animation: trophy 0.5s 1 forwards;
+    }
+    
+    .action {
+        position: relative;
+        margin: 0 auto;
+        max-height: 90px;
+        height: 20vw;
+        max-width: 90px;
+        width: 20vw;
+        %confetti {
+            z-index: -1;
+            position: absolute;
+            height: 35px;
+            width: 7px;
+            border-radius: 10px;
+            animation-fill-mode: forwards;
+            animation-duration: 0.75s;
+            animation-iteration-count: 1;
+            transform-origin: center middle;
+            opacity: 0;
+        }
+        .confetti {
+            @extend %confetti;
+            top: 0;
+            left: calc(50% - 5px);
+            background-color: var(--theme-color-3);
+            animation-name: fly--up;
+            animation-delay: 0.35s;
+            &.two {
+                top: auto;
+                bottom: 0;
+                animation-name: fly--down;
+            }
+            &.three,&.four {
+                top: calc(50% - 5px);
+                left: calc(50% - 25px);
+                height: 7px;
+                width: 35px;
+                animation-name: fly--left;
+            }
+            &.four {			
+                animation-name: fly--right;
+            }
+            &--purple {
+                @extend %confetti;
+                background-color: var(--theme-color-4);
+                animation-name: fly--up--left;
+                transform: rotate(135deg);
+                animation-delay: .5s;
+                left: 20%;
+                top: 20%;
+                &.two {
+                    animation-name: fly--up--right;
+                    left: auto;
+                    right: 20%;
+                    transform: rotate(45deg);
+                }
+                &.three {
+                    top: auto;
+                    bottom: 20%;
+                    transform: rotate(45deg);
+                    animation-name: fly--down--left;
+                }
+                &.four {
+                    top: auto;
+                    bottom: 20%;
+                    left: auto;
+                    right: 20%;
+                    transform: rotate(135deg);
+                    animation-name: fly--down--right;
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-width: 480px) {
+    h1,.h1{
+        font-size:22px;
+    }
+    h2,.h2{
+        font-size:20px;
+    }
+    h3,.h3{
+        font-size:18px;
+    }
+    .option {
+        font-size: 16px;
+        padding: 6px;
+    }
+    .main-content {
+        font-size: 14px!important;
+    }
+}
+
+.main-content {
+    font-size: 25px;
+    line-height: 2.5rem;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    ::ng-deep img {
+        max-width: 100%!important;
+        margin: 0 auto;
+    }
+}
+.quiz-main-actions {
+    float: right;
+}
+:host ::ng-deep .send-dialog {
+
+    i {
+        color: var(--theme-color-4);
+    }
+}

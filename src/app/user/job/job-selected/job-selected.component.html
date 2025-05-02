@@ -1,0 +1,64 @@
+<div class="p-grid p-mt-3">
+    <div class="p-col-12 p-md-6 p-lg-4">
+        <div *ngIf="!item.isOutstanding" class="head">
+        </div>
+        <div *ngIf="item.isOutstanding" class="head-2">
+        </div>
+        <p-card styleClass="p-mb-2">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12 p-py-0">
+                    <div class="p-text-left muli-bold p-text-center">
+                        <h3 class="title-0">{{item.title}}</h3>
+                    </div>
+                    <div class="p-text-left title-1 muli-bold p-py-3">
+                        <h4 class="p-m-0 muli-bold">{{item.company}}</h4>
+                    </div>
+                    <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                        <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'place'}}</span>
+                        {{item.country}}
+                    </div>
+                    <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                        <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'military_tech'}}</span>
+                        {{item.yearsExperience}} año/s de experiencia
+                    </div>
+                    <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                        <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'work'}}</span>
+                        {{item.workingday}}
+                    </div>
+                    <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                        <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'contacts'}}</span>
+                        {{item.mobility}}
+                    </div>
+                    <div class="p-text-left title-2 p-py-3">{{item.timeDifference}}</div>
+                    <div class="p-text-left link p-mt-2 p-text-center">
+                        <button pButton pRipple type="button" label="Postular ahora" class="p-button-outlined" (click)="onApply()"></button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-8">
+        <div *ngIf="!item.isOutstanding" class="head">
+        </div>
+        <div *ngIf="item.isOutstanding" class="head-2">
+        </div>
+        <p-card styleClass="p-mb-2">
+            <div class="p-mb-5">
+                <h3>Responsabilidades:</h3>
+                <div [innerHTML]="vaccant?.responsabilitiesContent"></div>
+            </div>
+            <div class="p-mb-5">
+                <h3>El candidato ideal debe tener/saber:</h3>
+                <div [innerHTML]="vaccant?.knowledgeContent"></div>
+            </div>
+            <div class="p-mb-5">
+                <h3>Puntos extras por:</h3>
+                <div [innerHTML]="vaccant?.extraPointsDescription"></div>
+            </div>
+        </p-card>
+    </div>
+</div>
+<p-confirmDialog [style]="{width: '450px'}" [acceptLabel]="'Sí'"></p-confirmDialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

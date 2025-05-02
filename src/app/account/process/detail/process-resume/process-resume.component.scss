@@ -1,0 +1,45 @@
+:host ::ng-deep .p-chip {
+    opacity: 1;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+:host ::ng-deep .p-chip.highlight {
+    opacity: 1 !important;
+}
+
+:host ::ng-deep .p-chip.color-type1 {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+
+:host ::ng-deep .p-chip.color-type2 {
+    background: var(--theme-color-3);
+    color: var(--primary-color-text);
+}
+
+:host ::ng-deep .p-chip.color-type3 {
+    background: var(--theme-color-2);
+    color: var(--primary-color-text);
+}
+
+:host ::ng-deep .send-dialog {
+
+    i {
+        color: var(--theme-color-4);
+    }
+}
+.sublabel {
+    color: var(--theme-color-1);
+}
+.qsuccess {
+    color: var(--theme-color-4);
+}
+.qdanger {
+    color: var(--theme-color-7);
+}
+.progress-info {
+    font-size: 0.86rem;
+}

@@ -1,0 +1,166 @@
+<div class="p-p-3 p-grid p-jc-center p-ai-center">
+    <div class="p-col-12 p-md-9 p-lg-6">
+        <p-card>
+            <ng-container *ngIf="!showFormEdit">
+                <div class="p-grid p-mb-3">
+                    <div class="p-col-10">
+                        <h2 class="p-m-0 muli-bold">Mi perfil</h2>
+                        <h4 class="p-m-0 muli-bold email">{{user?.email}}</h4>
+                    </div>
+                    <div class="p-col-2">
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                            (click)="onShowFormEdit()" style="float: right;" pTooltip="Editar"></button>
+                    </div>
+                </div>
+                <div class="p-grid p-mb-3">
+                    <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                        Nombre:
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6 noselect">
+                        {{user.firstName}}
+                    </div>
+                </div>
+                <div class="p-grid p-mb-3">
+                    <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                        Apellido:
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6 noselect">
+                        {{user.lastName}}
+                    </div>
+                </div>
+                <div class="p-grid p-mb-3">
+                    <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                        Cédula/DNI:
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        {{user.dni}}
+                    </div>
+                </div>
+                <div class="p-grid p-mb-3">
+                    <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                        Teléfono:
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        {{user.phone}}
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="showFormEdit">
+                <div class="p-grid p-mb-3">
+                    <div class="p-col-10">
+                        <h2 class="p-m-0 muli-bold">Cuenta</h2>
+                    </div>
+                </div>
+                <form [formGroup]="userForm" novalidate>
+                    <div class="p-fluid">
+                        <div class="p-field p-grid">
+                            <label for="firstName" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Nombre:</label>
+                            <div class="p-col-12 p-md-6">
+                                <input id="firstName" type="text" pInputText formControlName="firstName"
+                                    placeholder="Nombre">
+                                <div
+                                    *ngIf="userForm.get('firstName')?.invalid && (userForm.get('firstName')?.dirty || userForm.get('firstName')?.touched)">
+                                    <div *ngIf="userForm.get('firstName')?.errors?.required">
+                                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                    </div>
+                                    <div *ngIf="userForm.get('firstName')?.errors?.maxlength">
+                                        <small class="p-error">{{
+                                            "t.validateMaxLength" | translate
+                                            }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid">
+                        <div class="p-field p-grid">
+                            <label for="lastName" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Apellido:</label>
+                            <div class="p-col-12 p-md-6">
+                                <input id="lastName" type="text" pInputText formControlName="lastName"
+                                    placeholder="Apellido">
+                                <div
+                                    *ngIf="userForm.get('lastName')?.invalid && (userForm.get('lastName')?.dirty || userForm.get('lastName')?.touched)">
+                                    <div *ngIf="userForm.get('lastName')?.errors?.required">
+                                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                    </div>
+                                    <div *ngIf="userForm.get('lastName')?.errors?.maxlength">
+                                        <small class="p-error">{{"t.validateMaxLength" | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid">
+                        <div class="p-field p-grid">
+                            <label for="dni" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Cédula/D.N.I:</label>
+                            <div class="p-col-12 p-md-6">
+                                <input id="dni" type="text" pInputText formControlName="dni" placeholder="Cédula/D.N.I">
+                                <div
+                                    *ngIf="userForm.get('dni')?.invalid && (userForm.get('dni')?.dirty || userForm.get('dni')?.touched)">
+                                    <div *ngIf="userForm.get('dni')?.errors?.required">
+                                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                                    </div>
+                                    <div *ngIf="userForm.get('dni')?.errors?.maxlength">
+                                        <small class="p-error">{{"t.validateMaxLength" | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid">
+                        <div class="p-field p-grid">
+                            <label for="phone" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Teléfono:</label>
+                            <div class="p-col-12 p-md-6">
+                                <input id="phone" type="text" pInputText formControlName="phone"
+                                    placeholder="{{'t.phoneCompany' | translate}}">
+                                <div
+                                    *ngIf="userForm.get('phone')?.invalid && (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)">
+                                    <div *ngIf="userForm.get('phone')?.errors?.pattern">
+                                        <small class="p-error">{{'t.validatePhone' | translate}}</small>
+                                    </div>
+                                    <div *ngIf="userForm.get('phone')?.errors?.maxlength">
+                                        <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid p-mb-3">
+                        <div class="p-col-12">
+                            <button pButton pRipple type="button" label="Guardar" class="p-button-success p-mx-1"
+                                (click)="saveAccount()"></button>
+                            <button pButton pRipple type="button" label="Cancelar" class="p-button-secondary p-mx-1"
+                                (click)="onCancelFormEdit()"></button>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </p-card>
+        <br>
+        <p-card *ngIf="isUser">
+            <h3>Hoja de vida</h3>
+            <h5 class="p-my-1">Carga o actualiza tu CV en formato PDF (Límite: 1MB)</h5>
+            <p-fileUpload #fubauto chooseIcon="pi pi-upload" mode="basic" name="file"  [customUpload]="true" accept="application/pdf" [maxFileSize]="1000000" (uploadHandler)="uploadHandler($event, fubauto)" [auto]="true" chooseLabel="Subir"></p-fileUpload>
+            <br>
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" *ngIf="uploading"></p-progressBar>
+            <div class="p-grid p-my-3" *ngIf="existCv">
+                <div class="p-col-12 p-md-8">
+                    <table>
+                        <tr>
+                            <td><span class="material-icons-outlined md-36 md-color-th-1 p-pr-1">{{'contact_page'}}</span></td>
+                            <td>{{cvName}}</td>
+                          </tr>
+                    </table>
+                </div>
+                <div class="p-col-12 p-md-4 p-text-center">
+                    <button pButton pRipple type="button" icon="pi pi-download" class="p-button-rounded p-mx-1" (click)="downloadCv()" pTooltip="Descargar"></button>
+                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-warning p-mx-1" (click)="deleteCv()" pTooltip="Eliminar"></button>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<p-confirmDialog [style]="{width: '450px'}" [acceptLabel]="'Sí'"></p-confirmDialog>

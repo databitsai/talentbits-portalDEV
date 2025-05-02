@@ -1,0 +1,28 @@
+<div class="report-card p-d-flex p-flex-column h-100 p-p-3 p-jc-center p-ai-start">
+    <div class="p-grid w-100">
+        <div class="p-col-12 p-md-6 p-lg-5 muli-bold">
+            Inicio:
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-7">
+            <div>{{ processSelected.validFrom | date: 'yyyy/MM/dd' }}</div>
+            <div class="time">{{ processSelected.validFrom | date: 'H:mm:ss' }}</div>
+        </div>
+    </div>
+    <div class="p-grid w-100">
+        <div class="p-col-12 p-md-6 p-lg-5 muli-bold">
+            Fin:
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-7">
+            <div>{{ processSelected.validUntil | date: 'yyyy/MM/dd' }}</div>
+            <div class="time">{{ processSelected.validUntil | date: 'H:mm:ss' }}</div>
+        </div>
+    </div>
+    <div class="p-grid w-100">
+        <div class="p-col-12 p-md-6 p-lg-5 muli-bold">
+            Estado:
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-7">
+            <app-custom-badge *ngIf="showStatus" [label]="getProcessStateLabel(processSelected.status)" [status]="getProcessStateValue(processSelected.status)"></app-custom-badge>
+        </div>
+    </div>
+</div>

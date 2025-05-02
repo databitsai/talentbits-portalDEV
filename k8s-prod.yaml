@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: talentbits-portal-deployment-prod
+  namespace: nstalentbits
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: talentbits-portal-deployment-prod
+  template:
+    metadata:
+      labels:
+        app: talentbits-portal-deployment-prod
+    spec:
+      containers:
+      - name: talentbits-portal
+        image: handytecacademytalentbits.azurecr.io/talentbits-portal:v1.0.24-prod
+        imagePullPolicy: Always
+        env:
+        - name: ENVIRONMENT
+          value: "prod"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: talentbits-portal-service-prod
+  namespace: nstalentbits
+spec:
+  ports:
+  - port: 3001
+    targetPort: 80
+    name: http
+    protocol: TCP
+  selector:
+    app: talentbits-portal-deployment-prod
+  type: ClusterIP

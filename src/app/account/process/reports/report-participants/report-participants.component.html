@@ -1,0 +1,53 @@
+<div class="fix-mobile-margin-bottom">
+    <div class="p-px-3 p-py-1 p-grid p-jc-center p-ai-stretch">
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-participants-filters [idAccount]="accountSelected.id" [idProcess]="idProcess"
+            (submitted)="onSubmitFilter($event)">
+            </app-report-participants-filters>
+        </div>
+    </div>
+    <div class="p-p-3 p-d-flex p-jc-between p-ai-center">
+        <div>
+            <h2 class="muli-bold p-m-0">{{processSelected.name}}</h2><sub>{{getProcessTypeLabel(processSelected.type)}}</sub>
+        </div>
+        <div>
+            <app-report-participants-btn-download-excel [idProcess]="idProcess" [evaluationIds]="evaluationIds" [participantIds]="participantIds"></app-report-participants-btn-download-excel>
+            <app-report-participants-btn-download-pdf [idProcess]="idProcess" [evaluationIds]="evaluationIds" [participantIds]="participantIds" [processSelected]="processSelected" [types]="types" [archetypes]="archetypes" [hasDataPersonasEvaluation]="hasDataPersonasEvaluation"></app-report-participants-btn-download-pdf>
+        </div>
+    </div>
+    <!-- TABLE -->
+    <div class="p-px-3 p-py-1 p-grid p-jc-center p-ai-stretch">
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-participants-score-table [idProcess]="idProcess" [evaluationIds]="evaluationIds" [participantIds]="participantIds"></app-report-participants-score-table>
+        </div>
+    </div>
+    <!-- SCORE TIME -->
+    <div class="p-px-3 p-py-1 p-grid p-jc-center p-ai-stretch">
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-participants-avg-score-time [idProcess]="idProcess" [evaluationIds]="evaluationIds" [participantIds]="participantIds"></app-report-participants-avg-score-time>
+        </div>
+    </div>
+    <!-- TABLE ANSWER TYPES -->
+    <div class="p-px-3 p-py-1 p-grid p-jc-center p-ai-stretch">
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-participants-answer-types [idProcess]="idProcess" [evaluationIds]="evaluationIds" [participantIds]="participantIds"></app-report-participants-answer-types>
+        </div>
+    </div>
+    <!-- DATA PERSONAS -->
+    <div class="p-px-3 p-py-1 p-grid p-jc-left p-ai-stretch" *ngIf="hasDataPersonasEvaluation">
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <h2 class="muli-bold p-m-0">Cultura Analítica</h2><sub></sub>
+        </div>
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-participants-data-personas-table *ngIf="archetypes.length != 0" [idProcess]="idProcess" [evaluationIds]="evaluationIds" [participantIds]="participantIds" [archetypes]="archetypes"></app-report-participants-data-personas-table>
+        </div>
+    </div>
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

@@ -1,0 +1,71 @@
+:host ::ng-deep .p-chip.custom-time-chip {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+.btn{
+    border-radius: 0;
+}
+
+.option{
+    background-color:#cadaee;
+    font-size:20px;
+    padding:10px;
+    margin:3px;
+}
+    #quiz .options input[type=checkbox] {
+        height:22px;
+        width:22px;
+    }
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.card-review {
+   cursor: pointer;
+}
+.result-question{
+    background-color:#eee;
+    margin:4px;
+    padding:6px;
+}
+.bg-info {
+    background: var(--theme-color-3);
+    color: var(--primary-color);
+}
+.bg-warning {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+.alert-success {
+    background: var(--theme-color-3);
+}
+.alert-danger {
+    background: var(--pink-400);
+    color: var(--white);
+}
+.result {
+    height: 100%;
+    .title1 {
+        color: var(--primary-color);
+    }
+    .title2 {
+        color: var(--theme-color-4);
+    }
+}
+@media only screen and (max-width: 480px) {
+    h1,.h1{
+        font-size:22px;
+    }
+    h2,.h2{
+        font-size:20px;
+    }
+    h3,.h3{
+        font-size:18px;
+    }
+    .option {
+        font-size: 16px;
+        padding: 6px;
+    }
+}
+ 

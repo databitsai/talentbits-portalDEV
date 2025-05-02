@@ -1,0 +1,114 @@
+<div class="card p-p-4 with-table-responsive">
+    <div><h2 class="muli-bold p-m-0 p-mb-3">{{vaccantSelected?.title}}</h2></div>
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <ng-container *ngIf="!vaccantSelected.process">
+                <div class="p-grid p-jc-start p-ai-center">
+                    <div class="p-col-12 p-d-flex p-ai-center">
+                        <span class="p-mr-2">No existe un proceso asignado</span> <button pButton pRipple type="button" label="Asignar proceso a vacante" class="p-button-sm p-button-outlined" (click)="openAddProcess()"></button>
+                    </div>
+                </div>
+            </ng-container>
+           
+            <ng-container *ngIf="vaccantSelected.process">
+                <div class="p-d-flex p-flex-column p-flex-md-row">
+                    <div class="p-mr-2">
+                        <div><h3 class="muli-bold p-m-0">{{vaccantSelected.process.name}}</h3></div>
+                        <div>Proceso asignado</div>
+                    </div>
+                    <div class="p-mx-0 p-mx-lg-3 p-d-flex p-ai-center">
+                        <button pButton pRipple type="button" label="Cambiar proceso" class="p-button-sm p-button-outlined" (click)="openAddProcess()"></button>
+                    </div>
+                    <div class="p-d-flex p-ai-center">
+                        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-sm p-button-rounded p-button-warning p-button-outlined" pTooltip="Quitar proceso de esta vacante" (click)="onDeleteProcess()"></button>
+                    </div>
+                </div>
+            </ng-container>
+
+        </ng-template>
+
+    </p-toolbar>
+
+    <p-toolbar styleClass="p-mb-4" *ngIf="vaccantSelected.process">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Invitar aplicantes a proceso" icon="pi pi-plus" class="p-button-success p-mr-2"
+                (click)="openNew()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="items" [rows]="5" [paginator]="true" [globalFilterFields]="['description']"
+        [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [showCurrentPageReport]="true"
+        styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Aplicantes</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="selected" *ngIf="vaccantSelected.process" style="width: 100px;">
+                    <p-checkbox [(ngModel)]="inviteAll" [binary]="true" inputId="binary" (onChange)="inviteAllToogle()"></p-checkbox> Invitar
+                </th>
+                <th pSortableColumn="dni" style="width: 170px;">
+                    Identificación <p-sortIcon field="dni"></p-sortIcon>
+                </th>
+                <th pSortableColumn="firstName" style="width: 180px;">
+                    Nombre  y Apellido <p-sortIcon field="lastName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email">
+                    Correo electrónico <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr class="p-selectable-row">
+                <td *ngIf="vaccantSelected.process">
+                    <span class="p-column-title">Invitar:</span>
+                    <div class="w-100">
+                        <p-checkbox name="groupname" [(ngModel)]="item.selected" [binary]="true"
+                            (onChange)="onChangeSelected(item.id)"></p-checkbox>
+                    </div>
+                </td>
+                <td>
+                    <span class="p-column-title">Título:</span>
+                    {{ item.dni }}
+                </td>
+                <td>
+                    <span class="p-column-title">Nombre y Apellido:</span>
+                    {{ item.firstName }} {{ item.lastName }} 
+                </td>
+                <td>
+                    <span class="p-column-title">Correo electrónico:</span>
+                    {{ item.email }} 
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-mr-2" (click)="deleteItem(item)" pTooltip="Eliminar"></button>
+                    <button *ngIf="item.cv" pButton pRipple icon="pi pi-file" class="p-button-rounded p-button-secondary p-mr-2" (click)="downloadCv(item)" pTooltip="Descargar Hoja de Vida"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total existen {{ items ? items.length : 0 }} aplicantes
+            </div>
+        </ng-template>
+    </p-table> 
+
+</div>
+
+<p-dialog [(visible)]="openListProcessDialog" header="Asignar proceso a vacante" [modal]="true" [style]="{width: '85vw', minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <app-applicant-list-process [idAccount]="accountSelected.id" [idVaccant]="idVaccant" (onSelectProcessEvent)="onSelectedProcess($event)"></app-applicant-list-process>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}" [acceptLabel]="'Sí'"></p-confirmDialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

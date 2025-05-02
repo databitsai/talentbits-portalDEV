@@ -1,0 +1,9 @@
+<ng-container>
+    <p-menubar [model]="selectors" >
+        <ng-template pTemplate="end">
+            <button  id="useractions" type="button" pButton icon="pi pi-power-off" label="" (click)="actionsEl.toggle($event)"></button>
+            <p-menu #actionsEl [popup]="true" [model]="actions" appendTo="body"></p-menu>
+        </ng-template>
+    </p-menubar>
+</ng-container>
+

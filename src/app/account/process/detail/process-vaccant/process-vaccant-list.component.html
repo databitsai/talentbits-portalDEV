@@ -1,0 +1,99 @@
+<div class="with-table-responsive">
+    <div class="p-my-2">
+        <button
+        pButton pRipple label="Crear nueva vacante" icon="pi pi-plus" class="p-button-text p-button-sm p-mr-2"
+        [routerLink]="['/account/vaccant/main', 'create-from-process']"></button>
+    </div>
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" *ngIf="loading"></p-progressBar>
+    <p-table #dt [value]="items" [rows]="5" [paginator]="true" [globalFilterFields]="['title']" [rowHover]="true"
+        dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+        [showCurrentPageReport]="true" styleClass="p-datatable-responsive-demo">
+
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Vacantes</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="title">
+                    Vacante <p-sortIcon field="title"></p-sortIcon>
+                </th>
+                <th pSortableColumn="validFrom">
+                    Inicio <p-sortIcon field="validFrom"></p-sortIcon>
+                </th>
+                <th pSortableColumn="validUntil">
+                    Fin <p-sortIcon field="validUntil"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                    Estado <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="idProceso">
+                    Proceso <p-sortIcon field="idProceso"></p-sortIcon>
+                </th>
+                <th pSortableColumn="aplicantes">
+                    Aplicantes <p-sortIcon field="aplicantes"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>
+                    <span class="p-column-title">Vacante:</span>
+                    {{ item.title }}
+                </td>
+                <td>
+                    <div class="p-column-title">
+                        Desde:
+                    </div>
+                    <div>
+                        <span>{{ item.validFrom | date: 'yyyy/MM/dd' }}</span><br>
+                        <span>{{ item.validFrom | date: 'H:mm:ss' }}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-column-title">
+                        Hasta:
+                    </div>
+                    <div>
+                        <span>{{ item.validUntil | date: 'yyyy/MM/dd' }}</span><br>
+                        <span>{{ item.validUntil | date: 'H:mm:ss' }}</span>
+                    </div>
+                </td>
+                <td>
+                    <span class="p-column-title">Estado:</span>
+                    <app-custom-badge [label]="getProcessStateLabel(item.status)"
+                        [status]="getProcessStateValue(item.status)"></app-custom-badge>
+                </td>
+                <td>
+                    <span class="p-column-title">Proceso:</span>
+                    <!-- <button pButton pRipple type="button" label="{{item.process?.name || 'Sin proceso'}}" class="p-button-text" [routerLink]="['/account/process/item/detail/']"></button> -->
+                    <span>{{item.process?.name || 'Sin proceso'}}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Aplicantes:</span>
+                    <span>{{item.vaccantRequest?.length || 0}}</span>
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-success p-mr-2" pTooltip="Asignar vacante disponible" (click)="onSelectVaccant(item)">
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total existen {{ items ? items.length : 0 }} vacantes
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>

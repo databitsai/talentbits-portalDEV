@@ -1,0 +1,24 @@
+<div class="p-p-3 p-grid p-jc-start p-ai-stretch">
+    <div class="p-col-12 p-md-9 p-lg-6">
+        <app-plan-company *ngIf="company" [company]="company" [industrySectors]="industrySectors" [countries]="countries"></app-plan-company>
+        <app-plan-company *ngIf="!company"></app-plan-company>
+    </div>
+    <div class="p-col-12 p-md-9 p-lg-6">
+        <app-plan-plan *ngIf="plan" [plan]="plan"  [idAccount]="accountSelected.id" [quotes]="quotes"></app-plan-plan>
+        <app-plan-plan *ngIf="!plan"></app-plan-plan>
+    </div>
+    <div class="p-col-12 p-md-9 p-lg-6">
+        <app-plan-options *ngIf="plan && company" [plan]="plan" [company]="company"></app-plan-options>
+        <app-plan-options *ngIf="!plan && !company"></app-plan-options>
+    </div>
+    <div class="p-col-12 p-md-9 p-lg-6">
+        <app-plan-payment *ngIf="plan" [plan]="plan" [paymentTypes]="paymentTypes"></app-plan-payment>
+        <app-plan-payment *ngIf="!plan"></app-plan-payment>
+    </div>
+</div>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

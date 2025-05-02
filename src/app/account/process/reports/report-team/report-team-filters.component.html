@@ -1,0 +1,29 @@
+<div class="report-card p-d-flex p-flex-column h-100 p-jc-center p-ai-center">
+    <div class="p-grid w-100 p-jc-center p-ai-stretch h-100">
+        <div class="p-col-12 p-text-left p-py-2">
+            <p-dropdown
+            [options]="process"
+            [(ngModel)]="selectedProcessId"
+            optionLabel="label"
+            optionValue="id"
+            defaultLabel="Seleccione un proceso"
+            styleClass="report-filter-input"
+            [filter]="true"
+            [virtualScroll]="true"
+            (onChange)="onChangeProcess()">
+            </p-dropdown>
+            <p-multiSelect
+            [options]="evaluations"
+            [(ngModel)]="selectedEvaluations"
+            optionLabel="label"
+            optionValue="id"
+            defaultLabel="Seleccione evaluaciones"
+            display="chip"
+            styleClass="report-filter-input"
+            [filter]="true"
+            [virtualScroll]="true">
+            </p-multiSelect>
+            <p-button icon="pi pi-search" (click)="onSubmit()"></p-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,389 @@
+<div class="card p-p-4 with-table-responsive">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2"
+                (click)="openNew()"></button>
+        </ng-template>
+    </p-toolbar>
+    <p-table #dt [value]="items" [rows]="5" [paginator]="true" [globalFilterFields]="['description']"
+        [(selection)]="selectedItems" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [showCurrentPageReport]="true"
+        styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h3 class="p-m-0">Usuarios</h3>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="
+                dt.filterGlobal($any($event.target).value, 'contains')
+              " placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" style="width: 200px;">
+                    Nombre <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email">
+                    Email <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="role" style="width: 150px;">
+                    Rol <p-sortIcon field="role"></p-sortIcon>
+                </th>
+                <th pSortableColumn="createdAt" style="width: 150px;">
+                    Creado <p-sortIcon field="createdAt"></p-sortIcon>
+                </th>
+                <th style="width: 120px;"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>
+                    <span class="p-column-title">Nombre:</span>
+                    {{ item.name }}
+                </td>
+                <td>
+                    <span class="p-column-title">Email:</span>
+                    {{ item.email }} 
+                </td>
+                <td>
+                    <span class="p-column-title">Rol:</span>
+                    {{ item.role }}
+                </td>
+                <td>
+                    <span class="p-column-title">Creado:</span>
+                    {{ item.createdAt | date: 'yyyy/MM/dd' }}
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                        (click)="editItem(item)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteItem(item)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total existen {{ items ? items.length : 0 }} usuarios
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<!-- FORM CREATE -->
+<p-dialog [(visible)]="itemDialog" [style]="{ width: '550px' }" header="Detalle del usuario" [modal]="true"
+    styleClass="" (onHide)="onHideCreate($event)" [draggable]="false">
+    <ng-template pTemplate="content">
+        <mat-horizontal-stepper [linear]="true" #stepper>
+            <!-- VALIDATE USER -->
+            <mat-step [stepControl]="checkUserForm">
+                <ng-template matStepLabel>Verificar</ng-template>
+                <form [formGroup]="checkUserForm" novalidate>
+                    <div class="p-fluid p-field">
+                        <label for="username">{{'t.emailPersonal' | translate}}:*</label>
+                        <input type="text" pInputText id="username" formControlName="username" required
+                            placeholder="{{'t.emailPersonal' | translate}}" />
+                        <div
+                            *ngIf="checkUserForm.get('username')?.invalid && (checkUserForm.get('username')?.dirty || checkUserForm.get('username')?.touched)">
+                            <div *ngIf="checkUserForm.get('username')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="checkUserForm.get('username')?.errors?.pattern">
+                                <small class="p-error">{{'t.errorEmail' | translate}}</small>
+                            </div>
+                            <div *ngIf="checkUserForm.get('username')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-field p-d-flex p-jc-end">
+                        <button pButton pRipple [label]="'t.reload' | translate" icon="pi pi-refresh"
+                            class="p-button-text" (click)="resetAllForms()"></button>
+                        <button pButton pRipple label="Siguiente" icon="pi pi-arrow-right" class="p-button-text"
+                            (click)="goForward(stepper)"></button>
+                    </div>
+                </form>
+            </mat-step>
+            <!-- ACCESS -->
+            <mat-step [stepControl]="accessForm">
+                <ng-template matStepLabel>{{'t.access' | translate}}</ng-template>
+                <form [formGroup]="accessForm" novalidate>
+                    <label>Rol:*</label>
+                    <div *ngFor="let role of subroles" class="p-fluid p-field-checkbox">
+                        <p-radioButton [inputId]="'role' + role.code" name="role" [value]="role.value"
+                            [(ngModel)]="subroleSelectedValue" [ngModelOptions]="{ standalone: true }"
+                            (onClick)="accessForm.get('role')?.setValue(this.subroleSelectedValue)"></p-radioButton>
+                        <label [for]="'role' + role.code">{{ role.label }}</label>
+                    </div>
+                    <div
+                        *ngIf="accessForm.get('role')?.invalid && (accessForm.get('role')?.dirty || accessForm.get('role')?.touched)">
+                        <div *ngIf="accessForm.get('role')?.errors?.required">
+                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="job">{{'t.job' | translate}}:</label>
+                        <input type="text" pInputText id="job" formControlName="job"
+                            placeholder="{{'t.job' | translate}}" />
+                        <div
+                            *ngIf="accessForm.get('job')?.invalid && (accessForm.get('job')?.dirty || accessForm.get('job')?.touched)">
+                            <div *ngIf="accessForm.get('job')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-field p-d-flex p-jc-end">
+                        <button pButton pRipple [label]="'t.back' | translate" icon="pi pi-arrow-left"
+                            class="p-button-text" matStepperPrevious></button>
+                        <button pButton pRipple [label]="'t.next' | translate" icon="pi pi-arrow-right"
+                            class="p-button-text" (click)="validateAllFormFields(accessForm)" matStepperNext></button>
+                    </div>
+                </form>
+            </mat-step>
+            <!-- USER -->
+            <mat-step [stepControl]="userForm" *ngIf="showUserForm">
+                <ng-template matStepLabel>Datos personales</ng-template>
+                <form [formGroup]="userForm" novalidate>
+                    <div class="p-fluid p-field">
+                        <label for="password">{{'t.password2' | translate}}:*</label>
+                        <p-password formControlName="password" [toggleMask]="true" [feedback]="true"
+                            [weakLabel]="'t.weak' | translate" [mediumLabel]="'t.medium' | translate"
+                            [strongLabel]="'t.strong' | translate" [mediumRegex]="patternPassword"
+                            placeholder="{{'t.password' | translate}} *">
+                        </p-password>
+                        <div
+                            *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)">
+                            <div *ngIf="userForm.get('password')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('password')?.errors?.pattern">
+                                <small id="password-help" class="p-error">{{'t.errorPassword' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('password')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="firstName">{{'t.firstname' | translate}}:*</label>
+                        <input type="firstName" pInputText id="firstName" formControlName="firstName" required
+                            placeholder="{{'t.firstname' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('firstName')?.invalid && (userForm.get('firstName')?.dirty || userForm.get('firstName')?.touched)">
+                            <div *ngIf="userForm.get('firstName')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('firstName')?.errors?.pattern">
+                                <small class="p-error">{{'t.validateName' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('firstName')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="lastName">{{'t.lastname' | translate}}:*</label>
+                        <input type="lastName" pInputText id="lastName" formControlName="lastName" required
+                            placeholder="{{'t.lastname' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('lastName')?.invalid && (userForm.get('lastName')?.dirty || userForm.get('lastName')?.touched)">
+                            <div *ngIf="userForm.get('lastName')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('lastName')?.errors?.pattern">
+                                <small class="p-error">{{'t.validateName' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('lastName')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="dni">{{'t.dni' | translate}}:*</label>
+                        <input type="dni" pInputText id="dni" formControlName="dni" required
+                            placeholder="{{'t.dni' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('dni')?.invalid && (userForm.get('dni')?.dirty || userForm.get('dni')?.touched)">
+                            <div *ngIf="userForm.get('dni')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('dni')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="phone">{{'t.phone' | translate}}:</label>
+                        <input type="text" pInputText id="phone" formControlName="phone"
+                            placeholder="{{'t.phone' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('phone')?.invalid && (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)">
+                            <div *ngIf="userForm.get('phone')?.errors?.pattern">
+                                <small class="p-error">{{'t.validatePhone' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('phone')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-field p-d-flex p-jc-end">
+                        <button pButton pRipple [label]="'t.back' | translate" icon="pi pi-arrow-left"
+                            class="p-button-text" matStepperPrevious></button>
+                        <button pButton pRipple [label]="'t.next' | translate" icon="pi pi-arrow-right"
+                            class="p-button-text" (click)="validateAllFormFields(userForm)" matStepperNext></button>
+                    </div>
+                </form>
+            </mat-step>
+            <!-- FINSIH -->
+            <mat-step>
+                <ng-template matStepLabel>{{'t.save' | translate}}</ng-template>
+                <div class="p-grid p-mt-1 p-mx-0 p-jc-center">
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <p>{{'t.accountcreateready' | translate}}</p>
+                        <p-card>
+                            <div class="p-grid" *ngIf="showUserForm">
+                                <div class="p-col-12 p-md-4 p-lg-4 muli-bold">{{'t.owner' | translate}}:</div>
+                                <div class="p-col-12 p-md-8 p-lg-8">{{userForm.get('firstName')?.value}}
+                                    {{userForm.get('lastName')?.value}}</div>
+                            </div>
+                            <div class="p-grid">
+                                <div class="p-col-12 p-md-4 p-lg-4 muli-bold">{{'t.user' | translate}}:</div>
+                                <div class="p-col-12 p-md-8 p-lg-8">{{checkUserForm.get('username')?.value}}</div>
+                            </div>
+                            <div class="p-grid">
+                                <div class="p-col-12 p-md-4 p-lg-4 muli-bold">{{'t.role' | translate}}:</div>
+                                <div class="p-col-12 p-md-8 p-lg-8">
+                                    {{getRoleLabel(this.accessForm.get('role')?.value)}}</div>
+                            </div>
+                        </p-card>
+                        <div class="p-field p-d-flex p-jc-end">
+                            <button pButton pRipple [label]="'t.back' | translate" icon="pi pi-arrow-left"
+                                class="p-button-text" matStepperPrevious></button>
+                            <button pButton pRipple [label]="'t.save' | translate" icon="pi pi-check"
+                                class="p-button-text" (click)="saveItem()"></button>
+                        </div>
+                    </div>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </ng-template>
+</p-dialog>
+<!-- FORM EDIT -->
+<p-dialog [(visible)]="itemMembership" [style]="{ width: '550px' }" header="Detalle de membresía" [modal]="true"
+    styleClass="" (onHide)="onHideCreate($event)" [draggable]="false">
+    <ng-template pTemplate="content">
+        <!-- USER -->
+        <p-tabView [style]="{padding: '5px'}">
+            <p-tabPanel header="Usuario">
+                <form [formGroup]="userForm" novalidate>
+                    <div class="p-fluid p-field">
+                        <label for="firstName">{{'t.firstname' | translate}}:*</label>
+                        <input type="firstName" pInputText id="firstName" formControlName="firstName" required
+                            placeholder="{{'t.firstname' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('firstName')?.invalid && (userForm.get('firstName')?.dirty || userForm.get('firstName')?.touched)">
+                            <div *ngIf="userForm.get('firstName')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('firstName')?.errors?.pattern">
+                                <small class="p-error">{{'t.validateName' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('firstName')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="lastName">{{'t.lastname' | translate}}:*</label>
+                        <input type="lastName" pInputText id="lastName" formControlName="lastName" required
+                            placeholder="{{'t.lastname' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('lastName')?.invalid && (userForm.get('lastName')?.dirty || userForm.get('lastName')?.touched)">
+                            <div *ngIf="userForm.get('lastName')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('lastName')?.errors?.pattern">
+                                <small class="p-error">{{'t.validateName' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('lastName')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="dni">{{'t.dni' | translate}}:*</label>
+                        <input type="dni" pInputText id="dni" formControlName="dni" required
+                            placeholder="{{'t.dni' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('dni')?.invalid && (userForm.get('dni')?.dirty || userForm.get('dni')?.touched)">
+                            <div *ngIf="userForm.get('dni')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('dni')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="phone">{{'t.phone' | translate}}:</label>
+                        <input type="text" pInputText id="phone" formControlName="phone"
+                            placeholder="{{'t.phone' | translate}}" />
+                        <div
+                            *ngIf="userForm.get('phone')?.invalid && (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)">
+                            <div *ngIf="userForm.get('phone')?.errors?.pattern">
+                                <small class="p-error">{{'t.validatePhone' | translate}}</small>
+                            </div>
+                            <div *ngIf="userForm.get('phone')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-field p-d-flex p-jc-end">
+                        <button pButton pRipple [label]="'t.saveUser' | translate" icon="pi pi-check"
+                            class="p-button-text" (click)="editUser()"></button>
+                    </div>
+                </form>
+            </p-tabPanel>
+            <!-- MEMBERSHIP -->
+            <p-tabPanel header="Membresía">
+                <form [formGroup]="accessForm" novalidate>
+                    <label>Rol:*</label>
+                    <div *ngFor="let role of subroles" class="p-fluid p-field-checkbox">
+                        <p-radioButton [inputId]="'role' + role.code" name="role" [value]="role.value"
+                            [(ngModel)]="subroleSelectedValue" [ngModelOptions]="{ standalone: true }"
+                            (onClick)="accessForm.get('role')?.setValue(this.subroleSelectedValue)"></p-radioButton>
+                        <label [for]="'role' + role.code">{{ role.label }}</label>
+                    </div>
+                    <div
+                        *ngIf="accessForm.get('role')?.invalid && (accessForm.get('role')?.dirty || accessForm.get('role')?.touched)">
+                        <div *ngIf="accessForm.get('role')?.errors?.required">
+                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-field">
+                        <label for="job">{{'t.job' | translate}}:</label>
+                        <input type="text" pInputText id="job" formControlName="job"
+                            placeholder="{{'t.job' | translate}}" />
+                        <div
+                            *ngIf="accessForm.get('job')?.invalid && (accessForm.get('job')?.dirty || accessForm.get('job')?.touched)">
+                            <div *ngIf="accessForm.get('job')?.errors?.maxlength">
+                                <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-field p-d-flex p-jc-end">
+                        <button pButton pRipple [label]="'t.saveMembership' | translate" icon="pi pi-check"
+                            class="p-button-text" (click)="editMembership()"></button>
+                    </div>
+                </form>
+            </p-tabPanel>
+        </p-tabView>
+    </ng-template>
+</p-dialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>
+<p-confirmDialog [style]="{ width: '450px' }" [acceptLabel]="'Sí'"></p-confirmDialog>

@@ -1,0 +1,44 @@
+<div class="card-requests">
+    <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+    <p-panel header="Participantes"  [toggleable]="false">
+        <ng-template pTemplate="icons">
+            <button pButton pRipple type="button" icon="pi pi-cog" class="p-button-rounded p-button-secondary" (click)="openPage('/account/process/item/requests')"></button>
+        </ng-template>
+        <p-divider align="left">
+            <b class="sublabel">Proceso</b>
+        </p-divider>
+        <div class="p-grid p-mb-5">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Participantes invitados:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{countRequestSelected}} de {{this.items.length}} candidatos</div>
+        </div>
+        <p-divider align="left">
+            <b class="sublabel">Uso de invitaciones</b>
+        </p-divider>
+        <div class="p-grid p-mb-3" *ngIf="showQuotes">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">
+                <ng-container *ngIf="isCandidatesPerMonthQuote(plan.type)">
+                    {{'t.monthcandidatesAvailables' | translate:{'month': processRequestQuote.monthName} }}:
+                </ng-container>
+                <ng-container *ngIf="!isCandidatesPerMonthQuote(plan.type)">
+                    Invitaciones enviadas - (totales):
+                </ng-container>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <div>
+                    <progress id="health" value="{{processRequestQuote.quote}}" max="{{processRequestQuote.limit}}"></progress> 
+                </div>
+                <div class="progress-info">
+                    <span class="muli-bold">{{processRequestQuote.quote}}  de {{processRequestQuote.limit}}</span> invitaciones enviadas
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <ng-container *ngIf="(processRequestQuote.limit - processRequestQuote.quote) > 0">
+                    <span class="qsuccess muli-bold">{{(processRequestQuote.limit - processRequestQuote.quote)}} invitaciones disponibles</span>
+                </ng-container>
+                <ng-container *ngIf="(processRequestQuote.limit - processRequestQuote.quote) <= 0">
+                    <span class="qdanger muli-bold" pTooltip="Límite alcanzado">{{(processRequestQuote.limit - processRequestQuote.quote)}} invitaciones disponibles</span>
+                </ng-container> 
+            </div>
+        </div>
+    </p-panel>
+</div>

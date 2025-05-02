@@ -1,0 +1,52 @@
+<div class="introduction p-shadow-5 p-p-2 p-mt-3">
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12 p-lg-12">
+            <div class="box w-100 p-text-center">
+                <h1 class="muli-bold p-pb-1 p-pt-3 name-evaluation p-mb-2">{{evaluation.name}}</h1>
+                <h3 class="subtitle p-m-0 p-mb-5">{{evaluation.noQuestions || 0}} preguntas - {{evaluation.aproximateTime | pipeSecondsToMinutes}}</h3>
+                <h2 class="muli-bolder name-process p-mb-2">{{process.name}}</h2>
+                <div>
+                    <h3 class="subtitle muli-bold p-m-0">Fin del proceso: {{process?.validUntil | date: 'yyyy/MM/dd H:mm'}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid p-pt-1 p-d-flex p-flex-column p-jc-start p-ai-center">
+        <div class="p-col-12 p-md-8 p-lg-10 p-p-0">
+            <div class="box p-p-3">
+                <h3 class="p-pb-0 subtitle p-mt-0">Instrucciones:</h3>
+                <ul class="p-m-0">
+                    <li>Asegúrate de tener una conexión estable a internet.</li>
+                    <li>Cada evaluación se completa en una única oportunidad.</li>
+                    <li>Al dar clic al botón empezar se desplegará un cuadro de confirmación para dar inicio a la evaluación.</li>
+                    <li>La evaluación cuenta con un tiempo límite que se mostrará en la <strong>esquina superior derecha</strong>, por lo que se recomienda evitar interrupciones. Una vez iniciada la evaluación, no se podrá pausar el temporizador.</li>
+                    <li>Se dispone de aproximadamente 1 minuto por pregunta.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-10 p-p-0" style="margin-bottom: 7.5rem;">
+            <div class="box p-p-3">
+                <!-- <h3 class="p-pb-3 subtitle">{{evaluation.noQuestions || 0}} preguntas - {{evaluation.aproximateTime | pipeSecondsToMinutes}}</h3> -->
+                <div>
+                    <p class="p-mt-0">Es importante aclarar que al ser una prueba de diagnóstico es fundamental la sinceridad y honestidad en su realización. Si no sabes la respuesta puedes seleccionar sencillamente la opción:  "No conozco la respuesta", caso contrario se te restarán puntos por seleccionar una respuesta incorrecta.</p>
+                    <p>Relájate, responde auténticamente y lee cuidadosamente las preguntas.</p>
+                    <p-divider></p-divider>
+                    <p>Antes de comenzar, se requiere aceptar los términos del acuerdo de confianza:</p>
+                </div>
+                <div class="p-field-checkbox">
+                    <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary"></p-checkbox>
+                    <label for="binary">No consultaré o emplearé información de ninguna fuente: sitio web, aplicación, libro o documento para completar las preguntas. Me comprometo a completar la evaluación de forma individual sin ningún tipo de ayuda externa o participación de terceros.</label>
+                </div>
+                <div class="p-d-flex p-jc-center p-my-2">
+                    <button pButton pRipple type="button" label="Anterior" class="p-button-secondary p-m-1" icon="pi pi-arrow-left" [routerLink]="['/user/process/evaluations']"></button>
+                    <button pButton pRipple type="button" label="Empezar" class="p-button-success p-m-1" icon="pi pi-caret-right" iconPos="right" (click)="onSubmit()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<p-confirmDialog [style]="{ width: '450px' }" [acceptLabel]="'Sí'" styleClass="send-dialog"></p-confirmDialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

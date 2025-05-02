@@ -1,0 +1,28 @@
+<p-scrollPanel [style]="{width: '100%', height: 'calc(100vh)'}" styleClass="bg-theme">
+    <div class="blank-body">
+        <div class="blank-wrapper left">
+            <div class="blank-header w-100">
+                <div class="p-d-flex p-jc-between">
+                    <div class="logo p-mt-4 p-ml-4">
+                        <h1 class="p-m-1">
+                            <a href="https://talentbits.ai" class="left-logo">
+                                <img src="assets/images/favicon_databits.svg" alt="">
+                            </a>
+                        </h1>
+                    </div>
+                    <div class="options p-mt-4 p-mr-4">
+                       <!--  <button class="p-button-outlined" type="button" pButton [label]="localeSelectedName" (click)="menu.toggle($event)"></button>
+                        <p-menu #menu [popup]="true" [model]="languages" (onShow)="showLocales($event)"></p-menu> -->
+                    </div>
+                </div>
+            </div>
+            <div class="blank-routes w-100">
+                <app-breadcrumb [display]="false"></app-breadcrumb>
+                <router-outlet></router-outlet>
+            </div>
+            <div class="blank-footer w-100 p-text-center">
+                <h4 class="copy">© {{year}} {{"t.copy" | translate}}</h4>
+            </div>
+        </div>
+    </div>
+</p-scrollPanel>

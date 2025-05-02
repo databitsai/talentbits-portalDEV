@@ -1,0 +1,9 @@
+mat-sidenav-container {
+    margin-top: 0px;
+    height: 100%;
+    position: inherit;
+    min-height: calc(100vh - 115px);
+}
+mat-sidenav-content {
+    height: auto;
+}

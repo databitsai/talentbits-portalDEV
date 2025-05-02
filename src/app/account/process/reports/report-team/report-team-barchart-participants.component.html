@@ -1,0 +1,10 @@
+<div class="report-card p-d-flex p-flex-column h-100 p-jc-center p-ai-center p-px-3 p-pt-3 p-pb-0">
+    <div class="p-grid w-100 p-jc-center p-ai-stretch h-100">
+        <div class="p-col-12 p-text-center p-py-3">
+            <h3 class="muli-bold p-m-0 title1">Participantes</h3>
+        </div>
+        <div class="p-col-12 p-text-center">
+            <p-chart id="barchartParticipants" type="bar" [data]="stackedData" [options]="stackedOptions" [plugins]="pluginsChartjs" width="100%" height="100%"></p-chart>
+        </div>
+    </div>
+</div>

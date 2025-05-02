@@ -1,0 +1,113 @@
+#account-list {
+    mat-sidenav-container {
+        margin-top: 0px;
+        height: 100%;
+        position: inherit;
+        min-height: calc(100vh - 115px);
+    }
+    
+    mat-sidenav-content {
+        height: auto;
+    }
+}
+:host ::ng-deep {
+    .p-dropdown {
+        font-weight: normal;
+    }
+    .dv-item-name {
+        font-size: 1.3rem;
+        min-height: 4rem;
+        max-height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+    }
+    .dv-item-description {
+        margin: 0rem 0 0rem 0;
+    }
+    .dv-item-subtitle {
+        font-size: 0.8rem;
+        color: #8f9499;
+    }
+    .dv-category-icon {
+        vertical-align: middle;
+        margin-right: .5rem;
+    }
+    .dv-owner-wrapper {
+        position: relative;
+        height: 115px;
+        overflow: auto;
+    }
+    .item-category {
+        vertical-align: middle;
+    }
+    .dv-list-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        width: 100%;
+        img {
+            width: 150px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            margin-right: 2rem;
+        }
+        .item-list-detail {
+            flex: 1 1 0;
+        }
+        .item-list-action {
+            display: flex;
+            flex-direction: column;
+        }
+        .p-button {
+            margin-bottom: .5rem;
+        }
+    }
+    .dv-grid-item {
+        margin: .5em;
+        border: 1px solid #dee2e6;
+        .product-grid-item-top,
+        .product-grid-item-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        img {
+            width: 75%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            margin: 2rem 0;
+        }
+    
+        .dv-grid-item-content {
+            text-align: center;
+        }
+    }
+    @media screen and (max-width: 576px) {
+        :host ::ng-deep .product-list-item {
+            flex-direction: column;
+            align-items: center;
+    
+            img {
+                width: 75%;
+                margin: 2rem 0;
+            }
+    
+            .item-list-detail {
+                text-align: center;
+            }
+    
+            .item-list-action {
+                display: flex;
+                flex-direction: column;
+            }
+    
+            .item-list-action {
+                margin-top: 2rem;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+        }
+    }
+}

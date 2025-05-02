@@ -1,0 +1,175 @@
+<p-card styleClass="h-100">
+    <ng-container *ngIf="!showFormEdit">
+        <div class="p-grid p-mb-3">
+            <div class="p-col-10">
+                <h2 class="p-m-0 muli-bold">Plan</h2>
+            </div>
+            <div class="p-col-2">
+                <button *ngIf="isAdmin" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                (click)="onShowFormEdit()" style="float: right;" pTooltip="Editar"></button>
+            </div>
+        </div>
+        <p-divider></p-divider>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                {{'t.name' | translate}}:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{plan.name}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                {{'t.nolicences' | translate}}:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{plan.licences}}
+            </div>
+        </div>
+        <div class="p-grid p-mb-3 p-mb-5">
+            <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                {{'t.monthcandidates' | translate}}:
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                {{plan.candidatesPerMonth}}
+            </div>
+        </div>
+        <p-divider align="left">
+            <b class="label">Uso de invitaciones</b>
+        </p-divider>
+        <div class="p-grid p-mb-3" *ngIf="showQuotes">
+            <ng-container *ngIf="isCandidatesPerMonthQuote(plan.type)">
+                <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                    {{'t.monthcandidatesAvailables' | translate:{'month': processRequestQuote.monthName} }}:
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!isCandidatesPerMonthQuote(plan.type)">
+                <div class="p-col-12 p-md-6 p-lg-6 muli-bold">
+                    Candidatos totales
+                </div>
+            </ng-container>
+            <div class="p-col-12 p-md-6 p-lg-6">
+                <div class="p-grid">
+                    <div class="p-col-12">
+                        <div>
+                            <progress id="health" value="{{processRequestQuote.quote}}" max="{{processRequestQuote.limit}}"></progress> 
+                        </div>
+                        <div class="progress-info">
+                            <span class="muli-bold">{{processRequestQuote.quote}} de {{processRequestQuote.limit}}</span> invitaciones enviadas
+                        </div>
+                    </div>
+                    <div class="p-col-12">
+                        <ng-container *ngIf="(processRequestQuote.limit - processRequestQuote.quote) > 0">
+                            <span class="qsuccess muli-bold">{{(processRequestQuote.limit - processRequestQuote.quote)}} invitaciones disponibles</span>
+                        </ng-container>
+                        <ng-container *ngIf="(processRequestQuote.limit - processRequestQuote.quote) <= 0">
+                            <span class="qdanger muli-bold" pTooltip="Límite alcanzado">{{(processRequestQuote.limit - processRequestQuote.quote)}} invitaciones disponibles</span>
+                        </ng-container> 
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="showFormEdit">
+        <div class="p-grid p-mb-3">
+            <div class="p-col-10">
+                <h2 class="p-m-0 muli-bold">Plan</h2>
+            </div>
+            <div class="p-col-2">
+            </div>
+        </div>
+        <form [formGroup]="planForm" novalidate>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="name" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">{{'t.name' |
+                        translate}}:</label>
+                    <div class="p-col-12 p-md-6">
+                        <input id="name" type="text" pInputText formControlName="name"
+                            placeholder="{{'t.name' | translate}}">
+                        <div
+                            *ngIf="planForm.get('name')?.invalid && (planForm.get('name')?.dirty || planForm.get('name')?.touched)">
+                            <div *ngIf="planForm.get('name')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="planForm.get('name')?.errors?.maxlength">
+                                <small class="p-error">{{
+                                    "t.validateMaxLength" | translate
+                                    }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="licences" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">{{'t.nolicences' |
+                        translate}}:</label>
+                    <div class="p-col-12 p-md-6">
+                        <p-inputNumber inputId="licences" formControlName="licences" [showButtons]="true"
+                            [min]="1" [max]="100"></p-inputNumber>
+                        <div
+                            *ngIf="planForm.get('licences')?.invalid && (planForm.get('licences')?.dirty || planForm.get('licences')?.touched)">
+                            <div *ngIf="planForm.get('licences')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="planForm.get('licences')?.errors?.maxlength">
+                                <small class="p-error">{{
+                                    "t.validateMaxLength" | translate
+                                    }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="candidatesPerMonth" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">Tipo de cuota:
+                    </label>
+                    <div class="p-col-12 p-md-6">
+                        <div *ngFor="let type of quotes" class="p-field-checkbox">
+                            <p-radioButton [inputId]="'planType' + type.code" name="planType"
+                                [value]="type.code" [(ngModel)]="planTypeSelectedValue"
+                                [ngModelOptions]="{ standalone: true }"
+                                (onClick)="planForm.get('type')?.setValue(planTypeSelectedValue)">
+                            </p-radioButton>
+                            <label [for]="'planType' + type.code">{{ type.label }}</label>
+                        </div>
+                        <div>
+                            {{planForm.get('planType')?.value}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <ng-container *ngIf="isCandidatesPerMonthQuote(planType)">
+                        <label for="candidatesPerMonth" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">{{'t.monthcandidates' | translate}}:</label>
+                    </ng-container>
+                    <ng-container *ngIf="!isCandidatesPerMonthQuote(planType)">
+                        <label for="candidatesPerMonth" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0 muli-bold">{{'t.totalcandidates' | translate}}:</label>
+                    </ng-container>
+                    <div class="p-col-12 p-md-6">
+                        <p-inputNumber inputId="candidatesPerMonth" formControlName="candidatesPerMonth"
+                            [showButtons]="true" [min]="1" [max]="100"></p-inputNumber>
+                        <div
+                            *ngIf="planForm.get('candidatesPerMonth')?.invalid && (planForm.get('candidatesPerMonth')?.dirty || planForm.get('candidatesPerMonth')?.touched)">
+                            <div *ngIf="planForm.get('candidatesPerMonth')?.errors?.required">
+                                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                            </div>
+                            <div *ngIf="planForm.get('candidatesPerMonth')?.errors?.maxlength">
+                                <small class="p-error">{{
+                                    "t.validateMaxLength" | translate
+                                    }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+    <ng-template pTemplate="footer">
+        <button  pButton *ngIf="showFormEdit" label="Guardar" icon="pi pi-check" class="p-button-success p-mx-1" (click)="savePlan()"></button>
+        <button  pButton *ngIf="showFormEdit" label="Cancelar" icon="pi pi-times" class="p-button-secondary" [style]="{'margin-left': '.5em'}" (click)="onCancelFormEdit()"></button>
+    </ng-template>
+</p-card>

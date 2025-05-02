@@ -1,0 +1,111 @@
+.report-card {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    background: white;
+    .title {
+        font-size: 10pt;
+        color: var(--grey-medium) !important;
+        max-width: 100px;
+    }
+    .value {
+        font-size: 16pt;
+        color: var(--theme-color-1) !important;
+    }
+    .time {
+        font-size: 8pt;
+    }
+    .title1 {
+        color: var(--theme-color-1);
+    }
+}
+::ng-deep .report-filter-input {
+    max-width: 250px;
+    width: 250px;
+    margin: 0 5px;
+}
+table {
+    width: 100%;
+    .chart-wrapper {
+        width: 250px;
+    }
+    ::ng-deep .mat-sort-header-container {
+        justify-content: center;
+    }
+    th.mat-column-label ::ng-deep .mat-sort-header-container {
+        justify-content: start;
+    }
+    .mat-column-index {
+        width: 40px;
+        padding-right: 24px;
+        text-align: center;
+    }
+    th.mat-column-label, td.mat-column-label {
+        text-align: left;
+        span {
+            text-align: left;
+            font-size: 10pt;
+        }
+    }
+    .mat-column-correct {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-incorrect {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-unknown {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-empty {
+        text-align: center;
+        width: 120px;
+    }
+    .mat-column-chart {
+        text-align: center;
+        .chart-wrapper {
+            margin: 0 auto;
+        }
+    }
+    ::ng-deep canvas#race{position:relative; z-index:1000;}
+    .mat-cell {
+        color: rgba(0,0,0,.54);
+    }
+}
+#data-personas {
+    img {
+        width: 100%;
+        max-width: 210px;
+    }
+    .dataPersonas-count {
+        font-size: 26pt;
+        color: white;
+    }
+    button {
+        color: white;
+    }
+    .title1 {
+        color: white;
+    }
+    .report-card {
+        &.dataChampion {
+            background: var(--dt-dataChampion-1);
+        }
+        &.dataKnight {
+            background: var(--dt-dataKnight-1);
+        }
+        &.dataDreamer {
+            background: var(--dt-dataDreamer-1);
+        }
+        &.dataDoubter {
+            background: var(--dt-dataDoubter-1);
+        }
+        .material-icons-outlined {
+            position: relative;
+            top: 5px;
+            padding-right: 3px;
+            color: white;
+        }
+    }
+}

@@ -1,0 +1,43 @@
+<ng-container *ngIf="item.noQuestions > 0">
+
+    <ng-container [ngSwitch]="valueStateEvaluation">
+
+        <ng-container *ngSwitchCase="'finished'"></ng-container>
+
+        <!-- <button *ngSwitchCase="'finished'" pButton pRipple icon="pi pi-info-circle" class="p-button-rounded p-button-success p-mr-2" pTooltip="Ver resultados" (click)="showResult(item)"></button> -->
+        
+        <ng-container *ngSwitchCase="'default'">
+
+            <ng-container [ngSwitch]="valueStateProcess">
+
+                <ng-container *ngSwitchCase="'finished'"></ng-container>
+
+                <!-- <button *ngSwitchCase="'finished'" pButton pRipple icon="pi pi-bell" class="p-button-rounded p-button-danger p-mr-2" pTooltip="No existen resultados"></button> -->
+                
+                <button *ngSwitchCase="'running'" pButton pRipple icon="pi pi-caret-right" class="p-button-rounded p-button-primary p-mr-2" (click)="runEvaluation(item)" pTooltip="Ir a evaluación"></button>
+
+                <button *ngSwitchCase="'ready'" pButton pRipple icon="pi pi-clock" class="p-button-rounded p-button-warning p-mr-2" pTooltip="Debe esperar al inicio del proceso"></button>
+            
+            </ng-container>
+
+        </ng-container>
+        
+        
+        <ng-container *ngSwitchDefault>
+
+            <ng-container [ngSwitch]="valueStateProcess">
+
+                <ng-container *ngSwitchCase="'finished'"></ng-container>
+
+                <!-- <button *ngSwitchCase="'finished'" pButton pRipple type="button" label="Ver resultado" class="p-button-secondary" (click)="showResult(item)"></button> -->
+                
+                <button *ngSwitchCase="'running'" pButton pRipple icon="pi pi-caret-right" class="p-button-rounded p-button-success p-mr-2" (click)="runEvaluation(item)"></button>
+
+                <button *ngSwitchCase="'ready'" pButton pRipple icon="pi pi-calendar-times" class="p-button-rounded p-button-warning p-mr-2" pTooltip="Debe esperar al inicio del proceso"></button>
+            
+            </ng-container>
+           
+        </ng-container>
+
+    </ng-container>
+</ng-container>

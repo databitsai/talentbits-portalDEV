@@ -1,0 +1,60 @@
+<div class="card-vaccant" *ngIf="planSelected.isPostVacancyActive">
+    <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+    <p-panel header="Vacante"  [toggleable]="false">
+        <ng-template pTemplate="icons">
+            <button pButton pRipple type="button" icon="pi pi-cog" class="p-button-rounded p-button-secondary" (click)="openPage('/account/process/item/vaccant')"></button>
+        </ng-template>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Título:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{vaccant?.title || '-'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Años de experiencia:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{vaccant?.yearsExperience || '-'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Tipo de jornada:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{getWorkingDay(vaccant?.workingDayType) || '-'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Salario mensual:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{vaccant?.salary || '-'}}</div>
+        </div>
+        <div class="p-grid p-mb-5">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Modalidad:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{getTypeSelected(vaccant?.mobilityType) || '-'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Inicio:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ vaccant?.validFrom | date: 'yyyy/MM/dd H:mm:ss' }}</div>
+        </div>
+        <div class="p-grid p-mb-5">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Fin:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ vaccant?.validUntil | date: 'yyyy/MM/dd H:mm:ss' }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Empresa:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{vaccant?.process.account.company.name || '-'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Sector/Industria:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{getIndustrySector(vaccant?.process.account.company.sector) || '-'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Sitio web:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{vaccant?.process.account.company.website || '-'}}</div>
+        </div>
+        <div class="p-grid p-mb-5">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">País:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{getCountry(vaccant?.process.account.company.country) || '-'}}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Vacante abierta al publico:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getIsPublic(vaccant?.isPublic) }}</div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-4 muli-bold">Vacante descatada:</div>
+            <div class="p-col-12 p-md-6 p-lg-8">{{ getIsVaccantOutstanding(vaccant?.isOutstanding) }}</div>
+        </div>
+    </p-panel>
+</div>

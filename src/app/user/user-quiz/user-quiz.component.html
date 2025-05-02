@@ -1,0 +1,120 @@
+<div class="simple">
+    <!-- HEADER -->
+    <div class="header">
+        <p-menubar [model]="items">
+            <ng-template pTemplate="start">
+                <img src="assets/images/logo_databits_blue.svg" height="40"
+                    class="p-mr-2">
+            </ng-template>
+            <ng-template pTemplate="end" *ngIf="evaluation && process">
+                <div class="p-grid p-ai-center">
+                    <div class="p-col-12 p-md-6 p-lg-5 p-text-center">
+                        <h3 class="p-m-0 muli-bold">{{evaluation.name}}</h3>
+                        <h5 class="muli-bold p-m-0">{{process.name}}</h5>
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-7 p-text-center">
+                        <p-chip label="{{ellapsedTime}} / {{duration}}" styleClass="p-mr-2 custom-time-chip"></p-chip>
+                    </div>
+                </div>
+                
+            </ng-template>
+        </p-menubar>
+    </div>
+    <!-- CONTENT -->
+    <p-scrollPanel [style]="{width: '100%', height: 'calc(100vh - 80px)'}" [styleClass]="'custombar1'">
+        <div class="p-grid p-jc-center" *ngIf="evaluation && process" style="margin-bottom: 7.5rem;">
+            <!-- QUIZ -->
+            <div *ngIf="mode=='quiz' && quiz" class="p-col-12 p-lg-10 p-p-5">
+                <ng-container *ngFor="let question of filteredQuestions;">
+                    <app-user-quiz-question [question]="question" [pager]="pager" [idMemberEvaluation]="evaluation.idMemberEvaluation"
+                    (onSelected)="onSelectEmited($event)"></app-user-quiz-question>
+                </ng-container>
+                <p-divider></p-divider>
+                <div class="p-text-center">
+                    <!-- <button pButton pRipple type="button" icon="pi pi-angle-double-left" class="p-button-rounded p-button-text"
+                    *ngIf="config.allowBack" (click)="goTo(0);" pTooltip="Ir a pregunta inicial"></button> -->
+                    <button pButton pRipple type="button"  [label]="'Anterior pregunta'" class="p-button-outlined p-m-1"
+                        *ngIf="config.allowBack && pager.index > 0" (click)="goTo(pager.index - 1);" icon="pi pi-chevron-left"></button>
+                    <button pButton pRipple type="button" [label]="'Siguiente pregunta'" class="p-button-outlined p-m-1"
+                    *ngIf="pager.index < pager.count - 1" (click)="goTo(pager.index + 1);" icon="pi pi-chevron-right" iconPos="right"></button>
+                    <!-- <button pButton pRipple type="button" icon="pi pi-angle-double-right" class="p-button-rounded p-button-text"
+                    *ngIf="config.allowBack" (click)="goTo(pager.count - 1);" pTooltip="Ir a pregunta final"></button> -->
+                    <button *ngIf="mode === 'quiz'" pButton pRipple type="button" label="Revisar preguntas" class="p-button-secondary p-m-1"
+                    (click)="mode = 'review'"></button>
+                    <button pButton pRipple type="button" label="Finalizar y Enviar" (click)="confirmSubmit();"
+                    class="p-button-help p-m-1"></button>
+                </div>
+            </div>
+            <!-- REVIEW -->
+            <div class="p-col-12 p-lg-10 p-grid p-pt-5 results-cards" *ngIf="mode=='review'">
+                <div class="p-col-12">
+                    <h3 class="muli-bold pager-title">De clic en una pregunta para revisarla:</h3>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-4" *ngFor="let question of quiz.questions; let index = index;">
+                   <app-user-quiz-review [question]="question" [pager]="pager" [idMemberEvaluation]="evaluation.idMemberEvaluation" [index]="index"
+                   (onSelected)="goTo($event)"></app-user-quiz-review>
+                </div>
+                <div class="p-col-12 p-grid p-jc-center">
+                    <button *ngIf="mode === 'review'" pButton pRipple type="button" label="Continuar evaluación" (click)="mode = 'quiz'"
+                        class="p-button-secondary p-m-1"></button>
+                    <button pButton pRipple type="button" label="Finalizar y Enviar" (click)="confirmSubmit();"
+                        class="p-button-help p-m-1"></button>
+                </div>
+            </div>
+            <!-- RESULT -->
+            <div class="p-col-12 p-mt-5 result p-grid p-flex-column p-jc-center p-ai-center h-100" *ngIf="mode=='result'">
+                <div class="p-col-11 p-md-8 p-lg-5 p-text-center p-shadow-5">
+                    <div class="logo-animation">
+                        <div class="container">
+                            <div class="action">
+                            <div class="trophy">
+                                <svg fill="var(--theme-color-1)" width="100%" height="100%" viewBox="0 0 24 24">
+                                  <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"></path>
+                            </svg>
+                            </div>
+                            <div class="confetti"></div>
+                            <div class="confetti two"></div>
+                            <div class="confetti three"></div>
+                            <div class="confetti four"></div>
+                            <div class="confetti--purple"></div>
+                            <div class="confetti--purple two"></div>
+                            <div class="confetti--purple three"></div>
+                            <div class="confetti--purple four"></div>
+                        </div>
+                        </div>
+                    </div>
+                    <h3 class="muli-bold text-center title2">Evaluación terminada</h3>
+                    <h1 class="muli-bold text-center">{{evaluation.name}}</h1>
+                    <h3 class="muli-bold text-center title2">{{process.name}}</h3>
+                    <p-divider></p-divider>
+                    <p style="font-size: 14pt;">
+                        ¡Excelente! Muchas gracias por realizar esta evaluación, "{{companyName}}" ha recibido tus respuestas.
+                    </p>
+                    <p style="font-size: 12pt;">Da clic en el botón para ver los estados de las demás evaluaciones.</p>
+                    <p-divider></p-divider>
+                    <!-- <a [routerLink]="['/user/process/evaluations']">Ir a Evaluaciones</a> -->
+                    <button pButton pRipple type="button" label="Ir a Evaluaciones" class="p-button-primary" [routerLink]="['/user/process/evaluations']"></button>
+                </div>
+                <!-- <h2>Resultados</h2> -->
+<!--                 <app-user-quiz-score [idMemberEvaluation]="evaluation.idMemberEvaluation"></app-user-quiz-score>
+                <app-user-quiz-results [idMemberEvaluation]="evaluation.idMemberEvaluation"></app-user-quiz-results> -->
+            </div>
+
+            <!-- OPTIONS -->
+            <!-- <div *ngIf="mode==='quiz' || mode === 'review'" class="p-col-12 p-grid p-jc-end">
+                <button *ngIf="mode === 'review'" pButton pRipple type="button" label="Continuar evaluación" (click)="mode = 'quiz'"
+                    class="p-button-secondary p-m-1"></button>
+                <button *ngIf="mode === 'quiz'" pButton pRipple type="button" label="Revisar preguntas" class="p-button-secondary p-m-1"
+                    (click)="mode = 'review'"></button>
+                <button pButton pRipple type="button" label="Finalizar y Enviar" (click)="confirmSubmit();"
+                    class="p-button-help p-m-1"></button>
+            </div> -->
+    
+        </div>
+    </p-scrollPanel>
+    
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<p-confirmDialog [style]="{ width: '450px' }" [acceptLabel]="'Sí'" styleClass="send-dialog"></p-confirmDialog>

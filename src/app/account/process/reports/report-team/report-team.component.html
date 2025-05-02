@@ -1,0 +1,124 @@
+<div class="fix-mobile-margin-bottom">
+    <div class="p-px-3 p-py-1 p-grid p-jc-center p-ai-stretch">
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-team-filters [idAccount]="accountSelected.id" [idProcess]="idProcess"
+                (submitted)="onSubmitFilter($event)">
+            </app-report-team-filters>
+        </div>
+    </div>
+    <div class="p-p-3 p-d-flex p-jc-between p-ai-center">
+        <div>
+            <h2 class="muli-bold p-m-0">{{processSelected.name}}</h2><sub>{{getProcessTypeLabel(processSelected.type)}}</sub>
+        </div>
+        <app-report-team-btn-download-pdf [idProcess]="idProcess" [evaluationIds]="evaluationIds"
+        [processSelected]="processSelected" [types]="types" [archetypes]="archetypes"
+        [states]="states" [processInfo]="processInfo">
+        </app-report-team-btn-download-pdf>
+    </div>
+    <!-- RESUME -->
+    <div class="p-px-3 p-py-1 p-grid p-jc-start p-ai-stretch">
+        <!-- left -->
+        <div class="p-p-2 p-col-12 p-md-6 p-lg-8">
+            <!-- row-1 -->
+            <div class="p-grid p-jc-start p-ai-stretch">
+                <!-- process-resume -->
+                <div class="p-p-2 p-col-12 p-md-12 p-lg-4">
+                    <app-report-team-resume *ngIf="!loading" [processSelected]="processSelected" [states]="states">
+                    </app-report-team-resume>
+                    <app-report-team-resume *ngIf="loading" [processSelected]="processSelected" [states]="[]">
+                    </app-report-team-resume>
+                </div>
+                <!-- process-evaluations -->
+                <div class="p-p-2 p-col-12 p-md-12 p-lg-4">
+                    <app-report-team-valuecard *ngIf="processInfo" [title]="'Evaluaciones seleccionadas'"
+                        [value]="processInfo.noEvaluations" [icon]="'quiz'"></app-report-team-valuecard>
+                    <app-report-team-valuecard *ngIf="!processInfo" [title]="'Evaluaciones seleccionadas'" [value]="0"
+                        [icon]="'quiz'"></app-report-team-valuecard>
+                </div>
+                <!-- process-requests -->
+                <div class="p-p-2 p-col-12 p-md-12 p-lg-4">
+                    <app-report-team-valuecard *ngIf="processInfo" [title]="'Participantes'"
+                        [value]="processInfo.noRequests" [icon]="'emoji_people'"></app-report-team-valuecard>
+                    <app-report-team-valuecard *ngIf="!processInfo" [title]="'Participantes'" [value]="0"
+                        [icon]="'emoji_people'"></app-report-team-valuecard>
+                </div>
+            </div>
+            <!-- row-1 -->
+            <div class="p-grid p-jc-start p-ai-stretch">
+    
+                <!-- process-avg-score -->
+                <div class="p-p-2 p-col-12 p-md-12 p-lg-6">
+                    <app-report-team-valuecard *ngIf="processInfo" [title]="'Puntaje global'" [value]="processInfo.avgScore | percent:'0.1-2'"
+                        [icon]="'grading'"></app-report-team-valuecard>
+                    <app-report-team-valuecard *ngIf="!processInfo" [title]="'Puntaje global'" [value]="0"
+                        [icon]="'grading'"></app-report-team-valuecard>
+                </div>
+                <!-- process-avg-time -->
+                <div class="p-p-2 p-col-12 p-md-12 p-lg-6">
+                    <app-report-team-valuecard *ngIf="processInfo" [title]="'Tiempo global'"
+                        [value]="processInfo.avgTimePerformed | pipeSecondsToMinutes" [icon]="'schedule'">
+                    </app-report-team-valuecard>
+                    <app-report-team-valuecard *ngIf="!processInfo" [title]="'Tiempo global'" [value]="0"
+                        [icon]="'schedule'"></app-report-team-valuecard>
+                </div>
+            </div>
+        </div>
+        <!-- right -->
+        <div class="p-p-2 p-col-12 p-md-6 p-lg-4">
+            <div class="p-grid p-jc-start p-ai-stretch h-100">
+                <div class="p-px-2 p-pt-2 p-pb-0 p-col-12 p-md-12 p-lg-12">
+                    <!-- row-1 -->
+                    <app-report-team-barchart-participants class="w-100" [idProcess]="idProcess"
+                        [evaluationIds]="evaluationIds"></app-report-team-barchart-participants>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    
+    <!-- CHARTS -->
+    <div class="p-px-3 p-py-1 p-grid p-jc-start p-ai-stretch">
+        <!-- left -->
+        <div class="p-p-2 p-col-12 p-md-6 p-lg-6">
+            <app-report-team-avg-score [idProcess]="idProcess" [evaluationIds]="evaluationIds"></app-report-team-avg-score>
+        </div>
+        <!-- right -->
+        <div class="p-p-2 p-col-12 p-md-6 p-lg-6">
+            <app-report-team-avg-time [idProcess]="idProcess" [evaluationIds]="evaluationIds"></app-report-team-avg-time>
+        </div>
+    </div>
+    <div class="p-px-3 p-py-1 p-grid p-jc-left p-ai-stretch">
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-8">
+            <app-report-team-avg-score-time [idProcess]="idProcess" [evaluationIds]="evaluationIds">
+            </app-report-team-avg-score-time>
+        </div>
+        <!-- top-participants -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-4">
+            <app-report-team-participants-top [idProcess]="idProcess" [evaluationIds]="evaluationIds">
+            </app-report-team-participants-top>
+        </div>
+    </div>
+    
+    <div class="p-px-3 p-py-1 p-grid p-jc-center p-ai-stretch">
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-team-answers-type [idProcess]="idProcess" [evaluationIds]="evaluationIds">
+            </app-report-team-answers-type>
+        </div>
+    </div>
+    <!-- DATA PERSONAS -->
+    <div class="p-px-3 p-py-1 p-grid p-jc-center p-ai-stretch" *ngIf="hasDataPersonasEvaluation">
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <h2 class="muli-bold p-m-0">Cultura Analítica</h2><sub></sub>
+        </div>
+        <!-- complete -->
+        <div class="p-p-2 p-col-12 p-md-12 p-lg-12">
+            <app-report-team-data-personas-table [idProcess]="idProcess" [archetypes]="archetypes"></app-report-team-data-personas-table>
+        </div>
+    </div>
+</div>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>

@@ -1,0 +1,44 @@
+<div class="report-card p-d-flex p-flex-column h-100 p-jc-center p-ai-center">
+    <div class="p-grid w-100 p-jc-center p-ai-stretch h-100">
+        <div class="p-col-12 p-text-center p-py-4">
+            <h3 class="muli-bold p-m-0 title1">Análisis Data Personas</h3>
+        </div>
+        <div class="p-col-12 p-text-center p-py-4">
+
+            <div id="data-personas" class="p-grid p-jc-start p-ai-stretch">
+                <ng-container *ngFor="let item of data; let i=index">
+                    <div class="p-p-0 p-col-12 p-md-12 p-lg-6 p-m-0">
+                        <div class="report-card {{item.label}} p-d-flex p-m-1 p-grid" style="border-radius: 0;">
+                            <div class="p-col-12 p-md-7 p-lg-6 p-p-0 p-d-flex p-jc-center p-ai-center">
+                                <img src="{{'assets/images/data-personas-' + item.label + '.png'}}" class="p-p-3">
+                            </div>
+                            <div class="p-col-12 p-md-5 p-lg-6 p-p-0">
+                                <div class="p-grid w-100 p-jc-center p-ai-stretch h-100 p-m-0">
+                                    <div class="p-col-12 p-text-center p-py-2 p-grid  p-jc-center p-ai-center">
+                                        <div class="p-col-12">
+                                            <h2 class="muli-bold p-m-0 title1">{{getArchetypeLabelByValue(item.label)}}
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <div class="p-col-12 p-text-center p-py-3">
+                                        <div>
+                                            <span class="material-icons-outlined md-36 md-color-th-1">emoji_people</span>
+                                            <span class="dataPersonas-count">{{item.valueInt}}</span>
+                                        </div>
+                                        <div class="p-col-12">
+                                            <button pButton pRipple type="button" icon="pi pi-info-circle"
+                                                class="p-button-rounded p-button-text" [pTooltip]="getArchetypeDescriptionByValue(item.label)"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="p-text-center">
+    <h1 class="main-title">Encuentra tu trabajo soñado</h1>
+    <h2 class="main-subtitle">Usa tu perfil en talentbits para postular</h2>
+</div>
+<p-progressBar mode="indeterminate" [style]="{'height': '6px'}" *ngIf="loading"></p-progressBar>
+<br>
+<p-toolbar>
+    <div class="p-toolbar-group-left p-d-flex p-flex-wrap">
+        <p-autoComplete [(ngModel)]="searchName" [suggestions]="suggestions" (completeMethod)="searchAutoComplete($event)" placeholder="Busca tu perfil..." styleClass="p-mx-1"></p-autoComplete>
+        <p-dropdown [options]="validFromFilters" [(ngModel)]="sortValidFromDesc" placeholder="Más recientes" optionLabel="label" optionValue="value" styleClass="p-mx-1"></p-dropdown>
+        <p-dropdown [options]="yearsExperienceFilters" [(ngModel)]="yearsExperienceSelected" placeholder="Años de experiencia" [showClear]="true" optionLabel="label" optionValue="value" styleClass="p-mx-1"></p-dropdown>
+        <p-multiSelect [options]="workingDay" [(ngModel)]="workingDaySelectedCodes" defaultLabel="Tipo de jornada" optionLabel="label" optionValue="code" selectedItemsLabel="{0} ítems seleccionados" [maxSelectedLabels]="2" [filter]="false" styleClass="p-mx-1" [showToggleAll]="false" [showHeader]="false"></p-multiSelect>
+        <p-multiSelect [options]="mobility" [(ngModel)]="mobilitySelectedCodes" defaultLabel="Modalidad" optionLabel="label" optionValue="code" selectedItemsLabel="{0} ítems seleccionados" [maxSelectedLabels]="2" [filter]="false" styleClass="p-mx-1" [showToggleAll]="false" [showHeader]="false"></p-multiSelect>
+        <p-button icon="pi pi-search" (click)="onSearch()" class="p-ml-1" pTooltip="Aplicar filtro"></p-button>
+        <p-button icon="pi pi-filter-slash" (click)="onClean()" class="p-button-secondary p-ml-1" pTooltip="Limpiar filtro"></p-button>
+    </div>
+    
+</p-toolbar>
+<div class="p-grid nested-grid p-mt-4">
+
+    <ng-container *ngIf="!pageResult">
+        <div class="p-col-12">
+            <p-card styleClass="h-100 selectionable">
+                Por el momento no existen vacantes
+            </p-card>
+        </div>
+    </ng-container>
+    
+
+    <ng-container *ngFor="let item of pageResult?.items">
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <div *ngIf="!item.isOutstanding" class="head">
+            </div>
+            <div *ngIf="item.isOutstanding" class="head-2">
+            </div>
+            <p-card styleClass="h-95 selectionable p-mb-2" (click)="onSelectVaccant(item)">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-12 p-lg-12 p-py-0">
+                        <div class="p-text-left muli-bold p-text-center">
+                            <h3 class="title-0">{{item.title}}</h3>
+                        </div>
+                        <div class="p-text-left title-1 muli-bold p-py-3">
+                            <h4 class="p-m-0 muli-bold">{{item.company}}</h4>
+                        </div>
+                        <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                            <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'place'}}</span> {{item.country}}
+                        </div>
+                        <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                            <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'military_tech'}}</span> {{item.yearsExperience}} año/s de experiencia
+                        </div>
+                        <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                            <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'work'}}</span> {{item.workingday}}
+                        </div>
+                        <div class="p-text-left title-2 p-d-flex p-ai-center p-py-1">
+                            <span class="material-icons-outlined md-18 md-color-th-1 p-pr-1">{{'contacts'}}</span> {{item.mobility}}
+                        </div>
+                        <div class="p-text-left title-2 p-py-3">{{item.timeDifference}}</div>
+                        <div class="p-text-left link p-mt-2 p-text-center">
+                            <button pButton pRipple type="button" label="Postular ahora" class="p-button-outlined"></button>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </ng-container>
+</div>
+<p-paginator *ngIf="pageResult"  [rows]="rows" [totalRecords]="pageResult.totalItems" [rowsPerPageOptions]="[6,12]" (onPageChange)="paginate($event)"></p-paginator>
+
+
+   

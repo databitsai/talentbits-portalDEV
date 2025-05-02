@@ -1,0 +1,329 @@
+/* You can add global styles to this file, and also import other style files */
+/*CONTAINERS*/
+@import '~@angular/material/theming';
+$fontSize: 10px;
+html,
+body {
+  height: 100%;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+body,
+.p-component {
+  margin: 0;
+  font-family: "Muli Regular", Muli Regular, sans-serif;
+}
+
+.w {
+  &-100 {
+    width: 100%;
+  }
+
+  &-75 {
+    width: 75%;
+  }
+
+  &-50 {
+    width: 50%;
+  }
+
+  &-auto {
+    width: auto;
+  }
+}
+.h {
+  &-100 {
+    height: 100%;
+  }
+  &-95 {
+    height: 95%;
+  }
+}
+
+.muli {
+  &-regular {
+    font-family: 'Muli Regular' !important;
+    font-weight: normal;
+  }
+
+  &-light {
+    font-family: 'Muli ExtraLight' !important;
+    font-weight: normal;
+  }
+
+  &-bold {
+    font-family: 'Muli Bold' !important;
+    font-weight: normal;
+  }
+
+  &-bolder {
+    font-family: 'Muli ExtraBold' !important;
+    font-weight: normal;
+  }
+
+  &-bolderx {
+    font-family: 'Muli Black' !important;
+    font-weight: normal;
+  }
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+$custom-typography: mat-typography-config($font-family: "Muli Regular"
+);
+@include angular-material-typography($custom-typography);
+
+.p-button {
+  color: var(--white);
+  background: var(--theme-color-1);
+  border: 1px solid var(--theme-color-1);
+  border-radius: 10px;
+
+  &.p-button-outlined {
+    color: var(--theme-color-1);
+    border: 1px solid;
+
+    &:hover {
+      color: var(--theme-color-2);
+    }
+  }
+
+  &.p-button-success {
+    background: var(--theme-color-3);
+    border: 1px solid var(--theme-color-3);
+
+    &:hover {
+      background: var(--theme-color-5)!important;
+      border: 1px solid !important;
+    }
+  }
+
+  &.p-button-help {
+    background: var(--theme-color-4);
+    border: 1px solid var(--theme-color-4);
+
+    &:hover {
+      background: var(--theme-color-4)!important;
+      border: 1px solid !important;
+    }
+  }
+
+  &.p-button-text {
+    color: var(--theme-color-1);
+
+    &:enabled:hover {
+      color: var(--theme-color-1);
+    }
+  }
+}
+
+.p-button.p-button-help.p-button-outlined, .p-buttonset.p-button-help > .p-button.p-button-outlined, .p-splitbutton.p-button-help > .p-button.p-button-outlined {
+  background-color: transparent;
+  color: var(--theme-color-1);
+  border: 1px solid;
+  &:hover {
+    background-color: var(--cyan-50)!important;
+    color: var(--theme-color-4)!important;
+    border: 1px solid;
+  }
+}
+
+
+a {
+  text-decoration: none;
+  color: var(--theme-color-1);
+
+  &:hover {
+    color: var(--theme-color-2);
+  }
+}
+
+.sidenav-responsive-container {
+  position: relative;
+  min-height: calc(100vh);
+
+  .example-sidenav-container {
+    /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+         causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+    flex: 1;
+  }
+
+  .example-is-mobile .example-sidenav-container {
+    /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+         `<body>` to be our scrolling element for mobile layouts. */
+    flex: 1 0 auto;
+  }
+
+  .sidenav {
+    &-300 {
+      width: 300px !important;
+    }
+
+    &-240 {
+      width: 240px !important;
+    }
+
+    &-270 {
+      width: 270px !important;
+    }
+  }
+
+  .close-sidenav {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  .open-sidenav {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    z-index: 10;
+  }
+
+  .mat-drawer-container {
+    background-color: unset;
+    color: rgba(0, 0, 0, .87);
+  }
+
+  .mat-drawer.mat-drawer-side {
+    z-index: 1;
+  }
+}
+
+.p-menubar {
+  background: var(--white);
+
+  .p-submenu-list {
+    z-index: 2 !important;
+  }
+}
+
+.item-badge {
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px;
+
+  &.status-individual {
+    background: var(--pink-200);
+    color: var(--purple-400);
+  }
+
+  &.status-corporative {
+    background: var(--theme-color-5);
+    color: var(--theme-color-6);
+  }
+
+  &.status-true {
+    background: var(--green);
+    color: var(--white);
+  }
+
+  &.status-false {
+    background: var(--red);
+    color: var(--white);
+  }
+}
+
+.with-table-responsive .p-datatable-responsive-demo .p-datatable-tbody > tr > td .p-column-title {
+  display: none;
+}
+.fix-mobile-margin-bottom {
+  margin-bottom: 5rem;
+}
+
+@media screen and (max-width: 60rem) {
+  .with-table-responsive {
+    .p-datatable {
+      &.p-datatable-responsive-demo {
+
+        .p-datatable-thead>tr>th,
+        .p-datatable-tfoot>tr>td {
+          display: none !important;
+        }
+
+        .p-datatable-tbody>tr>td {
+          text-align: left;
+          display: block;
+          width: 100%;
+          float: left;
+          clear: left;
+          border: 0 none;
+
+          .p-column-title {
+            padding: .4rem;
+            min-width: 30%;
+            display: inline-block;
+            margin: -.4em 1em -.4em -.4rem;
+            font-weight: bold;
+          }
+
+          .item-check {
+            display: none;
+          }
+
+          &:last-child {
+            border-bottom: 1px solid var(--surface-d);
+          }
+        }
+      }
+    }
+  }
+}
+.p-scrollpanel .p-scrollpanel-bar {
+  background: #cbcbcd!important;
+  border: 0 none;
+}
+.material-icons, .material-icons-outlined {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+  &.md-18 {
+    font-size: 18px;
+  }
+  &.md-24 {
+    font-size: 24px;
+  }
+  &.md-36 {
+    font-size: 36px;
+  }
+  &.md-48 {
+    font-size: 48px;
+  }
+  &.md-color-th-1 {
+    color: var(--theme-color-1);
+  }
+  &.md-color-th-4 {
+    color: var(--theme-color-4);
+  }
+}

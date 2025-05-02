@@ -1,0 +1,20 @@
+<div class="section-question">
+    <p-chip label="Pregunta {{pager.index + 1}} de {{pager.count}}" styleClass="custom-chip"></p-chip>
+    <p-divider></p-divider>
+    <div class="p-d-flex p-my-2">
+        <div class="muli-bold pager-order"><h2>{{pager.index + 1}}</h2></div>
+        <div class="muli-bold pager-title"><h3 class="p-m-0">{{question.title}}</h3></div>
+    </div>
+    <div [innerHTML]="question.content" class="p-shadow-5 p-m-2 p-p-5 noselect main-content"></div>
+    <div class="p-grid p-mt-5">
+        <div *ngFor="let option of question.answers" class="p-col-12 p-md-12 p-lg-6">
+            <div class="option p-shadow-5">
+                <div class="p-field-checkbox p-mb-0">
+                    <p-checkbox [(ngModel)]="option.selected" [binary]="true" inputId="{{option.id}}" (onChange)="onSelect(question, option)" styleClass="question-checkbox"></p-checkbox>
+                    <label [for]="option.id">{{option.content}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

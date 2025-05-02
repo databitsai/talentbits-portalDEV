@@ -1,0 +1,11 @@
+<p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+<div (click)="goTo(index)" class="card-review p-p-3 p-mb-2 {{ isAnswered ? 'bg-info': 'bg-warning' }}">
+    <ng-container *ngIf="!loading">
+        {{index +1}}. {{isAnswered ? 'Respondido': 'No respondido'}}
+    </ng-container>
+    <ng-container *ngIf="loading">
+        {{index +1}}. Actualizando...
+    </ng-container>
+</div>
+
+

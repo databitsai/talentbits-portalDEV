@@ -1,0 +1,58 @@
+::ng-deep .bg-theme {
+    background: 
+    /* top, transparent red */ 
+    linear-gradient(
+        rgba(2, 119, 155, 0.15),
+      rgba(2, 119, 155, 0.75)
+      
+    ),
+    /* bottom, image */
+    url(https://www.talentbits.ai/assets/img/backgrounds/imagen_principal_square.jpg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.blank-body {
+    background: transparent;
+
+    .left {
+    }
+
+    .blank-wrapper {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        flex-direction: column;
+        min-height: 100vh;
+
+        .blank-header {
+            .logo {
+                img {
+                    width: 40px;
+                }
+            }
+        }
+        .blank-footer {
+            padding-bottom: 1rem;
+
+            .copy {
+                line-height: 17px;
+                margin: 0;
+                color: rgba(255, 255, 255, 1);
+                font-weight: 500;
+            }
+        }
+    }
+    :host .p-menuitem.active {
+        background: #e9ecef;
+    }
+    
+}
+@media (max-width: 480px) {
+    .left-logo {
+      display: none;
+    }
+  }

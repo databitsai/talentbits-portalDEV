@@ -1,0 +1,210 @@
+<div class="card p-p-4 with-table-responsive p-mb-6">
+    <ng-container>
+        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2" (click)="openNew()"></button>
+    </ng-container>
+    <p-table #dt [value]="items" [rows]="5" [paginator]="true" [globalFilterFields]="['name']" [rowHover]="true"
+        dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+        [showCurrentPageReport]="true" styleClass="p-datatable-responsive-demo"
+        selectionMode="single" [(selection)]="rowTableSelected">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-ai-center p-jc-between">
+                <h3 class="p-m-0">Procesos</h3>
+                <span class="p-input-icon-left  p-my-3 p-my-lg-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="
+                    dt.filterGlobal($any($event.target).value, 'contains')
+                  " placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">
+                    Proceso <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name">
+                    Tipo <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="validFrom">
+                    Inicio <p-sortIcon field="validFrom"></p-sortIcon>
+                </th>
+                <th pSortableColumn="validUntil">
+                    Fin <p-sortIcon field="validUntil"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                    Estado <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="vaccant" *ngIf="plan.isPostVacancyActive">
+                    Vacante <p-sortIcon field="vaccant"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr [pSelectableRow]="item">
+                <td>
+                    <div class="p-d-flex p-flex-column p-flex-md-row">
+                        <div class="p-column-title">
+                            Nombre:
+                        </div>
+                        <div>
+                            {{ item.name }}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="p-column-title">Tipo:</span> {{getProcessTypeLabel(item.type)}}
+                </td>
+                <td>
+                    <div class="p-d-flex p-flex-row">
+                        <div class="p-column-title">
+                            Inicio:
+                        </div>
+                        <div>
+                            <span>{{ item.validFrom | date: 'yyyy/MM/dd' }}</span><br>
+                            <span>{{ item.validFrom | date: 'H:mm:ss' }}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-d-flex p-flex-row">
+                        <div class="p-column-title">
+                            Fin:
+                        </div>
+                        <div>
+                            <span>{{ item.validUntil | date: 'yyyy/MM/dd' }}</span><br>
+                            <span>{{ item.validUntil | date: 'H:mm:ss' }}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="p-column-title">Estado:</span>
+                    <app-custom-badge [label]="getProcessStateLabel(item.status)" [status]="getProcessStateValue(item.status)"></app-custom-badge>
+                </td>
+                <td *ngIf="plan.isPostVacancyActive">
+                    <span class="p-column-title">Vacante:</span>
+                    <ng-container *ngIf="!item.vaccant">
+                        <span>Sin vacante</span>
+                    </ng-container>
+                    <ng-container *ngIf="item.vaccant">
+                        <span>{{item.vaccant.title}}</span>
+                    </ng-container>
+                </td>
+                <td style="text-align: right;">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mx-2 p-mb-2" (click)="openProcess(item)" pTooltip="Editar"></button>
+                    <button pButton pRipple icon="pi pi-users" class="p-button-rounded p-button-secondary p-mx-2 p-mb-2" (click)="openParticipants(item)" pTooltip="Participantes"></button>
+                    <button pButton pRipple icon="pi pi-chart-bar" class="p-button-rounded p-button-secondary p-mx-2 p-mb-2" (click)="openReports(item)" pTooltip="Reportes"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-mx-2 p-mb-2" (click)="delete(item)" pTooltip="Eliminar"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total existen {{ items ? items.length : 0 }} procesos
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<!-- FORM CREATE -->
+<p-dialog [(visible)]="itemDialog" [style]="{ width: '550px' }" header="Crear nuevo proceso" [modal]="true"
+    styleClass="" (onHide)="onHideCreate($event)" [draggable]="false">
+    <ng-template pTemplate="content">
+        <div class="p-text-right" *ngIf="vaccantSelected">
+            <button pButton pRipple type="button" [routerLink]="['/account/vaccant/list-applicant']"
+            [label]="'Regresar a vacante: ' + vaccantSelected?.title" class="p-button-text"></button>
+        </div>
+        <form [formGroup]="createForm" novalidate>
+            <div class="p-formgroup-inline p-mb-5 p-mt-3">
+                <div *ngFor="let type of types" class="p-field-checkbox">
+                    <p-radioButton [inputId]="'type' + type.code" name="type" [value]="type.code"
+                        [(ngModel)]="typeSelected" [ngModelOptions]="{ standalone: true }"
+                        (onClick)="createForm.get('type')?.setValue(this.typeSelected)" [disabled]="type.disabled">
+                    </p-radioButton>
+                    <label [for]="'type' + type.code">{{ type.label }} <i *ngIf="type.disabled"  class="pi pi-info-circle p-pr-2" pTooltip="Mejore su plan para habilitar esta opción"></i></label>
+                </div>
+                <div *ngIf="createForm.get('type')?.invalid">
+                    <div *ngIf="createForm.get('type')?.errors?.required">
+                        <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="firstname1">Nombre del proceso: *</label>
+                    <input id="firstname1" type="text" pInputText formControlName="name">
+                    <div *ngIf="createForm.get('name')?.invalid &&
+                    (createForm.get('name')?.dirty ||
+                    createForm.get('name')?.touched)">
+                        <div *ngIf="createForm.get('name')?.errors?.required">
+                            <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                        </div>
+                        <div *ngIf="createForm.get('name')?.errors?.maxlength">
+                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="validFrom">Inicio: *</label>
+                    <p-calendar formControlName="validFrom" [minDate]="minDateStart" [touchUI]="true"
+                        [readonlyInput]="true" inputId="validFrom" appendTo="body" [showTime]="true"
+                        selectionMode="single" [dateFormat]="formatCalendarFormat"
+                        (onSelect)="onStartDateChange($event)">
+                    </p-calendar>
+                    <div *ngIf="createForm.get('validFrom')?.invalid &&
+                    (createForm.get('validFrom')?.dirty ||
+                    createForm.get('validFrom')?.touched)">
+                        <div *ngIf="createForm.get('validFrom')?.errors?.required">
+                            <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                        </div>
+                        <div *ngIf="createForm.get('validFrom')?.errors?.maxlength">
+                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-field p-col">
+                    <label for="validUntil">Fin: *</label>
+                    <p-calendar formControlName="validUntil" [minDate]="minDateEnd" [touchUI]="true"
+                        [readonlyInput]="true" inputId="validUntil" appendTo="body" [showTime]="true"
+                        selectionMode="single" [dateFormat]="formatCalendarFormat">
+                    </p-calendar>
+                    <div *ngIf="createForm.get('validUntil')?.invalid &&
+                    (createForm.get('validUntil')?.dirty ||
+                    createForm.get('validUntil')?.touched)">
+                        <div *ngIf="createForm.get('validUntil')?.errors?.required">
+                            <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12">
+                    <label for="description">Descripción:*</label>
+                    <textarea id="description" type="text" rows="4" pInputTextarea [autoResize]="true" formControlName="description"></textarea>
+                    <div *ngIf="createForm.get('description')?.invalid &&
+                    (createForm.get('description')?.dirty ||
+                    createForm.get('description')?.touched)">
+                        <div *ngIf="createForm.get('description')?.errors?.required">
+                            <small class="p-error">{{"t.validateRequiredField" | translate}}</small>
+                        </div>
+                        <div *ngIf="createForm.get('description')?.errors?.maxlength">
+                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-field p-d-flex p-jc-end">
+                <button pButton pRipple [label]="'t.save' | translate" icon="pi pi-check"
+                    class="p-button-text" (click)="saveItem()"></button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>
+<p-confirmDialog [style]="{ width: '450px' }" [acceptLabel]="'Sí'"></p-confirmDialog>

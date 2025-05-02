@@ -1,0 +1,227 @@
+<div class="card with-table-responsive">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2"
+                (click)="openNew()"></button>
+            <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedItems()" [disabled]="!selectedItems || !selectedItems.length"></button> -->
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Importar" icon="pi pi-plus" class="p-button-help p-mr-2"
+                (click)="openImport()"></button>
+            <!--  <p-fileUpload mode="basic" accept=".xlsx" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+                class="p-mr-2 p-d-inline-block"></p-fileUpload> -->
+        </ng-template>
+    </p-toolbar>
+    <p-table #dt [value]="items" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedItems"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+        [showCurrentPageReport]="true" styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h3 class="p-m-0">Participantes</h3>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <!-- <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th> -->
+                <th pSortableColumn="invited" style="width: 120px;"><p-checkbox [(ngModel)]="inviteAll" [binary]="true" inputId="binary" (onChange)="inviteAllToogle()"></p-checkbox> Invitar
+                </th>
+                <th pSortableColumn="name" style="width: 170px;">Nombre</th>
+                <th pSortableColumn="email">Correo <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status" style="width: 150px;">Estado <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="avgScore" style="width: 150px;">Prom. Puntaje <p-sortIcon field="avgScore"></p-sortIcon></th>
+                <th style="width: 160px;"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <!-- <td>
+                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                </td> -->
+                <td>
+                    <span class="p-column-title">Invitar:</span>
+                    <div class="w-100">
+                        <p-checkbox name="groupname" [(ngModel)]="product.selected" [binary]="true"
+                            (onChange)="onChangeSelected(product.id)"></p-checkbox>
+                    </div>
+                </td>
+                <td>
+                    <span class="p-column-title">Nombre:</span>
+                    {{product.name}}
+                </td>
+                <td>
+                    <span class="p-column-title">Correo:</span>
+                    {{product.email}}
+                </td>
+                <td>
+                    <span class="p-column-title">Estado:</span>
+                    <app-custom-badge [label]="getStateLabel(product.status)" [status]="getStateValue(product.status)"></app-custom-badge>
+                </td>
+                <td>
+                    <span class="p-column-title">Prom. Puntaje:</span>
+                    {{product.avgScore}}
+                </td>
+               
+                <td>
+                    <button pButton pRipple icon="pi pi-info" class="p-button-rounded p-button-secondary p-mr-2"
+                        (click)="showResults(product)" pTooltip="Resultados"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                        (click)="editProduct(product)" pTooltip="Editar"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteProduct(product)" pTooltip="Eliminar"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total existen {{items ? items.length : 0 }} participantes.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<!-- Modal -->
+<p-dialog [(visible)]="itemDialog" [style]="{width: '450px'}" header="Detalle de participante" [modal]="true"
+    styleClass="p-fluid" (onHide)="onHideCreate($event)">
+    <ng-template pTemplate="content">
+        <form [formGroup]="createForm" novalidate>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-12 p-lg-12">
+                    <label for="firstName">{{'t.name' | translate}}:*</label>
+                    <input type="text" pInputText id="firstName" formControlName="firstName" required
+                        placeholder="{{'t.name' | translate}}" />
+                    <div
+                        *ngIf="createForm.get('firstName')?.invalid && (createForm.get('firstName')?.dirty || createForm.get('firstName')?.touched)">
+                        <div *ngIf="createForm.get('firstName')?.errors?.required">
+                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                        </div>
+                        <div *ngIf="createForm.get('firstName')?.errors?.maxlength">
+                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-12 p-lg-12">
+                    <label for="lastName">{{'t.lastname' | translate}}:*</label>
+                    <input type="text" pInputText id="lastName" formControlName="lastName" required
+                        placeholder="{{'t.lastname' | translate}}" />
+                    <div
+                        *ngIf="createForm.get('lastName')?.invalid && (createForm.get('lastName')?.dirty || createForm.get('lastName')?.touched)">
+                        <div *ngIf="createForm.get('lastName')?.errors?.required">
+                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                        </div>
+                        <div *ngIf="createForm.get('lastName')?.errors?.maxlength">
+                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-12 p-lg-12">
+                    <label for="email">{{'t.emailPersonal' | translate}}:*</label>
+                    <input type="text" pInputText id="email" formControlName="email" required
+                        placeholder="{{'t.emailPersonal' | translate}}" />
+                    <div
+                        *ngIf="createForm.get('email')?.invalid && (createForm.get('email')?.dirty || createForm.get('email')?.touched)">
+                        <div *ngIf="createForm.get('email')?.errors?.required">
+                            <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                        </div>
+                        <div *ngIf="createForm.get('email')?.errors?.pattern">
+                            <small class="p-error">{{'t.errorEmail' | translate}}</small>
+                        </div>
+                        <div *ngIf="createForm.get('email')?.errors?.maxlength">
+                            <small class="p-error">{{'t.validateMaxLength' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    </ng-template>
+</p-dialog>
+<p-dialog [(visible)]="itemsDialog" [style]="{width: '650px'}" header="Importar participantes" [modal]="true"
+    (onHide)="onHideImport()">
+    <ng-template pTemplate="content">
+        <div class="p-mt-3">
+            <p-fileUpload #pupload mode="basic" accept=".xlsx" [maxFileSize]="1000000" label="Cargar archivo"
+            chooseLabel="Cargar archivo" class="p-button-outlined p-mr-2 p-d-inline-block" (onSelect)="onFileChange($event, pupload)">
+            </p-fileUpload>
+        </div>
+        <div class="with-table-responsive">
+            <p-table #dtimport  [rows]="5" [value]="dataExcell" [paginator]="true" [rowHover]="true" dataKey="email"
+            currentPageReportTemplate="{first} a {last} de {totalRecords} entradas"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-responsive-demo p-datatable-sm">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Apellido
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <span class="p-column-title">Nombre:</span>
+                            <span [pTooltip]="item['nombre']">{{getShortLabel(item['nombre'])}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Apellido:</span>
+                            <span [pTooltip]="item['apellido']">{{getShortLabel(item['apellido'])}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Email:</span>
+                            <span [pTooltip]="item['email']">{{getShortLabel(item['email'])}}</span>
+                        </td>
+                        <td>
+                            <ul style="margin: 0;padding-left: 1rem;">
+                                <ng-container *ngFor="let error of item.errors">
+                                    <li *ngIf="error.value" style="line-height: 8pt;">
+                                        <span style="color: rgb(233, 93, 93);font-size: 8pt;">{{error.label | translate}}</span>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="p-mt-3">
+            <button pButton pRipple type="button" icon="pi pi-upload" label="Guardar" class="p-button-outlined p-d-inline-block p-m-1" (click)="sendFileRequests()"></button>
+            <button pButton pRipple type="button" icon="pi pi-download" label="Descargar Plantilla" class="p-button-outlined p-d-inline-block p-m-1" (click)="downloadTemplate()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog [(visible)]="showResultsDialog" header="Evaluaciones" [modal]="true" [style]="{width: '85vw', minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <app-process-requests-evaluations [idRequest]="idRequestSelected"></app-process-requests-evaluations>
+    </ng-template>
+</p-dialog>
+<ngx-spinner name="load" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.waiting' | translate}}</p>
+</ngx-spinner>
+<ngx-spinner name="save" type="ball-atom" size="medium" bdColor="rgba(0,0,0,0.5)">
+    <p style="font-size: 14px; color: white">{{'t.saving' | translate}}</p>
+</ngx-spinner>
+<p-confirmDialog [style]="{width: '450px'}" [acceptLabel]="'Sí'"></p-confirmDialog>

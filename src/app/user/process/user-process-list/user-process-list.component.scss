@@ -1,0 +1,13 @@
+.link {
+    cursor: pointer;
+    color: var(--theme-color-2);
+    text-decoration: underline;
+}
+::ng-deep .company-dialog {
+    width: 50vw;
+}
+@media screen and (max-width: 450px) {
+    ::ng-deep .company-dialog {
+        width: 90vw;
+    }
+}

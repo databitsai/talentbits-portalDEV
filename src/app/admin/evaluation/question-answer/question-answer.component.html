@@ -1,0 +1,139 @@
+<div class="card p-p-4 with-table-responsive">
+    <form [formGroup]="checkQuestionAnswerForm" novalidate>
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-md-2">
+                <button pButton pRipple label="Regresar" icon="pi pi-arrow-left" class="p-button-warning p-mr-2" [routerLink]="['/admin/evaluations/list-question/', idEvaluation]" (click)="resetAllForms()"></button>
+            </div>
+
+        </div>
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-md-4">
+                <label for="code">Código:*</label>
+                <input type="text" pInputText id="code" formControlName="code" required placeholder="Código" />      
+                <div *ngIf="checkQuestionAnswerForm.get('code')?.invalid && (checkQuestionAnswerForm.get('code')?.dirty || checkQuestionAnswerForm.get('code')?.touched)">
+                    <div *ngIf="checkQuestionAnswerForm.get('code')?.errors?.required">
+                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-4">
+                <label for="title">Temática:*</label>
+                <input type="text" pInputText id="title" formControlName="title" required placeholder="Temática" />      
+                <div *ngIf="checkQuestionAnswerForm.get('title')?.invalid && (checkQuestionAnswerForm.get('title')?.dirty || checkQuestionAnswerForm.get('title')?.touched)">
+                    <div *ngIf="checkQuestionAnswerForm.get('title')?.errors?.required">
+                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-4">
+                <label for="score">Puntaje:*</label>
+                <p-inputNumber inputId="integeronly" id="score" formControlName="score" placeholder="Puntaje"></p-inputNumber>
+                <div *ngIf="checkQuestionAnswerForm.get('score')?.invalid && (checkQuestionAnswerForm.get('score')?.dirty || checkQuestionAnswerForm.get('score')?.touched)">
+                    <div *ngIf="checkQuestionAnswerForm.get('score')?.errors?.required">
+                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    
+        <br><br>
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-md-4">
+                <label for="aproximateTime">Tiempo recomendado:* (segundos)</label>
+                <p-inputNumber inputId="integeronly" id="aproximateTime" formControlName="aproximateTime" placeholder="Tiempo recomendado"></p-inputNumber>
+                <div *ngIf="checkQuestionAnswerForm.get('aproximateTime')?.invalid && (checkQuestionAnswerForm.get('aproximateTime')?.dirty || checkQuestionAnswerForm.get('aproximateTime')?.touched)">
+                    <div *ngIf="checkQuestionAnswerForm.get('aproximateTime')?.errors?.required">
+                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-4">
+                <label for="idDifficulty">Seleccione la dificultad:*</label>
+                <p-dropdown [options]="difficultyLevel" formControlName="idDifficulty" optionLabel="label" optionValue="code" placeholder="Seleccione"></p-dropdown>
+                <div *ngIf="checkQuestionAnswerForm.get('idDifficulty')?.invalid && (checkQuestionAnswerForm.get('idDifficulty')?.dirty || checkQuestionAnswerForm.get('idDifficulty')?.touched)">
+                    <div *ngIf="checkQuestionAnswerForm.get('idDifficulty')?.errors?.required">
+                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-4" *ngIf="!isQualificationArchetype">
+                <label for="idTypeQuestion">Tipo de pregunta:*</label>
+                <p-dropdown [options]="typeQuestion" name ="idTypeQuestion" inputId = "idTypeQuestion" formControlName="idTypeQuestion" optionLabel="label" optionValue="code"  placeholder="Seleccione"></p-dropdown>
+                <div *ngIf="checkQuestionAnswerForm.get('idTypeQuestion')?.invalid && (checkQuestionAnswerForm.get('idTypeQuestion')?.dirty || checkQuestionAnswerForm.get('idTypeQuestion')?.touched)">
+                    <div *ngIf="checkQuestionAnswerForm.get('idTypeQuestion')?.errors?.required">
+                        <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <p-editor [(ngModel)]="textContainer" [style]="{'height':'200px'}" formControlName="content"></p-editor>
+        <div *ngIf="checkQuestionAnswerForm.get('content')?.invalid && (checkQuestionAnswerForm.get('content')?.dirty || checkQuestionAnswerForm.get('content')?.touched)">
+            <div *ngIf="checkQuestionAnswerForm.get('content')?.errors?.required">
+                <small class="p-error">{{'t.validateRequiredField' | translate}}</small>
+            </div>
+        </div>
+        
+        <br>
+        <!-- score type question-->
+        <ng-container *ngIf="!isQualificationArchetype">
+            <div class="p-grid p-fluid">
+                <div class="p-col-12 p-md-4">
+                    <label for="idDifficulty" class="muli-bold">Respuestas:</label>
+                </div>
+                <!-- <div class="p-col-12 p-md-4">
+                    <button pButton pRipple label="Añadir respuesta" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNewEvaluation()"></button>
+                </div> -->
+            </div>
+    
+            <br>
+            <ng-container *ngFor="let item of listaAnswer">
+                <div  class="p-inputgroup">
+                    <span class="p-inputgroup-addon"> <p-checkbox  [ngModelOptions]="{standalone: true}" [(ngModel)]="item.isValid" [binary]="true" [disabled]="item.disabled" (onChange)="onChangeAnswerItem(item)"></p-checkbox></span>
+                    <input type="text" pInputText [ngModelOptions]="{standalone: true}" [(ngModel)]="item.content" id="answerID" [disabled]="item.disabled">
+                </div>
+                <br>
+            </ng-container>
+        </ng-container>
+        <!-- archetype type question--> 
+        <ng-container *ngIf="isQualificationArchetype">
+            <div class="p-grid p-fluid">
+                <div class="p-col-12 p-md-4">
+                    <label for="idDifficulty" class="muli-bold">Respuestas:</label>
+                </div>
+            </div>
+            <ng-container *ngFor="let item of listaAnswer">
+                <div class="p-grid p-py-1">
+                    <div class="p-col-12 p-md-8 p-lg-6">
+                        <div class="p-mr-2">
+                            <input type="text" pInputText [ngModelOptions]="{standalone: true}" [(ngModel)]="item.content" id="answerID" [disabled]="item.disabled" class="w-100">
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-4 p-lg-6">
+                        <div class="box">
+                            <p-dropdown [options]="archetypes" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.type" placeholder="Seleccione un arquetipo" optionLabel="label" optionValue="code"  [showClear]="true"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        
+        <br>
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-md-3">
+                <label for="idDifficulty"></label>
+            </div>
+
+            <div class="p-col-12 p-md-3">
+                <button pButton pRipple label="Guardar pregunta" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="saveItem()" ></button>
+            </div>
+
+            <div class="p-col-12 p-md-3">
+                <button pButton pRipple label="Regresar" icon="pi pi-arrow-left" class="p-button-warning p-mr-2" [routerLink]="['/admin/evaluations/list-question/', idEvaluation]" (click)="resetAllForms()"></button>
+            </div>
+
+        </div>
+    </form>
+</div>

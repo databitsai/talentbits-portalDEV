@@ -1,0 +1,28 @@
+.title-0 {
+    color: var(--theme-color-1);
+}
+.link {
+    color: var(--theme-color-2);
+}
+.main-title {
+    color: var(--theme-color-1);
+}
+.main-subtitle {
+    color: var(--theme-color-4);
+}
+.head {
+    height: 15px;
+    background: var(--theme-color-2);
+}
+.head-2 {
+    height: 15px;
+    background: var(--theme-color-4);
+}
+::ng-deep .selectionable {
+    cursor: pointer;
+    &:hover {
+        .title-0 {
+            text-decoration: underline;
+        }
+    }
+}

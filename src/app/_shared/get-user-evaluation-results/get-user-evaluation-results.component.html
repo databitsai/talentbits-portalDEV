@@ -1,0 +1,15 @@
+<p-progressBar mode="indeterminate" [style]="{'height': '6px'}" *ngIf="loading"></p-progressBar>
+<div *ngFor="let question of questions; let index = index">
+    <div class="result-question">
+        <h5>{{index + 1}}. {{question.title}}</h5>
+        <div class="p-grid p-mt-3">
+            <div class="p-col-12 p-md-6 p-lg-6" *ngFor="let Option of question.answers">
+                <input id="{{Option.id}}" type="checkbox" disabled="disabled"
+                        [(ngModel)]="Option.selected" /> {{Option.content}}
+            </div>
+        </div>
+            <div class="p-p-1 p-m-2 {{ isCorrect(question) ? 'alert-success': 'alert-danger'}}">
+             La respuesta es {{isCorrect(question) ? 'correcta' : 'equivocada'}}
+        </div>
+    </div>
+</div>

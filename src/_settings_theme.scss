@@ -1,0 +1,41 @@
+:root{
+     // primary color settings
+     --primary-color:#02779b;
+     --theme-color-1: #02779b;
+     --theme-color-2: #27AAE1;
+     --theme-color-3: #4af7d5;
+     --theme-color-4: #7665E0;
+     --theme-color-5: #47E0ED;
+     --theme-color-6: #0067CE;
+     --theme-color-7: #facd32;
+     // opacity theme
+     --theme-color-1-op1: #cce4eb;
+     --theme-color-2-op1: #27AAE1;
+     --theme-color-3-op1: #4af7d5;
+     --theme-color-4-op1: #7665E0;
+     --theme-color-5-op1: #a6eff6;
+     --theme-color-6-op1: #0067CE;
+     --theme-color-7-op1: #f9e79f;
+      // general colors
+     --white: #fff;
+     --green: #0bec3c;
+     --red: #E80029;
+     --black: #313131;
+     // severities
+     --sev-light-danger: #F5B7B1;
+     --sev-light-warning: #F9E79F;
+     --sev-light-success: #ABEBC6;
+     --sev-light-info: #D6EAF8;
+     // gray
+     --grey-xs-light: rgba(240, 240, 240, 0.4);
+     --grey-x-light:#f1f1f1;
+     --grey-light:#d2d2d2;
+     --grey-medium:#8c8c8c;
+     --grey-dark:#5a5a5a;
+     --grey-form:#C8C8C8;
+     // data personas
+     --dt-dataChampion-1: #02779b;
+     --dt-dataKnight-1: #7665E0;
+     --dt-dataDreamer-1: rgba(118,101,224,0.5);
+     --dt-dataDoubter-1: rgba(2,119,155, 0.7);
+}

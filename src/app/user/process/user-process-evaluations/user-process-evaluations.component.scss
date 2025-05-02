@@ -1,0 +1,9 @@
+.updating {
+    color: var(--theme-color-3);
+    font-size: 9pt;
+}
+@media screen and (max-width: 450px) {
+    ::ng-deep .title-process {
+        text-align: center;
+    }
+}

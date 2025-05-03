@@ -54,7 +54,7 @@
               "./node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": [
-              "./node_modules/chart.js/dist/chart.js",
+              
               "./node_modules/quill/dist/quill.js",
               "./node_modules/underscore/underscore.js",
               "./node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js",

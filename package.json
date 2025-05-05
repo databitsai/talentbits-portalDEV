@@ -2,8 +2,7 @@
   "name": "talentbits-portal",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "preinstall": "npm install --legacy-peer-deps || true",
+    "ng": "ng",    
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
